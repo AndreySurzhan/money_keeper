@@ -1,0 +1,114 @@
+.messages {
+    width: 100%;
+    float: left;
+}
+.messages .item {
+    width: 100%;
+    float: left;
+    margin-bottom: 10px;
+    opacity: 0;
+    filter: alpha(opacity = 0);
+    -webkit-transition: all 200ms ease;
+    -moz-transition: all 200ms ease;
+    -ms-transition: all 200ms ease;
+    -o-transition: all 200ms ease;
+    transition: all 200ms ease;
+}
+.messages .item .text {
+    background: #FFF;
+    padding: 10px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    border: 1px solid #D5D5D5;
+}
+.messages .item .text .heading {
+    width: 100%;
+    margin-bottom: 5px;
+}
+.messages .item .text .heading a {
+    text-decoration: none;
+    font-size: 12px;
+    color: #33414e;
+    font-weight: 600;
+    line-height: 20px;
+}
+.messages .item .text .heading .date {
+    float: right;
+    line-height: 20px;
+    font-size: 11px;
+    color: #CCC;
+    font-weight: 600;
+}
+.messages .item .text:hover {
+    border-color: #BBB;
+}
+.messages .item:nth-child(2n) .text {
+    background: #F6F6F6;
+}
+.messages .item.item-visible {
+    opacity: 1;
+    filter: alpha(opacity = 100);
+}
+.messages.messages-img .item .image {
+    float: left;
+    width: 40px;
+}
+.messages.messages-img .item .image img {
+    border: 2px solid #F5F5F5;
+    border-radius: 50%;
+    width: 40px;
+}
+.messages.messages-img .item .text {
+    margin-left: 50px;
+    position: relative;
+}
+.messages.messages-img .item .text:after,
+.messages.messages-img .item .text:before {
+    right: 100%;
+    top: 20px;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+.messages.messages-img .item .text:after {
+    border-color: rgba(255, 255, 255, 0);
+    border-right-color: #FFF;
+    border-width: 5px;
+    margin-top: -5px;
+}
+.messages.messages-img .item .text:before {
+    border-color: rgba(213, 213, 213, 0);
+    border-right-color: #D5D5D5;
+    border-width: 6px;
+    margin-top: -6px;
+}
+.messages.messages-img .item .text:hover:before {
+    border-right-color: #BBB;
+}
+.messages.messages-img .item.in .image {
+    float: right;
+}
+.messages.messages-img .item.in .text {
+    margin-left: 0px;
+    margin-right: 50px;
+}
+.messages.messages-img .item.in .text:after,
+.messages.messages-img .item.in .text:before {
+    right: auto;
+    left: 100%;
+}
+.messages.messages-img .item.in .text:after {
+    border-right-color: transparent;
+    border-left-color: #FFF;
+}
+.messages.messages-img .item.in .text:before {
+    border-right-color: transparent;
+    border-left-color: #D5D5D5;
+}
+.messages.messages-img .item.in .text:hover:before {
+    border-left-color: #BBB;
+}

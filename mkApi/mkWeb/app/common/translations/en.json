@@ -1,0 +1,18 @@
+{
+    "app": {
+        "name": "MKeeper",
+        "author": "Author",
+        "author-name": "Gorlov Dmitry"
+    },
+    "common": {
+        "lists": {
+            "search": "Search",
+            "pager": {
+                "per-page": "per page",
+                "prev": "Prev",
+                "next": "Next",
+                "shown": "Showing {{from}} to {{to}} of {{total}} entities"
+            }
+        }
+    }
+}

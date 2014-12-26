@@ -1,0 +1,9 @@
+{
+    "components": {
+        "categories": {
+            "create": {
+                "header": "Создание новой категории"
+            }
+        }
+    }
+}

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" ng-strict-di>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link href="styles/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="styles/main.css" rel="stylesheet">
+    <link href="styles/panel.css" rel="stylesheet">
+    <link href="styles/table.css" rel="stylesheet">
+</head>
+<body>
+    <div class="sidebar-menu">
+        <div class="logo">
+            MKeeper
+        </div>
+        <div class="avatar-group">
+            <button class="circle-button avatar-left-control">
+                <i class="fa fa-info"></i>
+            </button>
+            <img class="avatar" src="images/avatar.jpg">
+            <button class="circle-button avatar-right-control">
+                <i class="fa fa-wrench"></i>
+            </button>
+            <span class="user-name">
+                Gorlov Dmitry
+            </span>
+            <span class="user-status">
+                Web Developer
+            </span>
+        </div>
+        <nav>
+            <menu>
+                <li>
+                    <a href="#chapter-one">
+                        <i class="fa fa-files-o"></i>
+                        <span>
+                            Глава первая
+                        </span>
+                    </a>
+                </li>
+                <li class="submenu">
+                    <a href="#chapter-two">
+                        <i class="fa fa-line-chart"></i>
+                        <span>
+                            Глава вторая
+                        </span>
+                    </a>
+                    <menu>
+                        <li>
+                            <a href="#chapter-two">
+                                <i class="fa fa-calculator"></i>
+                                <span>
+                                    Глава вторая, часть первая
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#chapter-two">
+                                <i class="fa fa-twitch"></i>
+                                <span>
+                                    Глава вторая, часть вторая
+                                </span>
+                            </a>
+                        </li>
+                    </menu>
+                </li>
+                <li>
+                    <a href="#chapter-three">
+                        <i class="fa fa-newspaper-o"></i>
+                        <span>
+                            Глава третья
+                        </span>
+                    </a>
+                </li>
+            </menu>
+        </nav>
+    </div>
+    <div class="main-content-wrapper">
+        <div class="navigation">
+            <ul class="header-navigation">
+                <li class="pull-right">
+                    <a class="maximize-menu-button">
+                        <i class="fa fa-power-off"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="breadcrumbs">
+            &nbsp;
+        </div>
+        <div class="page-content">
+            <div class="row">
+                <div class="panel">
+                    <div class="panel-header">
+                        Panel header
+                        <button class="header-button-collapse"></button>
+                        <button class="header-button-refresh"></button>
+                        <button class="header-button-close"></button>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-search">
+                            <label for="table-search-field">Search:</label>
+                            <input id="table-search-field" value="text">
+                        </div>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>
+                                    Name
+                                </th>
+                                <th class="asc">
+                                    Office
+                                </th>
+                                <th class="desc">
+                                    Age
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    Airi Satou
+                                </td>
+                                <td>
+                                    Tokyo
+                                </td>
+                                <td>
+                                    33
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Angelica Ramos
+                                </td>
+                                <td>
+                                    London
+                                </td>
+                                <td>
+                                    47
+                                </td>
+                            </tr><tr>
+                                <td>
+                                    Ashton Cox
+                                </td>
+                                <td>
+                                    San Francisco
+                                </td>
+                                <td>
+                                    66
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="table-info">
+                            Showing 1 to 10 of 57 entries
+                        </div>
+                        <div class="table-page-size-selector">
+                            <label for="page-size-selector">per page:</label>
+                            <select id="page-size-selector">
+                                <option>10</option>
+                                <option>25</option>
+                                <option>50</option>
+                                <option>100</option>
+                            </select>
+                        </div>
+                        <ul class="table-pager">
+                            <li>Prev</li>
+                            <li>1</li>
+                            <li class="active">2</li>
+                            <li>3</li>
+                            <li>...</li>
+                            <li>7</li>
+                            <li>8</li>
+                            <li>9</li>
+                            <li>Next</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <span class="author-sign">
+            Author: Gorlov Dmitry, 2015
+        </span>
+    </footer>
+
+    <script src="js/jquery/dist/jquery.js"></script>
+    <script>
+        $('nav li').on('click', function (e) {
+            $(e.target).closest('li').toggleClass('expanded');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+.idea/
+mkApi/.tmp/
+mkApi/node_modules/
+mkWeb/bower-components/
+mkWeb/fonts/
+mkWeb/libs/
+mkWeb/node_modules/
+mkWeb/styles/bootstrap.css.map
+mkWeb/styles/framework/bootstrap/
+mkWeb/styles/framework/font-awesome/
+mkWeb/styles/styles.css
+**/npm-debug.log

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>New Sails App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="styles/styles.css">
+
+    <script src="libs/jquery/jquery.js"></script>
+    <script src="libs/requirejs/require.js" data-main="app/requirejs.config.js"></script>
+</head>
+<body>
+<div class="sidebar-menu">
+    <!--
+    <div class="avatar-group">
+        <button class="avatar-left-control">
+            <i class="fa fa-info"></i>
+        </button>
+        <img class="avatar" src="images/avatar.jpg">
+        <button class="avatar-right-control">
+            <i class="fa fa-wrench"></i>
+        </button>
+    <span class="user-name">
+        Gorlov Dmitry
+    </span>
+    <span class="user-status">
+        Web Developer
+    </span>
+    </div>
+    -->
+    <ul class="x-navigation" ng-controller="NavigationMenuCtrl">
+        <li class="xn-logo">
+            {{ 'app.name' | translate }}
+        </li>
+        <li class="xn-title">
+            {{ 'navigation-menu.title' | translate }}
+        </li>
+        <li class="xn-openable {{ menuItem.active ? 'active' : '' }}" ng-repeat="menuItem in menu">
+            <a href="{{ menuItem.href }}" ng-click="menuItemClickEvents(menuItem)">
+                <span class="{{ menuItem.icon }}"></span>
+                <span class="xn-text">{{ menuItem.name | translate }}</span>
+            </a>
+            <ul>
+                <li ng-repeat="child in menuItem.children">
+                    <a href="{{ child.href }}">
+                        <span class="{{ child.icon }}"></span>
+                        <span class="xn-text">{{ child.name | translate }}</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <!--
+        <li class="xn-openable">
+            <a href="#/categories">
+                <span class="fa fa-folder-o"></span>
+                <span class="xn-text">Категории</span>
+            </a>
+            <ul>
+                <li>
+                    <a href="#/categories">
+                        <span class="fa fa-list"></span>
+                        <span class="xn-text">Список</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#/categories/add">
+                        <span class="fa fa-plus"></span>
+                        <span class="xn-text">Добавление</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        -->
+    </ul>
+</div>
+<div class="main-content-wrapper">
+    <div class="navigation">
+        <ul class="header-navigation">
+            <li class="pull-right">
+                <a href="/logout" class="maximize-menu-button">
+                    <i class="fa fa-power-off"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="breadcrumbs">
+        &nbsp;
+    </div>
+    <div class="view-container">
+        <div class="page-content view-frame">
+            <div class="row" ng-view></div>
+        </div>
+    </div>
+</div>
+<footer>
+  <span class="author-sign">
+    {{ 'app.author' | translate }}: {{ 'app.author-name' | translate }}, 2015
+  </span>
+</footer>
+<script>
+    $('.x-navigation .xn-openable > a').on('click', function () {
+        $(this).closest('li').toggleClass('active');
+
+        return false;
+    })
+</script>
+</body>
+</html>

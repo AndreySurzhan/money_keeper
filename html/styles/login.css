@@ -1,0 +1,87 @@
+html {
+    background: url("../images/background.jpg") left top no-repeat fixed;
+}
+
+.login-box {
+    width: 400px;
+    margin: 0 auto;
+    padding-top: 100px;
+    box-sizing: border-box;
+}
+
+.login-logo {
+    color: #fff;
+    text-align: center;
+    width: 100%;
+    font-size: 30px;
+    padding: 23px;
+    box-sizing: border-box;
+    opacity: 0.7;
+}
+
+.login-body {
+    background: rgba(255, 255, 255, 0.2);
+    width: 100%;
+    float: left;
+    padding: 20px;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.login-title {
+    color: #FFF;
+    font-size: 19px;
+    font-weight: 300;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.col-md-12 {
+    width: 100%;
+}
+
+.form-control {
+    background: rgba(255, 255, 255, 0.4);
+    color: #333;
+    border: 0;
+    padding: 10px 15px;
+    line-height: 20px;
+    height: auto;
+    font-size: 12px;
+    display: block;
+    width: 100%;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.btn-block {
+    display: block;
+    width: 100%;
+    background-color: #3fbae4;
+    border-color: #3fbae4;
+
+    font-size: 12px;
+    padding: 4px 15px;
+    line-height: 20px;
+    font-weight: 400;
+
+    transition: all 200ms ease;
+
+    border-radius: 5px;
+
+    color: #fff;
+
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+
+    background-image: none;
+    border: 1px solid transparent;
+}

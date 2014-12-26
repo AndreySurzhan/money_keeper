@@ -1,0 +1,113 @@
+<div class="col-md-12">
+    <div class="panel panel-default" ng-controller="CategoryListCtrl">
+        <div class="panel-heading">
+            <div class="panel-title-box">
+                <h3>
+                    {{ 'components.categories.list.header' | translate }}
+                </h3>
+                <span>
+                    {{ 'components.categories.list.header' | translate }}
+                </span>
+            </div>
+            <ul class="panel-controls">
+                <li>
+                    <a href="#/categories/add" class="button header-button-create"
+                       title="{{ 'common.buttons.create' | translate }}">
+                        <span class="fa fa-plus"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="panel-body">
+            <!--
+            <div class="table-search">
+                <label for="table-search-field">
+                    {{ 'common.lists.search' | translate }}
+                    :
+                </label>
+                <input id="table-search-field" value="">
+            </div>
+            -->
+            <table class="categories-list table table-hover table-striped">
+                <thead>
+                <tr>
+                    <th class="category-id-column">
+                        {{ 'components.categories.fields.id.text' | translate }}
+                    </th>
+                    <th class="category-income-column">
+                        {{ 'components.categories.fields.income.text' | translate }}
+                    </th>
+                    <th>
+                        {{ 'components.categories.fields.name.text' | translate }}
+                    </th>
+                    <th>
+                        {{ 'components.categories.fields.parent.text' | translate }}
+                    </th>
+                    <th class="category-actions-column"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="category in categories | filter:query | orderBy:orderProp">
+                    <td class="category-id-column">
+                        {{ category._id }}
+                    </td>
+                    <td class="category-income-column"
+                        ng-bind-html="category.income | categoryIncomeMark">
+                    </td>
+                    <td>
+                        {{ category.name }}
+                    </td>
+                    <td>
+                        {{ category.parent | parentCategoryName }}
+                    </td>
+                    <td class="category-actions-column">
+                        <button class="btn btn-default btn-rounded btn-condensed btn-sm"
+                                ng-click="showDetails(category._id)">
+                            <span class="fa fa-pencil"></span>
+                        </button>
+                        <button class="btn btn-danger btn-rounded btn-condensed btn-sm"
+                                ng-click="remove(category._id)">
+                            <span class="fa fa-times"></span>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="panel-footer">
+            <div class="collection-status">
+                <span class="label">
+                {{ 'common.lists.pager.shown' | translate:'{"from": 1, "to": 2, "total": 3}' }}
+            </span>
+            </div>
+            <div class="collection-pager pull-right">
+                <ul class="pagination pagination-sm">
+                    <li>
+                        <a href="#" title="{{ 'common.lists.pager.prev' | translate }}">«</a>
+                    </li>
+                    <li>
+                        <a>1</a>
+                    </li>
+                    <li class="active">
+                        <a>2</a>
+                    </li>
+                    <li>
+                        <a>3</a>
+                    </li>
+                    <li class="disabled">
+                        <a href="#" title="{{ 'common.lists.pager.next' | translate }}">»</a>
+                    </li>
+                </ul>
+                <span class="label">
+                    {{ 'common.lists.pager.per-page' | translate }}
+                </span>
+                <select class="page-size-selector form-control">
+                    <option>10</option>
+                    <option>25</option>
+                    <option>50</option>
+                    <option>100</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>

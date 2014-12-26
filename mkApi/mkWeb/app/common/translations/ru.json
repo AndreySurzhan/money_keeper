@@ -1,0 +1,23 @@
+{
+    "app": {
+        "name": "MKeeper",
+        "author": "Автор",
+        "author-name": "Дмитрий Горлов"
+    },
+    "common": {
+        "buttons": {
+            "cancel": "Отмена",
+            "create": "Добавить",
+            "save": "Сохранить"
+        },
+        "lists": {
+            "search": "Поиск",
+            "pager": {
+                "per-page": "по:",
+                "prev": "Назад",
+                "next": "Вперед",
+                "shown": "Показано с {{from}} по {{to}} из {{total}}"
+            }
+        }
+    }
+}

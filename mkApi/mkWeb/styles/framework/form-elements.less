@@ -1,0 +1,157 @@
+.radio,
+.checkbox {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    float: left;
+    width: 100%;
+}
+.radio + .radio,
+.checkbox + .checkbox {
+    margin-top: 0px;
+}
+input[type=radio],
+input[type=checkbox] {
+    margin: 2px 0px 0px;
+}
+.checkbox.pull-left,
+.checkbox.pull-right,
+.radio.pull-left,
+.radio.pull-right {
+    width: auto;
+}
+.form-control {
+    height: 30px;
+    font-size: 12px;
+    line-height: 18px;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    -webkit-appearance: none;
+    border: 1px solid #D5D5D5;
+    background: #F9F9F9;
+}
+.form-control:focus {
+    border-color: #C5C5C5;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-color: #C1C1C1;
+    background: #FFF;
+}
+.form-control[disabled],
+.form-control[readonly] {
+    color: #CCC;
+}
+.form-control[disabled]:focus,
+.form-control[readonly]:focus {
+    background: #EEE;
+    color: #CCC;
+    border-color: #D5D5D5;
+}
+.input-group-addon {
+    border-color: #33414e;
+    background-color: #33414e;
+    font-size: 13px;
+    padding: 0px 10px;
+    line-height: 28px;
+    color: #FFF;
+    text-align: center;
+    min-width: 36px;
+}
+.input-group-addon,
+.input-group-btn {
+    vertical-align: bottom;
+}
+.form-group:last-child {
+    margin-bottom: 0px;
+}
+.form-group-separated {
+    border-top: 1px dashed #D5D5D5;
+}
+.form-group-separated .form-group {
+    border-bottom: 1px dashed #D5D5D5;
+    margin-bottom: 0px;
+}
+.form-group-separated .form-group [class^="col-md-"] {
+    border-left: 1px dashed #D5D5D5;
+    padding: 12px 10px;
+}
+.form-group-separated .form-group [class^="col-md-"]:first-child {
+    border-left: 0px;
+}
+.form-group-separated .form-group:last-child {
+    border-bottom: 0px;
+}
+.form-group-separated .form-group.form-group-border-right [class^="col-md-"] {
+    border-left: 0px;
+    border-right: 1px dashed #D5D5D5;
+}
+.form-group-separated .form-group.form-group-border-right [class^="col-md-"]:last-child {
+    border-right: 0px;
+    margin-left: 0px;
+}
+.form-group-separated.panel-body,
+.form-group-separated.modal-body {
+    padding: 0px;
+}
+.form-horizontal .form-group {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+.form-horizontal .control-label {
+    line-height: 30px;
+    padding-top: 0px;
+}
+.help-block {
+    color: #AAB2BD;
+    margin-bottom: 0px;
+}
+.input-group-btn:first-child > .btn,
+.input-group-btn:first-child > .btn-group {
+    margin-right: -2px;
+}
+.input-group-lg > .form-control,
+.input-group-lg > .input-group-addon,
+.input-group-lg > .input-group-btn > .btn {
+    font-size: 16px;
+}
+.input-group-sm > .form-control,
+.input-group-sm > .input-group-addon,
+.input-group-sm > .input-group-btn > .btn {
+    font-size: 11px;
+}
+.input-group-btn > .btn:hover,
+.input-group-btn > .btn:focus,
+.input-group-btn > .btn:active {
+    z-index: 0;
+}
+.has-feedback label ~ .form-control-feedback {
+    top: 20px;
+}
+
+.form-control.error,
+.bootstrap-select.error > button {
+    border-color: #b64645;
+}
+label {
+    font-weight: 600;
+}
+label.error,
+label.valid {
+    color: #b64645;
+    margin-bottom: 0px;
+    margin-top: 3px;
+    font-size: 11px;
+    font-weight: normal;
+    width: 100%;
+}
+.form-control.valid,
+.bootstrap-select.valid > button {
+    border-color: #95b75d;
+}
+label.valid {
+    color: #95b75d;
+}
+.control-label.text-left {
+    text-align: left;
+}

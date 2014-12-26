@@ -1,0 +1,29 @@
+{
+    "components": {
+        "categories": {
+            "fields": {
+                "id": {
+                    "text": "#"
+                },
+                "name": {
+                    "text": "Название",
+                    "placeholder": "Введите название категории"
+                },
+                "income": {
+                    "text": "Тип"
+                },
+                "parent": {
+                    "text": "Родительская категория",
+                    "default-value": "Нет родительской категории"
+                }
+            },
+            "list": {
+                "header": "Категории"
+            },
+            "text": {
+                "income": "Доход",
+                "outcome": "Расход"
+            }
+        }
+    }
+}
