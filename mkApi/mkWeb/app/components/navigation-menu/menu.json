@@ -1,18 +1,35 @@
 [
     {
-        "name": "navigation-menu.categories",
+        "name": "navigation-menu.categories.root",
         "icon": "fa fa-folder-o",
-        "href": "#",
+        "href": "#/categories",
         "children": [
             {
-                "name": "navigation-menu.categories-list",
+                "name": "navigation-menu.categories.list",
                 "icon": "fa fa-list",
                 "href": "#/categories"
             },
             {
-                "name": "navigation-menu.categories-add",
+                "name": "navigation-menu.categories.add",
                 "icon": "fa fa-plus",
                 "href": "#/categories/add"
+            }
+        ]
+    },
+    {
+        "name": "navigation-menu.currencies.root",
+        "icon": "fa fa-usd",
+        "href": "#/currencies",
+        "children": [
+            {
+                "name": "navigation-menu.currencies.list",
+                "icon": "fa fa-list",
+                "href": "#/currencies"
+            },
+            {
+                "name": "navigation-menu.currencies.add",
+                "icon": "fa fa-plus",
+                "href": "#/currencies/add"
             }
         ]
     }

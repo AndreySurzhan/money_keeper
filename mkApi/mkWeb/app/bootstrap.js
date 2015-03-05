@@ -8,6 +8,7 @@ define(
         'angular',
         'app',
         'components/categories/categories',
+        'components/currencies/currencies',
         'components/navigation-menu/navigation-menu'
     ],
     function (require, ng) {
