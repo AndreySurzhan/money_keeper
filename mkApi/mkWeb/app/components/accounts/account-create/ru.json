@@ -1,0 +1,9 @@
+{
+    "components": {
+        "accounts": {
+            "create": {
+                "header": "Создание нового счета"
+            }
+        }
+    }
+}

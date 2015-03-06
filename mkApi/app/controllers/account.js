@@ -20,6 +20,7 @@ var AccountController = {
         var account = new Account();
 
         data.iniValue = data.iniValue || 0;
+        data.currency = data.currency || null;
 
         account._owner = user._id;
         account.name = data.name;

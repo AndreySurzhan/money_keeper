@@ -1,0 +1,9 @@
+{
+    "components": {
+        "categories": {
+            "edit": {
+                "header": "Редактирование категории"
+            }
+        }
+    }
+}

@@ -1,0 +1,67 @@
+<div class="col-md-12">
+    <div class="panel panel-default" ng-controller="CategoryEditCtrl">
+        <div class="panel-heading">
+            <div class="panel-title-box">
+                <h3>
+                    {{ 'components.categories.create.header' | translate }}
+                </h3>
+            </div>
+        </div>
+        <div class="panel-body">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">
+                        {{ 'components.categories.fields.name.text' | translate }}
+                    </label>
+                    <div class="col-md-9">
+                        <input name="name" type="text" class="form-control"
+                               placeholder="{{ 'components.categories.fields.name.placeholder' | translate }}" ng-model="name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">
+                        {{ 'components.categories.fields.income.text' | translate }}
+                    </label>
+                    <div class="col-md-9">
+                        <label class="switch">
+                            <input type="checkbox" id="income" disabled="disabled"
+                                   ng-model="income"
+                                   ng-change="incomeChanged()" >
+                            <span></span>
+                            <label class="switch-checked-label" for="income">
+                                {{ 'components.categories.text.income' | translate }}
+                            </label>
+                            <label class="switch-unchecked-label" for="income">
+                                {{ 'components.categories.text.outcome' | translate }}
+                            </label>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">
+                        {{ 'components.categories.fields.parent.text' | translate }}
+                    </label>
+                    <div class="col-md-9">
+                        <select parent="name" class="form-control"
+                                ng-model="parent"
+                                ng-disabled="selectParentDisabled"
+                                ng-options="category.name for category in selectParentData track by category._id" >
+                            <option value="">{{ 'components.categories.fields.parent.default-value' | translate }}</option>
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                <div class="btn-group pull-right">
+                    <button class="btn btn-default" type="button"ng-click="Cancel()">
+                        {{ 'common.buttons.cancel' | translate }}
+                    </button>
+                    <button class="btn btn-primary" type="submit"
+                            ng-click="editCategory(this)"
+                            ng-disabled="submitDisabled" >
+                        {{ 'common.buttons.save' | translate }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
