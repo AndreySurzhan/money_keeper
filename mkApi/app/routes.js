@@ -1,6 +1,7 @@
 var Category = require('./models/category');
 var CategoryController = require('./controllers/category');
 var CurrencyController = require('./controllers/currency');
+var AccountController = require('./controllers/account');
 
 module.exports = function (app, passport, router) {
     // =====================================
@@ -280,6 +281,94 @@ module.exports = function (app, passport, router) {
                     }
 
                     res.json(currency);
+                }
+            );
+        });
+    // --
+
+    router.route('/accounts')
+        .get(isAuthorized, function (req, res) {
+            AccountController.getAll(
+                req.user,
+                function (err, accounts) {
+                    if (err) {
+                        sendError(err, res);
+
+                        return;
+                    }
+
+                    res.json(accounts);
+                }
+            );
+        })
+        .post(isAuthorized, function (req, res) {
+            AccountController.post(
+                req.user,
+                {
+                    name: req.body.name,
+                    iniValue: req.body.iniValue,
+                    currency: req.body.currency
+                },
+                function (err, currency) {
+                    if (err) {
+                        sendError(err, res);
+
+                        return;
+                    }
+
+                    res.json(currency);
+                }
+            );
+        });
+
+    router.route('/accounts/:accounts_id')
+        .get(isAuthorized, function (req, res) {
+            AccountController.getById(
+                req.user,
+                req.params.accounts_id,
+                function (err, account) {
+                    if (err) {
+                        sendError(err, res);
+
+                        return;
+                    }
+
+                    res.json(account);
+                }
+            );
+        })
+        .put(isAuthorized, function (req, res) {
+            AccountController.update(
+                req.user,
+                req.params.accounts_id,
+                {
+                    name: req.body.name,
+                    iniValue: req.body.iniValue,
+                    currency: req.body.currency
+                },
+                function (err, account) {
+                    if (err) {
+                        sendError(err, res);
+
+                        return;
+                    }
+
+                    res.json(account);
+                }
+            );
+        })
+        .delete(isAuthorized, function (req, res) {
+            AccountController.remove(
+                req.user,
+                req.params.accounts_id,
+                function (err, account) {
+                    if (err) {
+                        sendError(err, res);
+
+                        return;
+                    }
+
+                    res.json(account);
                 }
             );
         });
