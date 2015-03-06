@@ -1,0 +1,9 @@
+{
+    "components": {
+        "currencies": {
+            "create": {
+                "header": "Создание новой валюты"
+            }
+        }
+    }
+}
