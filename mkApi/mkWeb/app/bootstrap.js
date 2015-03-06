@@ -9,6 +9,7 @@ define(
         'app',
         'components/categories/categories',
         'components/currencies/currencies',
+        'components/accounts/accounts',
         'components/navigation-menu/navigation-menu'
     ],
     function (require, ng) {

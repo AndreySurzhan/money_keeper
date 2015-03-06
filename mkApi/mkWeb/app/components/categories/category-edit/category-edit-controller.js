@@ -76,7 +76,6 @@ define(
                                 'id': $scope.id
                             },
                             {
-
                                 'name': $scope.name,
                                 'income': $scope.income,
                                 'parent': parentId

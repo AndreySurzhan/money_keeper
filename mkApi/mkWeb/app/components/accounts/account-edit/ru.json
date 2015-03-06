@@ -1,0 +1,9 @@
+{
+    "components": {
+        "accounts": {
+            "edit": {
+                "header": "Редактирование счета"
+            }
+        }
+    }
+}
