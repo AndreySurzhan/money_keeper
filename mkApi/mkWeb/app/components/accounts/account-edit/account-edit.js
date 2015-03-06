@@ -1,8 +1,8 @@
 define(
     [
-        './category-edit-controller',
-        './category-edit-translations',
-        './category-edit-routes'
+        './account-edit-controller',
+        './account-edit-translations',
+        './account-edit-routes'
     ],
     function () {
 

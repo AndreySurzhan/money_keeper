@@ -19,13 +19,13 @@ var AccountController = {
     post: function (user, data, callback) {
         var account = new Account();
 
-        data.iniValue = data.iniValue || 0;
+        data.initValue = data.initValue || 0;
         data.currency = data.currency || null;
 
         account._owner = user._id;
         account.name = data.name;
-        account.value = data.iniValue;
-        account.iniValue = data.iniValue;
+        account.value = data.initValue;
+        account.initValue = data.initValue;
         account.currency = data.currency;
 
         account.save(callback);
@@ -44,7 +44,8 @@ var AccountController = {
                 }
 
                 account.name = data.name;
-                account.iniValue = data.iniValue;
+                account.value = data.initValue;
+                account.initValue = data.initValue;
                 account.currency = data.currency;
                 account.save(callback);
             }

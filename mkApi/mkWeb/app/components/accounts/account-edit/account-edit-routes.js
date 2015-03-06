@@ -5,17 +5,17 @@ define(
     function (app) {
         'use strict';
 
-        var moduleUrl = 'app/components/categories/category-edit/';
+        var moduleUrl = 'app/components/accounts/account-edit/';
 
         app.config(
             [
                 '$routeProvider',
                 function ($routeProvider) {
                     $routeProvider
-                        .when('/categories/:id',
+                        .when('/accounts/:id',
                         {
-                            templateUrl: moduleUrl + 'category-edit.html',
-                            controller: 'CategoryEditCtrl'
+                            templateUrl: moduleUrl + 'account-edit.html',
+                            controller: 'AccountEditCtrl'
                         });
                 }
             ]

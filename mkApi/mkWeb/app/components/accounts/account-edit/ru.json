@@ -1,8 +1,8 @@
 {
     "components": {
-        "categories": {
+        "accounts": {
             "edit": {
-                "header": "Редактирование категории"
+                "header": "Редактирование счета"
             }
         }
     }

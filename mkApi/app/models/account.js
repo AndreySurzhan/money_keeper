@@ -5,7 +5,7 @@ var AccountSchema = new Schema({
     _owner: 'String',
     name: 'String',
     value: 'Number',
-    iniValue: 'Number',
+    initValue: 'Number',
     currency: {
         type: 'ObjectId',
         ref: 'Currency'

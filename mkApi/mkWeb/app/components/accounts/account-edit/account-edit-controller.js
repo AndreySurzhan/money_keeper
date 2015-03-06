@@ -1,85 +1,80 @@
 define(
     [
         'mkControllers',
-        '../categories-services'
+        '../accounts-services',
+        '../../currencies/currencies-services'
     ],
     function (mkControllers) {
         mkControllers.controller(
-            'CategoryEditCtrl',
+            'AccountEditCtrl',
             [
                 '$scope',
                 '$routeParams',
-                'Category',
-                function ($scope, $routeParams, Category) {
-                    $scope.selectParentData = [];
-                    $scope.submitDisabled = true;
+                'Account',
+                'Currency',
+                function ($scope, $routeParams, Account, Currency) {
+                    $scope.selectCurrencyData = [];
+                    $scope.selectCurrencyDisabled = true;
+                    $scope.submitDisabled = false;
 
+                    $scope.name = '';
+                    $scope.initValue = 0;
+                    $scope.currency = 0;
+
+                    Currency.query(
+                        function (currencies) {
+                            $scope.selectCurrencyData = currencies;
+                            $scope.selectCurrencyDisabled = false;
+
+                            for (var i = 0; i < currencies.length; i++) {
+                                if (currencies[i]._id === $scope.currencyId) {
+                                    $scope.currency = currencies[i];
+                                    break;
+                                }
+                            }
+                        },
+                        function (error) {
+                            console.error(error);
+                            $scope.selectCurrencyDisabled = false;
+                        }
+                    );
 
                     $scope.id = $routeParams.id;
-                    Category.get(
+                    Account.get(
                         {
                             id: $scope.id
                         },
-                        function (category) {
-                            $scope.name = category.name;
-                            $scope.income = category.income;
-                            $scope.parentId = category.parent ? category.parent._id : 0;
+                        function (account) {
+                            console.log('Edited account', account);
 
-                            $scope.incomeChanged()
+                            $scope.name = account.name;
+                            $scope.initValue = account.initValue;
+                            $scope.currencyId = account.currency ? account.currency._id : 0;
                         },
                         function () {
                             console.log('error', arguments);
                         }
                     );
 
+                    $scope.editAccount = function () {
+                        $scope.submitDisabled = true;
 
-                    $scope.incomeChanged = function () {
-                        var errorHandler = function (err) {
-                            $scope.selectParentDisabled = false;
-                            $scope.submitDisabled = false;
-                            console.error(err);
-                        };
-                        var successHandler = function (categories) {
-                            $scope.selectParentDisabled = false;
-                            $scope.submitDisabled = false;
-                            $scope.selectParentData = categories;
+                        $scope.currency = typeof $scope.currency === 'object' ? $scope.currency._id : $scope.currency;
 
+                        console.log('-------- edit Account --------');
+                        console.log(arguments);
+                        console.log('name:', $scope.name);
+                        console.log('currency:', $scope.currency);
+                        console.log('initValue:', $scope.initValue);
 
-                            for (var i = 0; i < categories.length; i++) {
-                                if (categories[i]._id === $scope.parentId) {
-                                    $scope.parent = categories[i];
-                                    break;
-                                }
-                            }
-
-                            console.log('parent categories', categories);
-                        };
-
-                        console.log('incomeChanged');
-
-                        $scope.selectParentDisabled = true;
-
-                       if ($scope.income) {
-                           Category.getIncome(successHandler, errorHandler);
-                       } else {
-                           Category.getOutcome(successHandler, errorHandler);
-                       }
-
-                    };
-
-                    $scope.editCategory = function () {
-                        console.log('editCategory');
-                        var parentId = typeof $scope.parent === 'object' ? $scope.parent._id : $scope.parent;
-
-                        Category.update(
+                        Account.update(
                             {
                                 'id': $scope.id
                             },
                             {
-
                                 'name': $scope.name,
-                                'income': $scope.income,
-                                'parent': parentId
+                                'currency': $scope.currency,
+                                'initValue': $scope.initValue
                             }, function () {
                                 window.history.back();
                             }, function (error) {
@@ -87,21 +82,6 @@ define(
                                 console.err(error);
                             }
                         );
-
-                        /*
-                        $scope.submitDisabled = true;
-
-
-
-                        console.log('-------- addCategory --------');
-                        console.log(arguments);
-                        console.log('name:', $scope.name);
-                        console.log('income:', $scope.income);
-                        console.log('parent:', $scope.parent);
-
-
-
-                        */
                     };
 
                     $scope.Cancel = function () {
@@ -114,3 +94,25 @@ define(
         return;
     }
 );
+
+
+/*
+
+ $scope.id = $routeParams.id;
+ Category.get(
+ {
+ id: $scope.id
+ },
+ function (category) {
+ $scope.name = category.name;
+ $scope.income = category.income;
+ $scope.parentId = category.parent ? category.parent._id : 0;
+
+ $scope.incomeChanged()
+ },
+ function () {
+ console.log('error', arguments);
+ }
+ );
+
+ */

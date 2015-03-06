@@ -306,7 +306,7 @@ module.exports = function (app, passport, router) {
                 req.user,
                 {
                     name: req.body.name,
-                    iniValue: req.body.iniValue,
+                    initValue: req.body.initValue,
                     currency: req.body.currency
                 },
                 function (err, currency) {
@@ -343,7 +343,7 @@ module.exports = function (app, passport, router) {
                 req.params.accounts_id,
                 {
                     name: req.body.name,
-                    iniValue: req.body.iniValue,
+                    initValue: req.body.initValue,
                     currency: req.body.currency
                 },
                 function (err, account) {
