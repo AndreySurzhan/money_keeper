@@ -32,5 +32,22 @@
                 "href": "#/currencies/add"
             }
         ]
+    },
+    {
+        "name": "navigation-menu.accounts.root",
+        "icon": "fa fa-credit-card",
+        "href": "#/accounts",
+        "children": [
+            {
+                "name": "navigation-menu.accounts.list",
+                "icon": "fa fa-list",
+                "href": "#/accounts"
+            },
+            {
+                "name": "navigation-menu.accounts.add",
+                "icon": "fa fa-plus",
+                "href": "#/accounts/add"
+            }
+        ]
     }
 ]

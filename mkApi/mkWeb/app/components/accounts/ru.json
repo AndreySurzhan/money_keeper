@@ -1,0 +1,28 @@
+{
+    "components": {
+        "accounts": {
+            "fields": {
+                "id": {
+                    "text": "#"
+                },
+                "name": {
+                    "text": "Название",
+                    "placeholder": "Введите название счета"
+                },
+                "value": {
+                    "text": "Баланс"
+                },
+                "initValue": {
+                    "text": "Начальный баланс"
+                },
+                "currency": {
+                    "text": "Валюта",
+                    "default-value": "Валюта не указана"
+                }
+            },
+            "list": {
+                "header": "Счета"
+            }
+        }
+    }
+}

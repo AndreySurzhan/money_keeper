@@ -19,8 +19,11 @@ var AccountController = {
     post: function (user, data, callback) {
         var account = new Account();
 
+        data.iniValue = data.iniValue || 0;
+
         account._owner = user._id;
         account.name = data.name;
+        account.value = data.iniValue;
         account.iniValue = data.iniValue;
         account.currency = data.currency;
 
