@@ -1,8 +1,15 @@
 {
     "navigation-menu": {
         "title": "Меню",
-        "categories": "Категории",
-        "categories-list": "Список категорий",
-        "categories-add": "Добавить"
+        "categories": {
+            "root": "Категории",
+            "list": "Список категорий",
+            "add": "Добавить"
+        },
+        "currencies": {
+            "root": "Валюты",
+            "list": "Список валют",
+            "add": "Добавить"
+        }
     }
 }

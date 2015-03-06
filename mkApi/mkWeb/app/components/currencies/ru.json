@@ -1,0 +1,18 @@
+{
+    "components": {
+        "currencies": {
+            "fields": {
+                "id": {
+                    "text": "#"
+                },
+                "name": {
+                    "text": "Название",
+                    "placeholder": "Введите название валюты"
+                }
+            },
+            "list": {
+                "header": "Валюты"
+            }
+        }
+    }
+}

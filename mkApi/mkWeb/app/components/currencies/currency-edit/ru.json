@@ -1,0 +1,9 @@
+{
+    "components": {
+        "currencies": {
+            "edit": {
+                "header": "Редактирование валюты"
+            }
+        }
+    }
+}

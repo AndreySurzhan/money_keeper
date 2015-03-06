@@ -1,0 +1,58 @@
+<div class="col-md-12">
+    <div class="panel panel-default" ng-controller="CurrencyListCtrl">
+        <div class="panel-heading">
+            <div class="panel-title-box">
+                <h3>
+                    {{ 'components.currencies.list.header' | translate }}
+                </h3>
+                <span>
+                    {{ 'components.currencies.list.header' | translate }}
+                </span>
+            </div>
+            <ul class="panel-controls">
+                <li>
+                    <a href="#/currencies/add" class="button header-button-create"
+                       title="{{ 'common.buttons.create' | translate }}">
+                        <span class="fa fa-plus"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="panel-body">
+            <table class="currencies-list table table-hover table-striped">
+                <thead>
+                <tr>
+                    <th class="currency-id-column">
+                        {{ 'components.currencies.fields.id.text' | translate }}
+                    </th>
+                    <th>
+                        {{ 'components.currencies.fields.name.text' | translate }}
+                    </th>
+                    <th class="currency-actions-column"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="currency in currencies | filter:query | orderBy:orderProp">
+                    <td class="category-id-column">
+                        {{ currency._id }}
+                    </td>
+                    <td>
+                        {{ currency.name }}
+                    </td>
+                    <td class="currency-actions-column">
+                        <button class="btn btn-default btn-rounded btn-condensed btn-sm"
+                                ng-click="showDetails(currency._id)">
+                            <span class="fa fa-pencil"></span>
+                        </button>
+                        <button class="btn btn-danger btn-rounded btn-condensed btn-sm"
+                                ng-click="remove(currency._id)">
+                            <span class="fa fa-times"></span>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="panel-footer"></div>
+    </div>
+</div>
