@@ -2,6 +2,8 @@ var Category = require('./models/category');
 var CategoryController = require('./controllers/category');
 var CurrencyController = require('./controllers/currency');
 var AccountController = require('./controllers/account');
+var TransactionController = require('./controllers/transaction');
+
 
 module.exports = function (app, passport, router) {
     // =====================================
@@ -372,6 +374,97 @@ module.exports = function (app, passport, router) {
                 }
             );
         });
+    router.route('/transactions')
+        .get(isAuthorized, function (req, res) {
+            TransactionController.getAll(
+                req.user,
+                function (err, transactions) {
+                    if (err) {
+                        sendError(err, res);
+
+                        return;
+                    }
+
+                    res.json(transactions);
+                }
+            );
+        })
+        .post(isAuthorized, function (req, res) {
+            TransactionController.post(
+                req.user,
+                {
+                    date: req.body.date,
+                    category: req.body.category,
+                    value: req.body.value,
+                    account: req.body.account,
+                    note: req.body.note
+                },
+                function (err, transaction) {
+                    if (err) {
+                        sendError(err, res);
+
+                        return;
+                    }
+
+                    res.json(transaction);
+                }
+            );
+        });
+
+    router.route('/transactions/:transaction_id')
+        .get(isAuthorized, function (req, res) {
+            TransactionController.getById(
+                req.user,
+                req.params.transaction_id,
+                function (err, transaction) {
+                    if (err) {
+                        sendError(err, res);
+
+                        return;
+                    }
+
+                    res.json(transaction);
+                }
+            );
+        })
+        .put(isAuthorized, function (req, res) {
+            TransactionController.update(
+                req.user,
+                req.params.transaction_id,
+                {
+                    date: req.body.date,
+                    category: req.body.category,
+                    value: req.body.value,
+                    account: req.body.account,
+                    note: req.body.note
+                },
+                function (err, transaction) {
+                    if (err) {
+                        sendError(err, res);
+
+                        return;
+                    }
+
+                    res.json(transaction);
+                }
+            );
+        })
+        .delete(isAuthorized, function (req, res) {
+            TransactionController.remove(
+                req.user,
+                req.params.transaction_id,
+                function (err, transaction) {
+                    if (err) {
+                        sendError(err, res);
+
+                        return;
+                    }
+
+                    res.json(transaction);
+                }
+            );
+        });
+
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
