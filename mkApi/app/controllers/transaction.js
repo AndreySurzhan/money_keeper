@@ -105,6 +105,8 @@ var TransactionController = {
         );
     },
     remove: function (user, id, callback) {
+        var that = this;
+
         Transaction.remove(
             {
                 _id: id,
@@ -117,7 +119,7 @@ var TransactionController = {
                     return;
                 }
 
-                this.getAll(user, callback);
+                that.getAll(user, callback);
             }
         );
     }

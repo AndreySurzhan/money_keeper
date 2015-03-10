@@ -1,0 +1,33 @@
+{
+    "components": {
+        "transactions": {
+            "fields": {
+                "id": {
+                    "text": "#"
+                },
+                "date": {
+                    "text": "Дата",
+                    "default-value": "Укажите дату транзакции"
+                },
+                "category": {
+                    "text": "Категория",
+                    "default-value": "Категория не выбрана"
+                },
+                "value": {
+                    "text": "Сумма"
+                },
+                "account": {
+                    "text": "Счет",
+                    "placeholder": "Счет не выбран"
+                },
+                "note": {
+                    "text": "Комментарий",
+                    "placeholder": "Комментарий к транзакции"
+                }
+            },
+            "list": {
+                "header": "Транзакции"
+            }
+        }
+    }
+}
