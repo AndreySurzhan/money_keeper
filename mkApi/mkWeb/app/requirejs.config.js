@@ -10,6 +10,10 @@ requirejs.config(
             'angular-resource': '../libs/angular/angular-resource',
             'angular-route': '../libs/angular/angular-route',
             'angular-translate': '../libs/angular/angular-translate',
+            'angular-moment': '../libs/angular/angular-moment',
+            'moment': '../libs/moment/moment',
+            'angular-moment-ru': '../libs/angular/angular-moment-locales/ru',
+            'angular-moment-en': '../libs/angular/angular-moment-locales/en-gb',
 
             'app': 'app',
             'config': '../config.json',
@@ -25,6 +29,9 @@ requirejs.config(
             },
             'angular-route': {
                 deps: ['angular']
+            },
+            'angular-moment' : {
+                deps: ['angular-moment-ru', 'angular-moment-en']
             }
         },
         deps: ['bootstrap']

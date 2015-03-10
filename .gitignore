@@ -1,9 +1,9 @@
 .idea/
 mkApi/.tmp/
 mkApi/node_modules/
-mkWeb/bower-components/
+mkApi/mkWeb/bower-components/
 mkWeb/fonts/
-mkWeb/libs/
+mkApi/mkWeb/libs/
 mkWeb/node_modules/
 mkWeb/styles/bootstrap.css.map
 mkWeb/styles/framework/bootstrap/

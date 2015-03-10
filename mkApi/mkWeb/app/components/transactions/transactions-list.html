@@ -49,7 +49,7 @@
                         {{ transaction._id }}
                     </td>
                     <td>
-                        {{ transaction.date }}
+                        {{ transaction.date | transactionDate | amCalendar }}
                     </td>
                     <td>
                         {{ transaction.category | categoryName }}

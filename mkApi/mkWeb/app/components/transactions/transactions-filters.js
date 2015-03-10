@@ -24,6 +24,15 @@ define(
             }
         );
 
+        mkFilters.filter(
+            'transactionDate',
+            function () {
+                return function (dateStr) {
+                    return new Date(dateStr);
+                }
+            }
+        );
+
 
         return;
     }
