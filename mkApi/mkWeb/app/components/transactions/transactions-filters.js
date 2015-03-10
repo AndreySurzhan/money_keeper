@@ -33,6 +33,15 @@ define(
             }
         );
 
+        mkFilters.filter(
+            'categoryType',
+            function () {
+                return function (category) {
+                    return category.income ? 'income' : 'outcome'
+                }
+            }
+        );
+
 
         return;
     }

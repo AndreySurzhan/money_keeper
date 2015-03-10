@@ -1,0 +1,17 @@
+.transaction-value {
+    font-weight: bold;
+
+    &.income {
+        color: @green;
+    }
+    &.income:before {
+        content: '+';
+    }
+
+    &.outcome {
+        color: @red;
+    }
+    &.outcome:before {
+        content: '-';
+    }
+}
