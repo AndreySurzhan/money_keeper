@@ -11,9 +11,11 @@ requirejs.config(
             'angular-route': '../libs/angular/angular-route',
             'angular-translate': '../libs/angular/angular-translate',
             'angular-moment': '../libs/angular/angular-moment',
-            'moment': '../libs/moment/moment',
             'angular-moment-ru': '../libs/angular/angular-moment-locales/ru',
             'angular-moment-en': '../libs/angular/angular-moment-locales/en-gb',
+
+            'moment': '../libs/moment/moment',
+            'underscore': '../libs/underscore/underscore',
 
             'app': 'app',
             'config': '../config.json',
@@ -21,7 +23,9 @@ requirejs.config(
             'mkControllers': 'common/controllers',
             'mkTranslations': 'common/translations',
             'mkServices': 'common/services',
-            'mkFilters': 'common/filters'
+            'mkFilters': 'common/filters',
+
+            'enums': 'common/enums.json'
         },
         shim: {
             'angular': {

@@ -1,8 +1,8 @@
 {
     "components": {
-        "accounts": {
+        "transactions": {
             "create": {
-                "header": "Создание нового счета"
+                "header": "Создание новой транзакции"
             }
         }
     }

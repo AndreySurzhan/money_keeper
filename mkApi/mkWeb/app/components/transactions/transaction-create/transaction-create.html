@@ -1,9 +1,9 @@
 <div class="col-md-12">
-    <div class="panel panel-default" ng-controller="AccountCreateCtrl">
+    <div class="panel panel-default" ng-controller="TransactionCreateCtrl">
         <div class="panel-heading">
             <div class="panel-title-box">
                 <h3>
-                    {{ 'components.accounts.create.header' | translate }}
+                    {{ 'components.transactions.create.header' | translate }}
                 </h3>
             </div>
         </div>
@@ -11,14 +11,25 @@
             <form class="form-horizontal">
                 <div class="form-group">
                     <label class="col-md-3 control-label">
-                        {{ 'components.accounts.fields.name.text' | translate }}
+                        {{ 'components.transactions.fields.value.text' | translate }}
                     </label>
                     <div class="col-md-9">
-                        <input name="name" type="text" class="form-control"
-                               placeholder="{{ 'components.accounts.fields.name.placeholder' | translate }}"
-                               ng-model="name">
+                        <input name="value" type="text" class="form-control"
+                               placeholder="{{ 'components.control-label.fields.value.placeholder' | translate }}"
+                               ng-model="value">
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">
+                        {{ 'components.transactions.fields.date.text' | translate }}
+                    </label>
+                    <div class="col-md-9">
+                        <input name="date" type="text" class="form-control"
+                               placeholder="{{ 'components.control-label.fields.date.placeholder' | translate }}"
+                               ng-model="date">
+                    </div>
+                </div>
+                <!--
                 <div class="form-group">
                     <label class="col-md-3 control-label">
                         {{ 'components.accounts.fields.initValue.text' | translate }}
@@ -29,17 +40,53 @@
                                ng-model="initValue">
                     </div>
                 </div>
+                -->
                 <div class="form-group">
                     <label class="col-md-3 control-label">
-                        {{ 'components.accounts.fields.currency.text' | translate }}
+                        {{ 'components.transactions.fields.account.text' | translate }}
                     </label>
                     <div class="col-md-9">
                         <select class="form-control"
-                                ng-model="currency"
-                                ng-disabled="selectCurrencyDisabled"
-                                ng-options="currency.name for currency in selectCurrencyData track by currency._id" >
-                            <option value="">{{ 'components.accounts.fields.currency.default-value' | translate }}</option>
+                                ng-model="account"
+                                ng-disabled="selectAccountDisabled"
+                                ng-options="account.name for account in selectAccountData track by account._id" >
+                            <option value="">{{ 'components.transactions.fields.account.default-value' | translate }}</option>
                         </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">
+                        {{ 'components.transactions.fields.type.text' | translate }}
+                    </label>
+                    <div class="col-md-9">
+                        <select class="form-control"
+                                ng-model="type"
+                                ng-options="type.name for type in transactionTypes track by type.value"
+                                ng-change="typeChanged()">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" ng-show="selectCategoryVisible">
+                    <label class="col-md-3 control-label">
+                        {{ 'components.transactions.fields.category.text' | translate }}
+                    </label>
+                    <div class="col-md-9">
+                        <select class="form-control"
+                                ng-model="category"
+                                ng-disabled="selectCategoryDisabled"
+                                ng-options="category.name for category in selectCategoryData track by category._id" >
+                            <option value="">{{ 'components.transactions.fields.category.default-value' | translate }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">
+                        {{ 'components.transactions.fields.note.text' | translate }}
+                    </label>
+                    <div class="col-md-9">
+                        <textarea name="note" type="note" class="form-control"
+                               placeholder="{{ 'components.transactions.fields.note.placeholder' | translate }}"
+                               ng-model="note"></textarea>
                     </div>
                 </div>
                 <hr>
@@ -48,7 +95,7 @@
                         {{ 'common.buttons.cancel' | translate }}
                     </button>
                     <button class="btn btn-primary" type="submit"
-                            ng-click="addAccount(this)"
+                            ng-click="addTransaction()"
                             ng-disabled="submitDisabled" >
                         {{ 'common.buttons.create' | translate }}
                     </button>

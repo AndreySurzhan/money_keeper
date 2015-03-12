@@ -78,6 +78,10 @@ var copyFilesList = [
         from: vendorDir + 'moment/moment.js',
         to: destDir + 'moment/'
     },
+    {
+        from: vendorDir + 'underscore/underscore.js',
+        to: destDir + 'underscore/'
+    },
     // Styles
     {
         from: vendorDir + 'bootstrap/dist/**/*.*',

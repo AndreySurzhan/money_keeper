@@ -1,8 +1,8 @@
 define(
     [
-        './account-create-controller',
-        './account-create-translations',
-        './account-create-routes'
+        './transaction-create-controller',
+        './transaction-create-translations',
+        './transaction-create-routes'
     ],
     function () {
 

@@ -5,17 +5,17 @@ define(
     function (app) {
         'use strict';
 
-        var moduleUrl = 'app/components/accounts/account-create/';
+        var moduleUrl = 'app/components/transactions/transaction-create/';
 
         app.config(
             [
                 '$routeProvider',
                 function ($routeProvider) {
                     $routeProvider
-                        .when('/accounts/add',
+                        .when('/transactions/add',
                         {
-                            templateUrl: moduleUrl + 'account-create.html',
-                            controller: 'AccountCreateCtrl'
+                            templateUrl: moduleUrl + 'transaction-create.html',
+                            controller: 'TransactionCreateCtrl'
                         });
                 }
             ]

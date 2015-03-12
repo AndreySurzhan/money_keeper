@@ -16,9 +16,12 @@
                 "value": {
                     "text": "Сумма"
                 },
+                "type": {
+                    "text": "Тип операции"
+                },
                 "account": {
                     "text": "Счет",
-                    "placeholder": "Счет не выбран"
+                    "default-value": "Счет не выбран"
                 },
                 "note": {
                     "text": "Комментарий",
