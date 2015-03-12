@@ -396,7 +396,9 @@ module.exports = function (app, passport, router) {
                     date: req.body.date,
                     category: req.body.category,
                     value: req.body.value,
-                    account: req.body.account,
+                    type: req.body.type,
+                    accountSource: req.body.accountSource,
+                    accountDestination: req.body.accountDestination,
                     note: req.body.note
                 },
                 function (err, transaction) {
@@ -435,7 +437,9 @@ module.exports = function (app, passport, router) {
                     date: req.body.date,
                     category: req.body.category,
                     value: req.body.value,
-                    account: req.body.account,
+                    type: req.body.type,
+                    accountSource: req.body.accountSource,
+                    accountDestination: req.body.accountDestination,
                     note: req.body.note
                 },
                 function (err, transaction) {

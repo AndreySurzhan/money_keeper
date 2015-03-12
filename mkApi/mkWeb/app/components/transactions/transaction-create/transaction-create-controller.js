@@ -36,7 +36,7 @@ define(
                     $scope.accountSource = 0;
                     $scope.accountDestination = 0;
                     $scope.value = 0;
-                    $scope.type = _.findWhere($scope.transactionTypes, { value: enums.transactionTypes.outcome.value});
+                    $scope.type = _.findWhere($scope.transactionTypes, {value: enums.transactionTypes.outcome.value});
                     $scope.note = '';
 
                     typeChanged();
@@ -91,18 +91,20 @@ define(
                     }
 
                     function addTransaction() {
-                        //$scope.submitDisabled = true;
+                        $scope.submitDisabled = true;
 
-                        $scope.category = typeof $scope.category === 'object'
-                            ? $scope.category._id
-                            : $scope.category;
+
                         $scope.accountSource = typeof $scope.accountSource === 'object'
                             ? $scope.accountSource._id
                             : $scope.accountSource;
 
-                        if ($scope.type !== enums.transactionTypes.transfer.value) {
-                            $scope.accountDestination = 0
+                        if ($scope.type.value !== enums.transactionTypes.transfer.value) {
+                            $scope.category = typeof $scope.category === 'object'
+                                ? $scope.category._id
+                                : $scope.category;
+                            $scope.accountDestination = null;
                         } else {
+                            $scope.category = null;
                             $scope.accountDestination = typeof $scope.accountDestination === 'object'
                                 ? $scope.accountDestination._id
                                 : $scope.accountDestination;
@@ -117,22 +119,25 @@ define(
                         console.log('value:', $scope.value);
                         console.log('note:', $scope.note);
 
-                        /*
+
                         Transaction.save({
                                 date: $scope.date,
                                 category: $scope.category,
+                                type: $scope.type,
                                 accountSource: $scope.accountSource,
                                 accountDestination: $scope.accountDestination,
                                 value: $scope.value,
                                 note: $scope.note
                             }, function () {
+                                $scope.submitDisabled = false;
                                 window.history.back();
                             }, function (error) {
+                                $scope.submitDisabled = false;
                                 console.log(0);
-                                console.err(error);
+                                console.error(error);
                             }
                         );
-                        */
+
                     }
                 }
             ]

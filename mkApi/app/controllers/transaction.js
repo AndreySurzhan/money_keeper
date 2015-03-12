@@ -9,7 +9,8 @@ var TransactionController = {
                 _owner: user._id
             })
             .populate('category')
-            .populate('account')
+            .populate('accountSource')
+            .populate('accountDestination')
             .exec(callback);
     },
     getById: function (user, id, callback) {
@@ -28,19 +29,21 @@ var TransactionController = {
         transaction.date = data.date;
         transaction.category = data.category;
         transaction.value = data.value;
-        transaction.account = data.account;
+        transaction.type = data.type;
+        transaction.accountSource = data.accountSource;
+        transaction.accountDestination = data.accountDestination;
         transaction.note = data.note;
 
-        console.log('Getting account ' + transaction.account);
+        console.log('Getting account ' + transaction.accountSource);
         Account.findOne({
-            _id: transaction.account,
+            _id: transaction.accountSource,
             _owner: user._id
         })
-            .exec(function (err, account) {
-                if (!account || err) {
+            .exec(function (err, accountSource) {
+                if (!accountSource || err) {
                     err = err || {
                         status: 404,
-                        message: 'Account with id=' + transaction.account + ' was not found'
+                        message: 'Source account with id=' + transaction.accountSource + ' was not found.'
                     };
 
                     console.error(err);
@@ -48,32 +51,34 @@ var TransactionController = {
                     return;
                 }
 
-                console.log(account);
-                console.log('Getting category ' + transaction.category);
+                accountSource.value += transaction.value * (transaction.type === 'income' ? 1 : -1);
+                accountSource.save();
 
-                Category.findOne({
-                    _id: transaction.category,
-                    _owner: user._id
-                })
-                    .exec(function (err, category) {
-                        if (!category || err) {
-                            err = err || {
-                                status: 404,
-                                message: 'Category with id=' + transaction.category + ' was not found'
-                            };
+                if (transaction.type === 'transfer') {
+                    Account.findOne({
+                        _id: transaction.accountDestination,
+                        _owner: user._id
+                    })
+                        .exec(function (err, accountDestination) {
+                            if (!accountDestination || err) {
+                                err = err || {
+                                    status: 404,
+                                    message: 'Destination account with id=' + transaction.accountDestination + ' was not found.'
+                                };
 
-                            console.error(err);
-                            callback(err);
-                            return;
-                        }
+                                console.error(err);
+                                callback(err);
+                                return;
+                            }
 
-                        console.log(category);
+                            accountDestination.value += transaction.value;
+                            accountDestination.save();
 
-                        transaction.save(callback);
-                        account.value += transaction.value * (category.income ? 1 : -1);
-                        account.save();
-                    });
-
+                            transaction.save(callback);
+                        });
+                } else {
+                    transaction.save(callback);
+                }
             });
     },
     update: function (user, id, data, callback) {
@@ -97,7 +102,9 @@ var TransactionController = {
                 transaction.date = data.date;
                 transaction.category = data.category;
                 transaction.value = data.value;
-                transaction.account = data.account;
+                transaction.type = data.type;
+                transaction.accountSource = data.accountSource;
+                transaction.accountDestination = data.accountDestination;
                 transaction.note = data.note;
 
                 transaction.save(callback);

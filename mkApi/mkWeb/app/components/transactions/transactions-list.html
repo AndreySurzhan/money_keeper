@@ -35,7 +35,7 @@
                         {{ 'components.transactions.fields.value.text' | translate }}
                     </th>
                     <th>
-                        {{ 'components.transactions.fields.account.text' | translate }}
+                        {{ 'components.transactions.fields.account-source.text' | translate }}
                     </th>
                     <th>
                         {{ 'components.transactions.fields.note.text' | translate }}
@@ -58,7 +58,7 @@
                         {{ transaction.value }}
                     </td>
                     <td>
-                        {{ transaction.account | accountName }}
+                        {{ transaction.accountSource | accountName }}
                     </td>
                     <td>
                         {{ transaction.note }}

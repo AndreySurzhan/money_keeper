@@ -9,7 +9,12 @@ var TransactionSchema = new Schema({
         ref: 'Category'
     },
     value: 'Number',
-    account: {
+    type: 'String',
+    accountSource: {
+        type: 'ObjectId',
+        ref: 'Account'
+    },
+    accountDestination: {
         type: 'ObjectId',
         ref: 'Account'
     },
