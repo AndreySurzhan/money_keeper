@@ -9,6 +9,7 @@
         </div>
         <div class="panel-body">
             <form class="form-horizontal">
+                <!-- SUMM -->
                 <div class="form-group">
                     <label class="col-md-3 control-label">
                         {{ 'components.transactions.fields.value.text' | translate }}
@@ -19,6 +20,7 @@
                                ng-model="value">
                     </div>
                 </div>
+                <!-- DATE -->
                 <div class="form-group">
                     <label class="col-md-3 control-label">
                         {{ 'components.transactions.fields.date.text' | translate }}
@@ -41,19 +43,7 @@
                     </div>
                 </div>
                 -->
-                <div class="form-group">
-                    <label class="col-md-3 control-label">
-                        {{ 'components.transactions.fields.account.text' | translate }}
-                    </label>
-                    <div class="col-md-9">
-                        <select class="form-control"
-                                ng-model="account"
-                                ng-disabled="selectAccountDisabled"
-                                ng-options="account.name for account in selectAccountData track by account._id" >
-                            <option value="">{{ 'components.transactions.fields.account.default-value' | translate }}</option>
-                        </select>
-                    </div>
-                </div>
+                <!-- TRANSACTION TYPE -->
                 <div class="form-group">
                     <label class="col-md-3 control-label">
                         {{ 'components.transactions.fields.type.text' | translate }}
@@ -66,7 +56,38 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group" ng-show="selectCategoryVisible">
+                <!-- ACCOUNT SOURCE -->
+                <div class="form-group">
+                    <label class="col-md-3 control-label">
+                        {{ 'components.transactions.fields.account-source.text' | translate }}
+                    </label>
+                    <div class="col-md-9">
+                        <select class="form-control"
+                                ng-model="accountSource"
+                                ng-disabled="selectAccountDisabled"
+                                ng-options="account.name for account in selectAccountSourceData track by account._id" >
+                            <option value="">{{ 'components.transactions.fields.account-source.default-value' | translate }}</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- ACCOUNT DESTINATION -->
+                <div class="form-group"
+                     ng-show="isTransfer">
+                    <label class="col-md-3 control-label">
+                        {{ 'components.transactions.fields.account-destination.text' | translate }}
+                    </label>
+                    <div class="col-md-9">
+                        <select class="form-control"
+                                ng-model="accountDestination"
+                                ng-disabled="selectAccountDisabled"
+                                ng-options="account.name for account in selectAccountDestinationData track by account._id" >
+                            <option value="">{{ 'components.transactions.fields.account-destination.default-value' | translate }}</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- CATEGORY -->
+                <div class="form-group"
+                     ng-show="!isTransfer">
                     <label class="col-md-3 control-label">
                         {{ 'components.transactions.fields.category.text' | translate }}
                     </label>
@@ -79,6 +100,7 @@
                         </select>
                     </div>
                 </div>
+                <!-- NOTE -->
                 <div class="form-group">
                     <label class="col-md-3 control-label">
                         {{ 'components.transactions.fields.note.text' | translate }}

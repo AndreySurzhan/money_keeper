@@ -19,8 +19,12 @@
                 "type": {
                     "text": "Тип операции"
                 },
-                "account": {
+                "account-source": {
                     "text": "Счет",
+                    "default-value": "Счет не выбран"
+                },
+                "account-destination": {
+                    "text": "На счет",
                     "default-value": "Счет не выбран"
                 },
                 "note": {
