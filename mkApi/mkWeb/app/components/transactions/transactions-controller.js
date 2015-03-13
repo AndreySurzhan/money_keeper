@@ -10,7 +10,10 @@ define(
                 '$scope',
                 'Transaction',
                 function ($scope, Transaction) {
-                    $scope.transactions = Transaction.query();
+                    Transaction.query(function (transactions) {
+                        $scope.transactions = transactions;
+                        console.log('transactions', transactions);
+                    });
                     $scope.orderProp = '_id';
 
                     $scope.showDetails = function (transactiontId) {

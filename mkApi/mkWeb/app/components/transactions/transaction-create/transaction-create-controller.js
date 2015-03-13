@@ -112,7 +112,7 @@ define(
 
                         console.log('-------- add Transaction --------');
                         console.log('date:', $scope.date);
-                        console.log('type:', $scope.type);
+                        console.log('type:', $scope.type.value);
                         console.log('category:', $scope.category);
                         console.log('accountSource:', $scope.accountSource);
                         console.log('accountDestination:', $scope.accountDestination);
@@ -123,7 +123,7 @@ define(
                         Transaction.save({
                                 date: $scope.date,
                                 category: $scope.category,
-                                type: $scope.type,
+                                type: $scope.type.value,
                                 accountSource: $scope.accountSource,
                                 accountDestination: $scope.accountDestination,
                                 value: $scope.value,

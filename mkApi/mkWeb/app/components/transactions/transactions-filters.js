@@ -1,16 +1,31 @@
 define(
     [
-        'mkFilters'
+        'mkFilters',
+        'json!enums',
+        'text!./arrow.html'
     ],
-    function (mkFilters) {
+    function (mkFilters, enums, arrowHtml) {
         'use strict';
 
 
         mkFilters.filter(
-            'categoryName',
-            function () {
-                return function (category) {
-                    return category ? category.name : '';
+            'transactionCategory',
+            function ($sce) {
+                return function (transaction) {
+                    var accountDestinationName;
+
+                    if (transaction.type !== enums.transactionTypes.transfer.value) {
+                        return $sce.trustAsHtml(transaction.category ? transaction.category.name : '');
+                    }
+
+                    // if transfer
+                    accountDestinationName = transaction.accountDestination ? transaction.accountDestination.name : '';
+
+                    if (!accountDestinationName) {
+                        return $sce.trustAsHtml('');
+                    }
+
+                    return $sce.trustAsHtml(arrowHtml + accountDestinationName);
                 }
             }
         );
@@ -32,16 +47,6 @@ define(
                 }
             }
         );
-
-        mkFilters.filter(
-            'categoryType',
-            function () {
-                return function (category) {
-                    return category.income ? 'income' : 'outcome'
-                }
-            }
-        );
-
 
         return;
     }

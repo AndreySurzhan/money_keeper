@@ -51,10 +51,8 @@
                     <td>
                         {{ transaction.date | transactionDate | amCalendar }}
                     </td>
-                    <td>
-                        {{ transaction.category | categoryName }}
-                    </td>
-                    <td class="transaction-value {{ transaction.category | categoryType }}">
+                    <td ng-bind-html="transaction | transactionCategory"></td>
+                    <td class="transaction-value {{ transaction.type }}">
                         {{ transaction.value }}
                     </td>
                     <td>
