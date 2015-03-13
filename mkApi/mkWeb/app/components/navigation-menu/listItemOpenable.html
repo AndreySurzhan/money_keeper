@@ -1,0 +1,9 @@
+<li class="xn-openable {{ menuItem.active ? 'active' : '' }}" ng-repeat="menuItem in menu">
+    <a href="{{ menuItem.href }}" ng-click="menuItemClickEvents(menuItem)">
+        <span class="{{ menuItem.icon }}"></span>
+        <span class="xn-text">{{ menuItem.name | translate }}</span>
+    </a>
+    <ul>
+
+    </ul>
+</li>

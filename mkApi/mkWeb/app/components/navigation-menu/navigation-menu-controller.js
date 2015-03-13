@@ -8,8 +8,9 @@ define(
             'NavigationMenuCtrl',
             [
                 '$scope',
-                function ($scope) {
-                    $scope.menu = menu;
+                '$sce',
+                function ($scope, $sce) {
+                    $scope.menuHtml = $sce.trustAsHtml('<h3>Hi</h3>');
 
                     $scope.menuItemClickEvents = function (menuItem) {
                         menuItem.active = !menuItem.active;
