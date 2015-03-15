@@ -13,6 +13,7 @@ requirejs.config(
 
             'app': 'app',
             'config': '../config.json',
+            'logger': 'common/logger',
             'mkControllers': 'common/controllers',
             'mkTranslations': 'common/translations',
             'mkServices': 'common/services',
