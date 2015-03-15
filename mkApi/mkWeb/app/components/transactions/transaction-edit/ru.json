@@ -1,0 +1,9 @@
+{
+    "components": {
+        "transactions": {
+            "edit": {
+                "header": "Редактирование транзакции"
+            }
+        }
+    }
+}

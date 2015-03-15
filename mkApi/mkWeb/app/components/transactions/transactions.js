@@ -5,8 +5,8 @@ define(
         './transactions-routes',
         './transactions-filters',
 
-        './transaction-create/transaction-create'
-         // './account-edit/account-edit'
+        './transaction-create/transaction-create',
+        './transaction-edit/transaction-edit'
     ],
     function () {
         'use strict';

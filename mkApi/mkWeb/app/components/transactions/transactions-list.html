@@ -62,12 +62,10 @@
                         {{ transaction.note }}
                     </td>
                     <td class="account-actions-column">
-                        <!--
                         <button class="btn btn-default btn-rounded btn-condensed btn-sm"
-                                ng-click="showDetails(account._id)">
+                                ng-click="showDetails(transaction._id)">
                             <span class="fa fa-pencil"></span>
                         </button>
-                        -->
                         <button class="btn btn-danger btn-rounded btn-condensed btn-sm"
                                 ng-click="remove(transaction._id)">
                             <span class="fa fa-times"></span>

@@ -1,0 +1,116 @@
+<div class="col-md-12">
+    <div class="panel panel-default" ng-controller="TransactionEditCtrl">
+        <div class="panel-heading">
+            <div class="panel-title-box">
+                <h3>
+                    {{ 'components.transactions.edit.header' | translate }}
+                </h3>
+            </div>
+        </div>
+        <div class="panel-body">
+            <form class="form-horizontal">
+                <!-- SUMM -->
+                <div class="form-group">
+                    <label class="col-md-3 control-label">
+                        {{ 'components.transactions.fields.value.text' | translate }}
+                    </label>
+                    <div class="col-md-9">
+                        <input name="value" type="text" class="form-control"
+                               placeholder="{{ 'components.control-label.fields.value.placeholder' | translate }}"
+                               ng-model="value">
+                    </div>
+                </div>
+                <!-- DATE -->
+                <div class="form-group">
+                    <label class="col-md-3 control-label">
+                        {{ 'components.transactions.fields.date.text' | translate }}
+                    </label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control date-picker"
+                               placeholder="{{ 'components.control-label.fields.date.placeholder' | translate }}"
+                               ng-model="date">
+                    </div>
+                </div>
+                <!-- TRANSACTION TYPE -->
+                <div class="form-group">
+                    <label class="col-md-3 control-label">
+                        {{ 'components.transactions.fields.type.text' | translate }}
+                    </label>
+                    <div class="col-md-9">
+                        <select class="form-control"
+                                ng-model="type"
+                                ng-options="type.name for type in transactionTypes track by type.value"
+                                ng-change="typeChanged()">
+                        </select>
+                    </div>
+                </div>
+                <!-- ACCOUNT SOURCE -->
+                <div class="form-group">
+                    <label class="col-md-3 control-label">
+                        {{ 'components.transactions.fields.account-source.text' | translate }}
+                    </label>
+                    <div class="col-md-9">
+                        <select class="form-control"
+                                ng-model="accountSource"
+                                ng-disabled="selectAccountDisabled"
+                                ng-options="account.name for account in selectAccountSourceData track by account._id" >
+                            <option value="">{{ 'components.transactions.fields.account-source.default-value' | translate }}</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- ACCOUNT DESTINATION -->
+                <div class="form-group"
+                     ng-show="isTransfer">
+                    <label class="col-md-3 control-label">
+                        {{ 'components.transactions.fields.account-destination.text' | translate }}
+                    </label>
+                    <div class="col-md-9">
+                        <select class="form-control"
+                                ng-model="accountDestination"
+                                ng-disabled="selectAccountDisabled"
+                                ng-options="account.name for account in selectAccountDestinationData track by account._id" >
+                            <option value="">{{ 'components.transactions.fields.account-destination.default-value' | translate }}</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- CATEGORY -->
+                <div class="form-group"
+                     ng-show="!isTransfer">
+                    <label class="col-md-3 control-label">
+                        {{ 'components.transactions.fields.category.text' | translate }}
+                    </label>
+                    <div class="col-md-9">
+                        <select class="form-control"
+                                ng-model="category"
+                                ng-disabled="selectCategoryDisabled"
+                                ng-options="category.name for category in selectCategoryData track by category._id" >
+                            <option value="">{{ 'components.transactions.fields.category.default-value' | translate }}</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- NOTE -->
+                <div class="form-group">
+                    <label class="col-md-3 control-label">
+                        {{ 'components.transactions.fields.note.text' | translate }}
+                    </label>
+                    <div class="col-md-9">
+                        <textarea name="note" type="note" class="form-control"
+                               placeholder="{{ 'components.transactions.fields.note.placeholder' | translate }}"
+                               ng-model="note"></textarea>
+                    </div>
+                </div>
+                <hr>
+                <div class="btn-group pull-right">
+                    <button class="btn btn-default" type="button"ng-click="Cancel()">
+                        {{ 'common.buttons.cancel' | translate }}
+                    </button>
+                    <button class="btn btn-primary" type="submit"
+                            ng-click="editTransaction()"
+                            ng-disabled="submitDisabled" >
+                        {{ 'common.buttons.save' | translate }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
