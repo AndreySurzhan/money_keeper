@@ -1,15 +1,19 @@
 define(
     [
+        'json!config',
         'mkControllers',
         './transactions-services'
     ],
-    function (mkControllers) {
+    function (config, mkControllers) {
         mkControllers.controller(
             'TransactionListCtrl',
             [
                 '$scope',
                 'Transaction',
-                function ($scope, Transaction) {
+                'amMoment',
+                function ($scope, Transaction, amMoment) {
+                    amMoment.changeLocale(config.lang);
+
                     Transaction.query(function (transactions) {
                         $scope.transactions = transactions;
                         console.log('transactions', transactions);

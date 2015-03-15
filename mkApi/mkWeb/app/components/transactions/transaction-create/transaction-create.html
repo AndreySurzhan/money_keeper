@@ -25,10 +25,16 @@
                     <label class="col-md-3 control-label">
                         {{ 'components.transactions.fields.date.text' | translate }}
                     </label>
+
                     <div class="col-md-9">
+                        <input type="text" class="form-control date-picker"
+                               placeholder="{{ 'components.control-label.fields.date.placeholder' | translate }}"
+                               ng-model="date">
+                        <!--
                         <input name="date" type="text" class="form-control"
                                placeholder="{{ 'components.control-label.fields.date.placeholder' | translate }}"
                                ng-model="date">
+                        -->
                     </div>
                 </div>
                 <!--

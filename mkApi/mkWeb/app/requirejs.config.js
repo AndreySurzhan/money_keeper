@@ -14,6 +14,7 @@ requirejs.config(
             'angular-moment-ru': '../libs/angular/angular-moment-locales/ru',
             'angular-moment-en': '../libs/angular/angular-moment-locales/en-gb',
 
+            'jquery': '../libs/jquery/jquery',
             'moment': '../libs/moment/moment',
             'underscore': '../libs/underscore/underscore',
 

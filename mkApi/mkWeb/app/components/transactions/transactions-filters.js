@@ -43,7 +43,9 @@ define(
             'transactionDate',
             function () {
                 return function (dateStr) {
-                    return new Date(dateStr);
+                    var date = new Date(dateStr);
+
+                    return date;
                 }
             }
         );

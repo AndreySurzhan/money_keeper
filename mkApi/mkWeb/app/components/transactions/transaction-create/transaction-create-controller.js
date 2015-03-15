@@ -31,7 +31,7 @@ define(
                         });
                     }
 
-                    $scope.date = new Date();
+                    $scope.date = (new Date()).toString();
                     $scope.category = 0;
                     $scope.accountSource = 0;
                     $scope.accountDestination = 0;
@@ -59,6 +59,23 @@ define(
                     $scope.Cancel = function () {
                         window.history.back();
                     };
+
+                    // -----
+
+                    $( ".date-picker" ).dateDropper({
+                        /*
+
+                        placeholder: 'placeholder text',
+                        animation: 'dropdown',
+                        minYear: 2000,
+                        maxYear: 2020,*/
+                        format: 'd-m-Y',
+                        color: '#33414e',
+                        textColor: '#33414e',
+                        bgColor: '#F5F5F5'
+                    });
+
+                    // -----
 
                     function typeChanged() {
                         console.log('type', $scope.type);
@@ -91,8 +108,12 @@ define(
                     }
 
                     function addTransaction() {
+                        var dateStr = new Date();
                         $scope.submitDisabled = true;
 
+                        dateStr = $scope.date;
+                        $scope.date = new Date();
+                        $scope.date.setTime(Date.parse(dateStr));
 
                         $scope.accountSource = typeof $scope.accountSource === 'object'
                             ? $scope.accountSource._id
@@ -101,7 +122,7 @@ define(
                         if ($scope.type.value !== enums.transactionTypes.transfer.value) {
                             $scope.category = typeof $scope.category === 'object'
                                 ? $scope.category._id
-                                : $scope.category;
+                                : $scope.category;$scope.date
                             $scope.accountDestination = null;
                         } else {
                             $scope.category = null;

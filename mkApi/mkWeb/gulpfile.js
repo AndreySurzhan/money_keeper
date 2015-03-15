@@ -82,6 +82,18 @@ var copyFilesList = [
         from: vendorDir + 'underscore/underscore.js',
         to: destDir + 'underscore/'
     },
+    {
+        from: vendorDir + 'datedropper/datedropper.js',
+        to: destDir + 'datedropper/'
+    },
+    {
+        from: vendorDir + 'datedropper/datedropper.css',
+        to: destDir + '../styles/datedropper/'
+    },
+    {
+        from: vendorDir + 'datedropper/icons/*',
+        to: destDir + '../styles/datedropper/icons/'
+    },
     // Styles
     {
         from: vendorDir + 'bootstrap/dist/**/*.*',

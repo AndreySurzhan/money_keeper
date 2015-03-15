@@ -49,7 +49,7 @@
                         {{ transaction._id }}
                     </td>
                     <td>
-                        {{ transaction.date | transactionDate | amCalendar }}
+                        {{ transaction.date | transactionDate | amDateFormat:'Do MMM YY' }}
                     </td>
                     <td ng-bind-html="transaction | transactionCategory"></td>
                     <td class="transaction-value {{ transaction.type }}">

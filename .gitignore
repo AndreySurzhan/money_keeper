@@ -6,7 +6,8 @@ mkApi/mkWeb/fonts/
 mkApi/mkWeb/libs/
 mkApi/mkWeb/node_modules/
 mkApi/mkWeb/styles/bootstrap.css.map
-mkApi/mkWeb/styles/styles.css
+mkApi/mkWeb/styles/datedropper/
 mkApi/mkWeb/styles/framework/bootstrap/
 mkApi/mkWeb/styles/framework/font-awesome/
 **/npm-debug.log
+mkApi/mkWeb/styles/styles.css
