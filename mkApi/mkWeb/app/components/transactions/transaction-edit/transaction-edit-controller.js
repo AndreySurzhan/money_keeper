@@ -3,10 +3,54 @@ define(
         'mkControllers',
         'json!enums',
         'underscore',
+        'jquery',
+        'logger',
         '../transactions-services',
         '../../currencies/currencies-services'
     ],
-    function (mkControllers, enums, _) {
+    function (mkControllers, enums, _, $, logger) {
+
+        var storedAccounts;
+        var storedAccountsPromise;
+        var getAccounts = function (Account) {
+            var result = $.Deferred();
+
+            logger.log('-- Getting accounts...');
+
+            if (storedAccounts) {
+                logger.log('Return stored accounts');
+                result.resolve(storedAccounts);
+                return result.promise();
+            }
+
+            if (storedAccountsPromise) {
+                return storedAccountsPromise;
+            }
+
+            logger.time('Getting accounts');
+            Account.query(
+                function (accounts) {
+                    logger.timeEnd('Getting accounts');
+                    logger.groupCollapsed('Getting accounts result:');
+                    logger.logAccounts(accounts);
+                    logger.groupEnd('Getting accounts result:');
+
+                    storedAccounts = accounts;
+                    result.resolve(storedAccounts)
+                },
+                function (error) {
+                    logger.timeEnd('Getting accounts');
+                    logger.error(error);
+
+                    result.reject(error);
+                }
+            );
+
+            storedAccountsPromise = result.promise();
+
+            return storedAccountsPromise;
+        };
+
         mkControllers.controller(
             'TransactionEditCtrl',
             [
@@ -17,6 +61,8 @@ define(
                 'Category',
                 'Account',
                 function ($scope, $routeParams, $filter, Transaction, Category, Account) {
+                    logger.log('--- Edit Transaction controller initialize');
+
                     $scope.selectCategoryData = [];
                     $scope.selectCategoryDisabled = true;
                     $scope.isTransfer = false;
@@ -24,57 +70,57 @@ define(
                     $scope.selectAccountDisabled = true;
                     $scope.submitDisabled = false;
 
-
                     $scope.id = $routeParams.id;
+
+                    initTransactionTypes();
+
+
+                    logger.log('Getting transaction... #' + $scope.id);
+                    logger.time('Getting transaction #' + $scope.id);
                     Transaction.get(
                         {
                             id: $scope.id
                         },
                         function (transaction) {
+                            logger.timeEnd('Getting transaction #' + $scope.id);
+                            logger.logTransactions([transaction]);
+
                             $scope.date = transaction.date;
                             $scope.category = transaction.category;
                             $scope.accountSource = transaction.accountSource;
                             $scope.accountDestination = transaction.accountDestination;
                             $scope.value = transaction.value;
-                            $scope.type = _.findWhere($scope.transactionTypes, {value: transaction.type.value});;
                             $scope.note = transaction.note;
-                        },
-                        function () {
-                            console.log('error', arguments);
-                        }
-                    );
 
-                    $scope.transactionTypes = [];
-                    for (var key in enums.transactionTypes) {
-                        $scope.transactionTypes.push({
-                            name: $filter('translate')(enums.transactionTypes[key].name),
-                            value: enums.transactionTypes[key].value
-                        });
-                    }
+                            logger.groupCollapsed('Init transaction type');
+                            logger.log('transaction types:', $scope.transactionTypes);
+                            logger.log('current transaction type value:', transaction.type);
+                            $scope.type = _.findWhere($scope.transactionTypes, {value: transaction.type});
+                            logger.log('result:', $scope.type);
+                            logger.groupEnd('Init transaction type');
 
-                    /*
-                    $scope.date = (new Date()).toString();
-                    $scope.category = 0;
-                    $scope.accountSource = 0;
-                    $scope.accountDestination = 0;
-                    $scope.value = 0;
-                    $scope.type = _.findWhere($scope.transactionTypes, {value: enums.transactionTypes.outcome.value});
-                    $scope.note = '';
-                    */
-
-                    typeChanged();
-
-                    Account.query(
-                        function (accounts) {
-                            $scope.selectAccountSourceData = accounts
-                            $scope.selectAccountDestinationData = accounts;
-                            $scope.selectAccountDisabled = false;
+                            typeChanged();
                         },
                         function (error) {
-                            console.error(error);
-                            $scope.selectAccountDisabled = false;
+                            logger.timeEnd('Getting transaction #' + $scope.id);
+                            logger.error(error);
                         }
                     );
+
+                    getAccounts(Account);
+                    getAccounts(Account);
+                    getAccounts(Account);
+
+                    getAccounts(Account)
+                        .done(function (accounts) {
+                            $scope.selectAccountSourceData = accounts;
+                            $scope.selectAccountDestinationData = accounts;
+                            $scope.selectAccountDisabled = false;
+                        })
+                        .fail(function (error) {
+                            $scope.selectAccountDisabled = false;
+                        });
+
 
                     $scope.typeChanged = typeChanged;
                     $scope.addTransaction = addTransaction;
@@ -84,27 +130,35 @@ define(
                     };
 
                     // -----
-
+/*
                     $( ".date-picker" ).dateDropper({
                         format: 'd-m-Y',
                         color: '#33414e',
                         textColor: '#33414e',
                         bgColor: '#F5F5F5'
                     });
-
+*/
                     // -----
 
                     function typeChanged() {
-                        console.log('type', $scope.type);
-                        var transactionType = $scope.type.value;
+                        logger.log('-- typeChanged calling');
+                        logger.log('Current transactions type', $scope.type);
+                        if (!$scope.type) {
+                            logger.warn('Transactions type is not defined. Aborting.');
+                            return;
+                        }
 
-                        switch (transactionType) {
+                        switch ($scope.type.value) {
                             case 'income':
                                 $scope.isTransfer = false;
+                                logger.log('Getting income categories...');
+                                logger.time('Getting categories');
                                 Category.getIncome(successHandler, errorHandler);
                                 break;
                             case 'outcome':
                                 $scope.isTransfer = false;
+                                logger.log('Getting outcome categories...');
+                                logger.time('Getting categories');
                                 Category.getOutcome(successHandler, errorHandler);
                                 break;
                             default:
@@ -114,12 +168,16 @@ define(
                         $scope.selectCategoryDisabled = true;
 
                         function successHandler(categories) {
+                            logger.timeEnd('Getting categories');
+                            logger.logCategories(categories);
+
                             $scope.selectCategoryData = categories;
                             $scope.selectCategoryDisabled = false;
                         }
 
                         function errorHandler(error) {
-                            console.error(error);
+                            logger.timeEnd('Getting categories');
+                            logger.error(error);
                             $scope.selectCategoryDisabled = false;
                         }
                     }
@@ -177,6 +235,20 @@ define(
                         );
 
                     }
+
+                    function initTransactionTypes () {
+                        logger.groupCollapsed('Get transaction types');
+                        $scope.transactionTypes = [];
+                        for (var key in enums.transactionTypes) {
+                            $scope.transactionTypes.push({
+                                name: $filter('translate')(enums.transactionTypes[key].name),
+                                value: enums.transactionTypes[key].value
+                            });
+                        }
+                        logger.table($scope.transactionTypes);
+                        logger.groupEnd('Get transaction types');
+                    }
+
                 }
             ]
         );

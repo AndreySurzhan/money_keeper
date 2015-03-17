@@ -2,9 +2,10 @@ define(
     [
         'json!config',
         'mkControllers',
+        'logger',
         './transactions-services'
     ],
-    function (config, mkControllers) {
+    function (config, mkControllers, logger) {
         mkControllers.controller(
             'TransactionListCtrl',
             [
@@ -12,12 +13,22 @@ define(
                 'Transaction',
                 'amMoment',
                 function ($scope, Transaction, amMoment) {
-                    amMoment.changeLocale(config.lang);
+                    logger.log('--- Transaction List controller initialize');
 
-                    Transaction.query(function (transactions) {
-                        $scope.transactions = transactions;
-                        console.log('transactions', transactions);
-                    });
+                    amMoment.changeLocale(config.lang);
+                    logger.log('Getting transactions list...');
+                    logger.time('Getting transactions list');
+                    Transaction.query(
+                        function (transactions) {
+                            logger.timeEnd('Getting transactions list');
+                            logger.logTransactions(transactions);
+
+                            $scope.transactions = transactions;
+
+                        },
+                        function () {
+                            logger.timeEnd('Getting transactions list');
+                        });
                     $scope.orderProp = '_id';
 
                     $scope.showDetails = function (transactiontId) {
