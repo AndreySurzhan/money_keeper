@@ -26,9 +26,14 @@
                         {{ 'components.transactions.fields.date.text' | translate }}
                     </label>
                     <div class="col-md-9">
-                        <input type="text" class="form-control date-picker"
-                               placeholder="{{ 'components.control-label.fields.date.placeholder' | translate }}"
-                               ng-model="date">
+                        <div class="input-group date">
+                            <input type="text" class="form-control date-picker"
+                                   placeholder="{{ 'components.control-label.fields.date.placeholder' | translate }}"
+                                   ng-model="date">
+                            <span class="input-group-addon add-on">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <!-- TRANSACTION TYPE -->

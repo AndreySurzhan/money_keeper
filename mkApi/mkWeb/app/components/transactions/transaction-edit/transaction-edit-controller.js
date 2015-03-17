@@ -3,7 +3,7 @@ define(
         'mkControllers',
         'json!enums',
         'underscore',
-        'jquery',
+        'datedropper',
         'logger',
         '../transactions-services',
         '../../currencies/currencies-services'
@@ -85,7 +85,25 @@ define(
                             logger.timeEnd('Getting transaction #' + $scope.id);
                             logger.logTransactions([transaction]);
 
+                            logger.groupCollapsed('Init transaction date');
                             $scope.date = transaction.date;
+                            logger.log('current value:', $scope.date);
+                            $scope.date = new Date($scope.date);
+                            logger.log('parsed value:', $scope.date);
+                            $scope.date = $scope.date.toLocaleDateString('ru');
+                            logger.log('formated value:', $scope.date);
+
+                            setTimeout(function () {
+                                $( ".date-picker" ).dateDropper({
+                                    format: 'd.m.Y',
+                                    color: '#33414e',
+                                    textColor: '#33414e',
+                                    bgColor: '#F5F5F5'
+                                });
+                            }, 100);
+
+                            logger.groupEnd('Init transaction date');
+
                             $scope.category = transaction.category;
                             $scope.accountSource = transaction.accountSource;
                             $scope.accountDestination = transaction.accountDestination;
@@ -107,10 +125,6 @@ define(
                         }
                     );
 
-                    getAccounts(Account);
-                    getAccounts(Account);
-                    getAccounts(Account);
-
                     getAccounts(Account)
                         .done(function (accounts) {
                             $scope.selectAccountSourceData = accounts;
@@ -130,14 +144,9 @@ define(
                     };
 
                     // -----
-/*
-                    $( ".date-picker" ).dateDropper({
-                        format: 'd-m-Y',
-                        color: '#33414e',
-                        textColor: '#33414e',
-                        bgColor: '#F5F5F5'
-                    });
-*/
+
+
+
                     // -----
 
                     function typeChanged() {

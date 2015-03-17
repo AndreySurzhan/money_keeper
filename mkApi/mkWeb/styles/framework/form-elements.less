@@ -38,6 +38,11 @@ input[type=checkbox] {
     border-color: #C1C1C1;
     background: #FFF;
 }
+select.form-control {
+    cursor: pointer;
+    -webkit-appearance: menulist;
+}
+
 .form-control[disabled],
 .form-control[readonly] {
     color: #CCC;
@@ -48,6 +53,18 @@ input[type=checkbox] {
     color: #CCC;
     border-color: #D5D5D5;
 }
+
+.form-control.date-picker[readonly] {
+    background: #F9F9F9;
+    color: #555;
+    cursor: pointer;
+}
+.form-control.date-picker[readonly]:focus {
+    background: #F9F9F9;
+    color: #555;
+    cursor: pointer;
+}
+
 .input-group-addon {
     border-color: #33414e;
     background-color: #33414e;
