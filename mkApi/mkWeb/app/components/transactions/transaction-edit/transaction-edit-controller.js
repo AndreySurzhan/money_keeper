@@ -137,17 +137,11 @@ define(
 
 
                     $scope.typeChanged = typeChanged;
-                    $scope.addTransaction = addTransaction;
+                    $scope.editTransaction = editTransaction;
 
                     $scope.Cancel = function () {
                         window.history.back();
                     };
-
-                    // -----
-
-
-
-                    // -----
 
                     function typeChanged() {
                         logger.log('-- typeChanged calling');
@@ -191,8 +185,11 @@ define(
                         }
                     }
 
-                    function addTransaction() {
+                    function editTransaction() {
+                        logger.groupCollapsed('Editing transaction');
+
                         var dateStr = new Date();
+
                         $scope.submitDisabled = true;
 
                         dateStr = $scope.date;
@@ -215,17 +212,21 @@ define(
                                 : $scope.accountDestination;
                         }
 
-                        console.log('-------- add Transaction --------');
-                        console.log('date:', $scope.date);
-                        console.log('type:', $scope.type.value);
-                        console.log('category:', $scope.category);
-                        console.log('accountSource:', $scope.accountSource);
-                        console.log('accountDestination:', $scope.accountDestination);
-                        console.log('value:', $scope.value);
-                        console.log('note:', $scope.note);
+                        logger.log('date:', $scope.date);
+                        logger.log('type:', $scope.type.value);
+                        logger.log('category:', $scope.category);
+                        logger.log('accountSource:', $scope.accountSource);
+                        logger.log('accountDestination:', $scope.accountDestination);
+                        logger.log('value:', $scope.value);
+                        logger.log('note:', $scope.note);
 
+                        logger.groupEnd('Editing transaction');
 
-                        Transaction.save({
+                        Transaction.update(
+                            {
+                                id: $scope.id
+                            },
+                            {
                                 date: $scope.date,
                                 category: $scope.category,
                                 type: $scope.type.value,
@@ -233,10 +234,12 @@ define(
                                 accountDestination: $scope.accountDestination,
                                 value: $scope.value,
                                 note: $scope.note
-                            }, function () {
+                            },
+                            function () {
                                 $scope.submitDisabled = false;
                                 window.history.back();
-                            }, function (error) {
+                            },
+                            function (error) {
                                 $scope.submitDisabled = false;
                                 console.log(0);
                                 console.error(error);

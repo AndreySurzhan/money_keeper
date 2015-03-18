@@ -51,10 +51,17 @@ var TransactionController = {
                     return;
                 }
 
-                accountSource.value += transaction.value * (transaction.type === 'income' ? 1 : -1);
-                accountSource.save();
+                if (transaction.type !== 'transfer') {
+                    accountSource.value += transaction.value * (transaction.type === 'income' ? 1 : -1);
 
-                if (transaction.type === 'transfer') {
+                    accountSource.save(function (err) {
+                        if (err) {
+                            console.error(err);
+                            callback(err);
+                        }
+                        transaction.save(callback);
+                    });
+                } else {
                     Account.findOne({
                         _id: transaction.accountDestination,
                         _owner: user._id
@@ -71,20 +78,30 @@ var TransactionController = {
                                 return;
                             }
 
+                            accountSource.value -= transaction.value;
                             accountDestination.value += transaction.value;
-                            accountDestination.save();
 
-                            transaction.save(callback);
+                            accountSource.save(function (err) {
+                                if (err) {
+                                    console.error(err);
+                                    callback(err);
+                                }
+                                accountDestination.save(function (err) {
+                                    if (err) {
+                                        console.error(err);
+                                        callback(err);
+                                    }
+                                    transaction.save(callback);
+                                });
+                            });
                         });
-                } else {
-                    transaction.save(callback);
                 }
             });
     },
     update: function (user, id, data, callback) {
-        Transaction.findById(
-            id,
+        Transaction.findOne(
             {
+                _id: id,
                 _owner: user._id
             },
             function (err, transaction) {
@@ -94,10 +111,7 @@ var TransactionController = {
                     return;
                 }
 
-                callback({
-                    status: 501,
-                    message: 'Updating is not implemented yet'
-                }); return;
+                var deltaValue = transaction.value - data.value;
 
                 transaction.date = data.date;
                 transaction.category = data.category;
@@ -107,7 +121,70 @@ var TransactionController = {
                 transaction.accountDestination = data.accountDestination;
                 transaction.note = data.note;
 
-                transaction.save(callback);
+                console.log('Getting account ' + transaction.accountSource);
+                Account.findOne({
+                    _id: transaction.accountSource,
+                    _owner: user._id
+                })
+                    .exec(function (err, accountSource) {
+                        if (!accountSource || err) {
+                            err = err || {
+                                status: 404,
+                                message: 'Source account with id=' + transaction.accountSource + ' was not found.'
+                            };
+
+                            console.error(err);
+                            callback(err);
+                            return;
+                        }
+
+                        if (transaction.type !== 'transfer') {
+                            accountSource.value -= deltaValue * (transaction.type === 'income' ? 1 : -1);
+                            accountSource.save(function (err) {
+                                if (err) {
+                                    console.error(err);
+                                    callback(err);
+                                }
+                                transaction.save(callback);
+                            });
+                        } else {
+                            Account.findOne({
+                                _id: transaction.accountDestination,
+                                _owner: user._id
+                            })
+                                .exec(function (err, accountDestination) {
+                                    if (!accountDestination || err) {
+                                        err = err || {
+                                            status: 404,
+                                            message: 'Destination account with id=' + transaction.accountDestination + ' was not found.'
+                                        };
+
+                                        console.error(err);
+                                        callback(err);
+                                        return;
+                                    }
+
+                                    accountSource.value += deltaValue;
+                                    accountDestination.value -= deltaValue;
+
+                                    accountSource.save(function (err) {
+                                        if (err) {
+                                            console.error(err);
+                                            callback(err);
+                                        }
+                                        accountDestination.save(function (err) {
+                                            if (err) {
+                                                console.error(err);
+                                                callback(err);
+                                            }
+                                            transaction.save(callback);
+                                        });
+                                    });
+                                });
+                        }
+                    });
+
+                // transaction.save(callback);
             }
         );
     },
