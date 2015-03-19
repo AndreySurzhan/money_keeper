@@ -44,7 +44,8 @@
                     <div class="col-md-9">
                         <select class="form-control"
                                 ng-model="type"
-                                ng-options="type.name for type in transactionTypes track by type.value"
+                                ng-disabled="!formState.transactionTypes.enable"
+                                ng-options="type.name for type in formState.transactionTypes.data track by type.value"
                                 ng-change="typeChanged()">
                         </select>
                     </div>
@@ -57,38 +58,38 @@
                     <div class="col-md-9">
                         <select class="form-control"
                                 ng-model="accountSource"
-                                ng-disabled="selectAccountDisabled"
-                                ng-options="account.name for account in selectAccountSourceData track by account._id" >
+                                ng-disabled="!formState.accountSource.enable"
+                                ng-options="account.name for account in formState.accountSource.data track by account._id" >
                             <option value="">{{ 'components.transactions.fields.account-source.default-value' | translate }}</option>
                         </select>
                     </div>
                 </div>
                 <!-- ACCOUNT DESTINATION -->
                 <div class="form-group"
-                     ng-show="isTransfer">
+                     ng-show="formState.accountDestination.visible">
                     <label class="col-md-3 control-label">
                         {{ 'components.transactions.fields.account-destination.text' | translate }}
                     </label>
                     <div class="col-md-9">
                         <select class="form-control"
                                 ng-model="accountDestination"
-                                ng-disabled="selectAccountDisabled"
-                                ng-options="account.name for account in selectAccountDestinationData track by account._id" >
+                                ng-disabled="!formState.accountDestination.enable"
+                                ng-options="account.name for account in formState.accountDestination.data track by account._id" >
                             <option value="">{{ 'components.transactions.fields.account-destination.default-value' | translate }}</option>
                         </select>
                     </div>
                 </div>
                 <!-- CATEGORY -->
                 <div class="form-group"
-                     ng-show="!isTransfer">
+                     ng-show="formState.category.visible">
                     <label class="col-md-3 control-label">
                         {{ 'components.transactions.fields.category.text' | translate }}
                     </label>
                     <div class="col-md-9">
                         <select class="form-control"
                                 ng-model="category"
-                                ng-disabled="selectCategoryDisabled"
-                                ng-options="category.name for category in selectCategoryData track by category._id" >
+                                ng-disabled="!formState.category.enable"
+                                ng-options="category.name for category in formState.category.data track by category._id" >
                             <option value="">{{ 'components.transactions.fields.category.default-value' | translate }}</option>
                         </select>
                     </div>
@@ -111,7 +112,7 @@
                     </button>
                     <button class="btn btn-primary" type="submit"
                             ng-click="editTransaction()"
-                            ng-disabled="submitDisabled" >
+                            ng-disabled="!formState.submit.enable" >
                         {{ 'common.buttons.save' | translate }}
                     </button>
                 </div>

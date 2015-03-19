@@ -9,9 +9,8 @@ define(
         '../../currencies/currencies-services'
     ],
     function (mkControllers, enums, _, $, logger) {
-
+        // Accounts
         var storedAccounts;
-        var storedAccountsPromise;
         var getAccounts = function (Account) {
             var result = $.Deferred();
 
@@ -21,10 +20,6 @@ define(
                 logger.log('Return stored accounts');
                 result.resolve(storedAccounts);
                 return result.promise();
-            }
-
-            if (storedAccountsPromise) {
-                return storedAccountsPromise;
             }
 
             logger.time('Getting accounts');
@@ -46,9 +41,77 @@ define(
                 }
             );
 
-            storedAccountsPromise = result.promise();
+            return result.promise();
+        };
 
-            return storedAccountsPromise;
+        // Income categories
+        var storedIncomeCategories;
+        var getIncomeCategories = function (Category) {
+            var result = $.Deferred();
+
+            logger.log('-- Getting income categories...');
+
+            if (storedIncomeCategories) {
+                logger.log('Return stored income categories');
+                result.resolve(storedIncomeCategories);
+                return result.promise();
+            }
+
+            logger.time('Getting income categories');
+            Category.getIncome(
+                function (categories) {
+                    logger.timeEnd('Getting income categories');
+                    logger.groupCollapsed('Getting income categories result:');
+                    logger.logAccounts(categories);
+                    logger.groupEnd('Getting income categories result:');
+
+                    storedIncomeCategories = categories;
+                    result.resolve(storedIncomeCategories)
+                },
+                function (error) {
+                    logger.timeEnd('Getting income categories');
+                    logger.error(error);
+
+                    result.reject(error);
+                }
+            );
+
+            return result.promise();
+        };
+
+        // Outcome categories
+        var storedOutcomeCategories;
+        var getOutcomeCategories = function (Category) {
+            var result = $.Deferred();
+
+            logger.log('-- Getting outcome categories...');
+
+            if (storedOutcomeCategories) {
+                logger.log('Return stored outcome categories');
+                result.resolve(storedOutcomeCategories);
+                return result.promise();
+            }
+
+            logger.time('Getting outcome categories');
+            Category.getOutcome(
+                function (categories) {
+                    logger.timeEnd('Getting outcome categories');
+                    logger.groupCollapsed('Getting outcome categories result:');
+                    logger.logAccounts(categories);
+                    logger.groupEnd('Getting outcome categories result:');
+
+                    storedOutcomeCategories = categories;
+                    result.resolve(storedOutcomeCategories);
+                },
+                function (error) {
+                    logger.timeEnd('Getting outcome categories');
+                    logger.error(error);
+
+                    result.reject(error);
+                }
+            );
+
+            return result.promise();
         };
 
         mkControllers.controller(
@@ -63,17 +126,10 @@ define(
                 function ($scope, $routeParams, $filter, Transaction, Category, Account) {
                     logger.log('--- Edit Transaction controller initialize');
 
-                    $scope.selectCategoryData = [];
-                    $scope.selectCategoryDisabled = true;
-                    $scope.isTransfer = false;
-                    $scope.selectAccountSourceData = [];
-                    $scope.selectAccountDisabled = true;
-                    $scope.submitDisabled = false;
-
-                    $scope.id = $routeParams.id;
-
+                    setInitialFormState($scope);
                     initTransactionTypes();
 
+                    $scope.id = $routeParams.id;
 
                     logger.log('Getting transaction... #' + $scope.id);
                     logger.time('Getting transaction #' + $scope.id);
@@ -113,7 +169,7 @@ define(
                             logger.groupCollapsed('Init transaction type');
                             logger.log('transaction types:', $scope.transactionTypes);
                             logger.log('current transaction type value:', transaction.type);
-                            $scope.type = _.findWhere($scope.transactionTypes, {value: transaction.type});
+                            $scope.type = _.findWhere($scope.formState.transactionTypes.data, {value: transaction.type});
                             logger.log('result:', $scope.type);
                             logger.groupEnd('Init transaction type');
 
@@ -127,12 +183,14 @@ define(
 
                     getAccounts(Account)
                         .done(function (accounts) {
-                            $scope.selectAccountSourceData = accounts;
-                            $scope.selectAccountDestinationData = accounts;
-                            $scope.selectAccountDisabled = false;
+                            $scope.formState.accountSource.data = accounts;
+                            $scope.formState.accountDestination.data = accounts;
+
+                            $scope.formState.accountSource.enable = true;
+                            $scope.formState.accountDestination.enable = true;
                         })
                         .fail(function (error) {
-                            $scope.selectAccountDisabled = false;
+                            logger.error(error);
                         });
 
 
@@ -142,6 +200,33 @@ define(
                     $scope.Cancel = function () {
                         window.history.back();
                     };
+
+                    function setInitialFormState($scope) {
+                        $scope.formState = {
+                            accountSource: {
+                                data: [],
+                                enable: false,
+                                visible: true
+                            },
+                            accountDestination: {
+                                data: [],
+                                enable: false,
+                                visible: false
+                            },
+                            category: {
+                                data: [],
+                                enable: false,
+                                visible: true
+                            },
+                            transactionTypes: {
+                                data: [],
+                                enable: false
+                            },
+                            submit: {
+                                enable: true
+                            }
+                        };
+                    }
 
                     function typeChanged() {
                         logger.log('-- typeChanged calling');
@@ -153,35 +238,39 @@ define(
 
                         switch ($scope.type.value) {
                             case 'income':
-                                $scope.isTransfer = false;
-                                logger.log('Getting income categories...');
-                                logger.time('Getting categories');
-                                Category.getIncome(successHandler, errorHandler);
+                                $scope.formState.accountDestination.visible = false;
+                                $scope.formState.category.visible = true;
+
+                                getIncomeCategories(Category)
+                                    .done(successHandler)
+                                    .fail(errorHandler);
                                 break;
                             case 'outcome':
-                                $scope.isTransfer = false;
-                                logger.log('Getting outcome categories...');
-                                logger.time('Getting categories');
-                                Category.getOutcome(successHandler, errorHandler);
+                                $scope.formState.accountDestination.visible = false;
+                                $scope.formState.category.visible = true;
+
+                                getOutcomeCategories(Category)
+                                    .done(successHandler)
+                                    .fail(errorHandler);
                                 break;
                             default:
-                                $scope.isTransfer = true;
+                                $scope.formState.accountDestination.visible = true;
+                                $scope.formState.category.visible = false;
                         }
 
-                        $scope.selectCategoryDisabled = true;
+                        $scope.formState.transactionTypes.enable = false;
+                        $scope.formState.category.enable = false;
 
                         function successHandler(categories) {
-                            logger.timeEnd('Getting categories');
-                            logger.logCategories(categories);
+                            logger.log('Update categories list');
 
-                            $scope.selectCategoryData = categories;
-                            $scope.selectCategoryDisabled = false;
+                            $scope.formState.category.data = categories;
+                            $scope.formState.category.enable = true;
+                            $scope.formState.transactionTypes.enable = true;
                         }
 
                         function errorHandler(error) {
-                            logger.timeEnd('Getting categories');
                             logger.error(error);
-                            $scope.selectCategoryDisabled = false;
                         }
                     }
 
@@ -249,18 +338,22 @@ define(
                     }
 
                     function initTransactionTypes () {
+                        var types = [];
+
                         logger.groupCollapsed('Get transaction types');
-                        $scope.transactionTypes = [];
+
                         for (var key in enums.transactionTypes) {
-                            $scope.transactionTypes.push({
+                            types.push({
                                 name: $filter('translate')(enums.transactionTypes[key].name),
                                 value: enums.transactionTypes[key].value
                             });
                         }
-                        logger.table($scope.transactionTypes);
+                        $scope.formState.transactionTypes.data = types;
+                        $scope.formState.transactionTypes.enable = true;
+
+                        logger.table($scope.formState.transactionTypes.data);
                         logger.groupEnd('Get transaction types');
                     }
-
                 }
             ]
         );
