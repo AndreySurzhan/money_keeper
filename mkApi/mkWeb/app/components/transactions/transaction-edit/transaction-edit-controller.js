@@ -127,10 +127,29 @@ define(
                     logger.log('--- Edit Transaction controller initialize');
 
                     setInitialFormState($scope);
-                    initTransactionTypes();
+                    //initTransactionTypes();
 
                     $scope.id = $routeParams.id;
 
+                    logger.info($scope.id );
+
+                    var date = new Date();
+
+                    $scope.date = date.toLocaleDateString('ru');
+
+
+
+                    $scope.editTransaction = editTransaction;
+
+
+
+
+                    function editTransaction() {
+                        console.log('editTransaction');
+                        console.log($scope.date);
+                    }
+
+                    /*
                     logger.log('Getting transaction... #' + $scope.id);
                     logger.time('Getting transaction #' + $scope.id);
                     Transaction.get(
@@ -142,29 +161,22 @@ define(
                             logger.logTransactions([transaction]);
 
                             logger.groupCollapsed('Init transaction date');
-                            $scope.date = transaction.date;
-                            logger.log('current value:', $scope.date);
-                            $scope.date = new Date($scope.date);
-                            logger.log('parsed value:', $scope.date);
-                            $scope.date = $scope.date.toLocaleDateString('ru');
-                            logger.log('formated value:', $scope.date);
+                            $scope.model.date = transaction.date;
+                            logger.log('current value:', $scope.model.date);
+                            $scope.model.date = new Date($scope.model.date);
+                            logger.log('parsed value:', $scope.model.date);
+                            $scope.model.date = $scope.model.date.toLocaleDateString('ru');
+                            logger.log('formated value:', $scope.model.date);
 
-                            setTimeout(function () {
-                                $( ".date-picker" ).dateDropper({
-                                    format: 'd.m.Y',
-                                    color: '#33414e',
-                                    textColor: '#33414e',
-                                    bgColor: '#F5F5F5'
-                                });
-                            }, 100);
+                            initCalendar();
 
                             logger.groupEnd('Init transaction date');
 
-                            $scope.category = transaction.category;
-                            $scope.accountSource = transaction.accountSource;
-                            $scope.accountDestination = transaction.accountDestination;
-                            $scope.value = transaction.value;
-                            $scope.note = transaction.note;
+                            $scope.model.category = transaction.category;
+                            $scope.model.accountSource = transaction.accountSource;
+                            $scope.model.accountDestination = transaction.accountDestination;
+                            $scope.model.value = transaction.value;
+                            $scope.model.note = transaction.note;
 
                             logger.groupCollapsed('Init transaction type');
                             logger.log('transaction types:', $scope.transactionTypes);
@@ -195,11 +207,17 @@ define(
 
 
                     $scope.typeChanged = typeChanged;
+                    $scope.dateChanged = function () {
+                        console.warn('dateChanged');
+                    };
                     $scope.editTransaction = editTransaction;
 
                     $scope.Cancel = function () {
                         window.history.back();
                     };
+                    */
+
+
 
                     function setInitialFormState($scope) {
                         $scope.formState = {
@@ -274,40 +292,50 @@ define(
                         }
                     }
 
+                    /*
                     function editTransaction() {
+
+
+                        logger.warn('date', $scope.model.date);
+                        
                         logger.groupCollapsed('Editing transaction');
 
-                        var dateStr = new Date();
+                        var dateStr;
+                        var saveData = _.clone($scope.model);
 
-                        $scope.submitDisabled = true;
+                        console.log('saveData', saveData);
 
-                        dateStr = $scope.date;
-                        $scope.date = new Date();
-                        $scope.date.setTime(Date.parse(dateStr));
+                        $scope.formState.submit.enable = false;
+                        
+                        
 
-                        $scope.accountSource = typeof $scope.accountSource === 'object'
-                            ? $scope.accountSource._id
-                            : $scope.accountSource;
+                        dateStr = $scope.model.date;
+                        $scope.model.date = new Date();
+                        $scope.model.date.setTime(Date.parse(dateStr));
+
+                        $scope.model.accountSource = typeof $scope.model.accountSource === 'object'
+                            ? $scope.model.accountSource._id
+                            : $scope.model.accountSource;
 
                         if ($scope.type.value !== enums.transactionTypes.transfer.value) {
-                            $scope.category = typeof $scope.category === 'object'
-                                ? $scope.category._id
-                                : $scope.category;$scope.date
-                            $scope.accountDestination = null;
+                            $scope.model.category = typeof $scope.model.category === 'object'
+                                ? $scope.model.category._id
+                                : $scope.model.category;
+                            $scope.model.accountDestination = null;
                         } else {
-                            $scope.category = null;
-                            $scope.accountDestination = typeof $scope.accountDestination === 'object'
-                                ? $scope.accountDestination._id
-                                : $scope.accountDestination;
+                            $scope.model.category = null;
+                            $scope.model.accountDestination = typeof $scope.model.accountDestination === 'object'
+                                ? $scope.model.accountDestination._id
+                                : $scope.model.accountDestination;
                         }
 
-                        logger.log('date:', $scope.date);
+                        logger.log('date:', $scope.model.date);
                         logger.log('type:', $scope.type.value);
-                        logger.log('category:', $scope.category);
-                        logger.log('accountSource:', $scope.accountSource);
-                        logger.log('accountDestination:', $scope.accountDestination);
-                        logger.log('value:', $scope.value);
-                        logger.log('note:', $scope.note);
+                        logger.log('category:', $scope.model.category);
+                        logger.log('accountSource:', $scope.model.accountSource);
+                        logger.log('accountDestination:', $scope.model.accountDestination);
+                        logger.log('value:', $scope.model.value);
+                        logger.log('note:', $scope.model.note);
 
                         logger.groupEnd('Editing transaction');
 
@@ -316,26 +344,26 @@ define(
                                 id: $scope.id
                             },
                             {
-                                date: $scope.date,
-                                category: $scope.category,
+                                date: $scope.model.date,
+                                category: $scope.model.category,
                                 type: $scope.type.value,
-                                accountSource: $scope.accountSource,
-                                accountDestination: $scope.accountDestination,
-                                value: $scope.value,
-                                note: $scope.note
+                                accountSource: $scope.model.accountSource,
+                                accountDestination: $scope.model.accountDestination,
+                                value: $scope.model.value,
+                                note: $scope.model.note
                             },
                             function () {
-                                $scope.submitDisabled = false;
+                                $scope.formState.submit.enable = true;
                                 window.history.back();
                             },
                             function (error) {
-                                $scope.submitDisabled = false;
-                                console.log(0);
-                                console.error(error);
+                                $scope.formState.submit.enable = true;
+                                logger.error(error);
                             }
                         );
 
                     }
+                     */
 
                     function initTransactionTypes () {
                         var types = [];

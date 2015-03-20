@@ -1,9 +1,0 @@
-{
-    "components": {
-        "transactions": {
-            "create": {
-                "header": "Создание новой транзакции"
-            }
-        }
-    }
-}

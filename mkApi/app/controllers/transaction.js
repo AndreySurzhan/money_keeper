@@ -111,7 +111,8 @@ var TransactionController = {
                     return;
                 }
 
-                var deltaValue = transaction.value - data.value;
+                var oldType = transaction.type;
+                var oldValue = transaction.value;
 
                 transaction.date = data.date;
                 transaction.category = data.category;
@@ -139,7 +140,10 @@ var TransactionController = {
                         }
 
                         if (transaction.type !== 'transfer') {
-                            accountSource.value -= deltaValue * (transaction.type === 'income' ? 1 : -1);
+
+                            accountSource.value -= oldValue * (oldType === 'income' ? 1 : -1);
+                            accountSource.value += transaction.value * (transaction.type === 'income' ? 1 : -1);
+
                             accountSource.save(function (err) {
                                 if (err) {
                                     console.error(err);
@@ -164,8 +168,11 @@ var TransactionController = {
                                         return;
                                     }
 
-                                    accountSource.value += deltaValue;
-                                    accountDestination.value -= deltaValue;
+                                    accountSource.value -= oldValue * (oldType === 'income' ? 1 : -1);
+                                    accountSource.value += transaction.value * (transaction.type === 'income' ? 1 : -1);
+
+                                    accountDestination.value += oldValue * (oldType === 'income' ? 1 : -1);
+                                    accountDestination.value -= transaction.value * (transaction.type === 'income' ? 1 : -1);
 
                                     accountSource.save(function (err) {
                                         if (err) {
