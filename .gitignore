@@ -11,3 +11,5 @@ mkApi/mkWeb/styles/framework/bootstrap/
 mkApi/mkWeb/styles/framework/font-awesome/
 **/npm-debug.log
 mkApi/mkWeb/styles/styles.css
+mkApi/mkWeb/styles/framework/bootstrap/
+mkApi/mkWeb/styles/bootstrap.css.map

@@ -2,17 +2,18 @@ define(
     [
         'mkControllers',
         'json!enums',
+        'json!config',
         'underscore',
         'datedropper',
         'logger',
         '../transactions-services',
         '../../currencies/currencies-services'
     ],
-    function (mkControllers, enums, _, $, logger) {
+    function (mkControllers, enums, config, _, $, logger) {
         // Accounts
         var storedAccounts;
-        var getAccounts = function (Account) {
-            var result = $.Deferred();
+        var getAccounts = function (accountsFactory) {
+            var result = new $.Deferred();
 
             logger.log('-- Getting accounts...');
 
@@ -23,7 +24,7 @@ define(
             }
 
             logger.time('Getting accounts');
-            Account.query(
+            accountsFactory.query(
                 function (accounts) {
                     logger.timeEnd('Getting accounts');
                     logger.groupCollapsed('Getting accounts result:');
@@ -44,7 +45,7 @@ define(
             return result.promise();
         };
 
-        // Income categories
+        // Categories
         var storedIncomeCategories;
         var getIncomeCategories = function (Category) {
             var result = $.Deferred();
@@ -79,10 +80,9 @@ define(
             return result.promise();
         };
 
-        // Outcome categories
         var storedOutcomeCategories;
         var getOutcomeCategories = function (Category) {
-            var result = $.Deferred();
+            var result = new $.Deferred();
 
             logger.log('-- Getting outcome categories...');
 
@@ -114,6 +114,171 @@ define(
             return result.promise();
         };
 
+        var getEmptyCategorieslist = function () {
+            var result = new $.Deferred();
+
+            result.resolve([]);
+
+            return result.promise();
+        };
+
+        // Transactions
+        var getEmptyTransactionData = function () {
+            var dateNow = new Date();
+            var result = new $.Deferred();
+
+            logger.log('Creating empty transaction');
+
+            result.resolve({
+                category: 0,
+                date: dateNow.toLocaleDateString(config.lang),
+                type: enums.transactionTypes.outcome.value,
+                accountSource: 0,
+                accountDestination: 0,
+                value: null,
+                note: ''
+            });
+
+            return result.promise();
+        };
+        var getTransactionDataById = function (id, transactionsFactory) {
+            var result = new $.Deferred();
+            var transactionDate;
+
+            logger.log('Getting transaction... #' + id);
+            logger.time('Getting transaction #' + id);
+
+            transactionsFactory.get(
+                {
+                    id: id
+                },
+                function (transaction) {
+                    logger.timeEnd('Getting transaction #' + id);
+
+                    transactionDate = new Date(transaction.date);
+                    transaction.date = transactionDate.toLocaleDateString(config.lang);
+
+                    result.resolve(transaction);
+                },
+                function (error) {
+                    logger.timeEnd('Getting transaction #' + $scope.id);
+
+                    result.reject(error);
+                }
+            );
+
+            return result.promise();
+        };
+        var initTransactionField = function (transaction, field, list, fieldProperty) {
+            var currentValue = _.isObject(transaction[field])
+                ? transaction[field][fieldProperty]
+                : transaction[field];
+            var findCondition;
+
+            findCondition = {};
+            findCondition[fieldProperty] = currentValue;
+
+            transaction[field] = _.findWhere(list, findCondition);
+            transaction[field] = transaction[field] ? transaction[field] : null;
+        };
+
+        // Transaction types
+        var getTransactionTypes = function (enums, $filter) {
+            var result = new $.Deferred();
+            var types = [];
+
+            logger.groupCollapsed('Get transaction types');
+
+            for (var key in enums.transactionTypes) {
+                types.push({
+                    name: $filter('translate')(enums.transactionTypes[key].name),
+                    value: enums.transactionTypes[key].value
+                });
+            }
+
+            logger.table(types);
+            logger.groupEnd('Get transaction types');
+
+            result.resolve(types);
+
+            return result.promise();
+        };
+
+        // Form state
+        var setInitialFormState = function ($scope) {
+            $scope.formState = {
+                value: {
+                    enable: false
+                },
+                date: {
+                    enable: false
+                },
+                accountSource: {
+                    data: [],
+                    enable: false,
+                    visible: true
+                },
+                accountDestination: {
+                    data: [],
+                    enable: false,
+                    visible: false
+                },
+                category: {
+                    data: [],
+                    enable: false,
+                    visible: true
+                },
+                transactionTypes: {
+                    data: [],
+                    enable: false
+                },
+                note: {
+                    enable: false
+                },
+                submit: {
+                    enable: false
+                },
+                texts: {
+                    header: 'header',
+                    saveButton: 'save button'
+                }
+            };
+        };
+        var formControlInit = function ($scope, controlName, controlData) {
+            if (!$scope.formState[controlName]) {
+                logger.error('Control "' + controlName + '" does not exist.');
+
+                return;
+            }
+
+            $scope.formState[controlName].enable = true;
+            $scope.formState[controlName].visible = true;
+
+            if (controlData) {
+                $scope.formState[controlName].data = controlData;
+            }
+        };
+        var formControlDisable = function ($scope, controlName) {
+            if (!$scope.formState[controlName]) {
+                logger.error('Control "' + controlName + '" does not exist.');
+
+                return;
+            }
+
+            $scope.formState[controlName].enable = false;
+            $scope.formState[controlName].visible = false;
+            $scope.formState[controlName].data = [];
+        };
+        var setCreateTransactionTexts = function ($scope, $filter) {
+            $scope.formState.texts.header = $filter('translate')('components.transactions.create.header');
+            $scope.formState.texts.saveButton = $filter('translate')('common.buttons.create');
+
+        };
+        var setEditTransactionTexts = function ($scope, $filter) {
+            $scope.formState.texts.header = $filter('translate')('components.transactions.edit.header');
+            $scope.formState.texts.saveButton = $filter('translate')('common.buttons.save');
+        };
+
         mkControllers.controller(
             'TransactionEditCtrl',
             [
@@ -126,28 +291,79 @@ define(
                 function ($scope, $routeParams, $filter, Transaction, Category, Account) {
                     logger.log('--- Edit Transaction controller initialize');
 
-                    setInitialFormState($scope);
-                    //initTransactionTypes();
+                    var transactionOperationType;
+                    var transactionPromise;
 
                     $scope.id = $routeParams.id;
+                    setInitialFormState($scope);
 
-                    logger.info($scope.id );
-
-                    var date = new Date();
-
-                    $scope.date = date.toLocaleDateString('ru');
-
-
-
-                    $scope.editTransaction = editTransaction;
-
-
-
-
-                    function editTransaction() {
-                        console.log('editTransaction');
-                        console.log($scope.date);
+                    if ($scope.id === 'add') {
+                        transactionOperationType = 'create';
+                        setCreateTransactionTexts($scope, $filter);
+                        transactionPromise = getEmptyTransactionData();
+                    } else {
+                        transactionOperationType = 'edit';
+                        setEditTransactionTexts($scope, $filter);
+                        transactionPromise = getTransactionDataById($scope.id, Transaction);
                     }
+
+                    transactionPromise.done(function (transaction) {
+                        var accounts;
+                        var categories;
+                        var transactionTypes;
+
+                        $scope.model = transaction;
+
+                        accounts = getAccounts(Account);
+                        transactionTypes = getTransactionTypes(enums, $filter);
+                        switch (transaction.type) {
+                            case enums.transactionTypes.income.value:
+                                categories = getIncomeCategories(Category);
+                                break;
+                            case enums.transactionTypes.outcome.value:
+                                categories = getOutcomeCategories(Category);
+                                break;
+                            default:
+                                categories = getEmptyCategorieslist();
+                        }
+
+                        $.when(accounts, categories, transactionTypes)
+                            .done(function (accountsList, categoriesList, transactionTypesList) {
+                                var transactionType = _.isObject(transaction.type)
+                                    ? transaction.type.value
+                                    : transaction.type;
+
+                                initTransactionField(transaction, 'accountSource', accountsList, '_id');
+                                initTransactionField(transaction, 'accountDestination', accountsList, '_id');
+                                initTransactionField(transaction, 'category', categoriesList, '_id');
+                                initTransactionField(transaction, 'type', transactionTypesList, 'value');
+
+                                logger.log('Initialized transaction:', transaction);
+
+                                if (transactionType === enums.transactionTypes.transfer.value) {
+                                    formControlInit($scope, 'accountDestination', accountsList);
+                                    formControlDisable($scope, 'category');
+                                } else {
+                                    formControlInit($scope, 'category', categoriesList);
+                                    formControlDisable($scope, 'accountDestination');
+                                }
+
+                                formControlInit($scope, 'value');
+                                formControlInit($scope, 'transactionTypes', transactionTypesList);
+                                formControlInit($scope, 'accountSource', accountsList);
+                                formControlInit($scope, 'note');
+
+                                formControlInit($scope, 'submit');
+                            })
+                            .fail(function (error) {
+                                logger.error(error);
+
+                                return;
+                            });
+                    });
+
+
+
 
                     /*
                     logger.log('Getting transaction... #' + $scope.id);
@@ -157,33 +373,7 @@ define(
                             id: $scope.id
                         },
                         function (transaction) {
-                            logger.timeEnd('Getting transaction #' + $scope.id);
-                            logger.logTransactions([transaction]);
-
-                            logger.groupCollapsed('Init transaction date');
-                            $scope.model.date = transaction.date;
-                            logger.log('current value:', $scope.model.date);
-                            $scope.model.date = new Date($scope.model.date);
-                            logger.log('parsed value:', $scope.model.date);
-                            $scope.model.date = $scope.model.date.toLocaleDateString('ru');
-                            logger.log('formated value:', $scope.model.date);
-
-                            initCalendar();
-
-                            logger.groupEnd('Init transaction date');
-
-                            $scope.model.category = transaction.category;
-                            $scope.model.accountSource = transaction.accountSource;
-                            $scope.model.accountDestination = transaction.accountDestination;
-                            $scope.model.value = transaction.value;
-                            $scope.model.note = transaction.note;
-
-                            logger.groupCollapsed('Init transaction type');
-                            logger.log('transaction types:', $scope.transactionTypes);
-                            logger.log('current transaction type value:', transaction.type);
                             $scope.type = _.findWhere($scope.formState.transactionTypes.data, {value: transaction.type});
-                            logger.log('result:', $scope.type);
-                            logger.groupEnd('Init transaction type');
 
                             typeChanged();
                         },
@@ -219,32 +409,7 @@ define(
 
 
 
-                    function setInitialFormState($scope) {
-                        $scope.formState = {
-                            accountSource: {
-                                data: [],
-                                enable: false,
-                                visible: true
-                            },
-                            accountDestination: {
-                                data: [],
-                                enable: false,
-                                visible: false
-                            },
-                            category: {
-                                data: [],
-                                enable: false,
-                                visible: true
-                            },
-                            transactionTypes: {
-                                data: [],
-                                enable: false
-                            },
-                            submit: {
-                                enable: true
-                            }
-                        };
-                    }
+
 
                     function typeChanged() {
                         logger.log('-- typeChanged calling');
@@ -365,23 +530,7 @@ define(
                     }
                      */
 
-                    function initTransactionTypes () {
-                        var types = [];
 
-                        logger.groupCollapsed('Get transaction types');
-
-                        for (var key in enums.transactionTypes) {
-                            types.push({
-                                name: $filter('translate')(enums.transactionTypes[key].name),
-                                value: enums.transactionTypes[key].value
-                            });
-                        }
-                        $scope.formState.transactionTypes.data = types;
-                        $scope.formState.transactionTypes.enable = true;
-
-                        logger.table($scope.formState.transactionTypes.data);
-                        logger.groupEnd('Get transaction types');
-                    }
                 }
             ]
         );

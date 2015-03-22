@@ -3,13 +3,13 @@
         <div class="panel-heading">
             <div class="panel-title-box">
                 <h3>
-                    {{ 'components.transactions.edit.header' | translate }}
+                    {{ formState.texts.header }}
                 </h3>
             </div>
         </div>
         <div class="panel-body">
             <form class="form-horizontal">
-                <!-- SUMM
+                <!-- SUMM -->
                 <div class="form-group">
                     <label class="col-md-3 control-label">
                         {{ 'components.transactions.fields.value.text' | translate }}
@@ -17,10 +17,10 @@
                     <div class="col-md-9">
                         <input name="value" type="text" class="form-control"
                                placeholder="{{ 'components.transactions.fields.value.placeholder' | translate }}"
+                               ng-disabled="!formState.value.enable"
                                ng-model="model.value">
                     </div>
                 </div>
-                -->
                 <!-- DATE -->
                 <div class="form-group">
                     <label class="col-md-3 control-label">
@@ -30,15 +30,16 @@
                         <div class="input-group date">
                             <input type="text" class="form-control date-picker"
                                    datedropper
-                                   ng-change="dateChanged()"
-                                   ng-model="date">
+                                   ng-change="dateChanged()",
+                                   ng-disabled="!formState.date.enable"
+                                   ng-model="model.date">
                             <span class="input-group-addon add-on">
                                 <i class="fa fa-calendar"></i>
                             </span>
                         </div>
                     </div>
                 </div>
-                <!-- TRANSACTION TYPE
+                <!-- TRANSACTION TYPE -->
                 <div class="form-group">
                     <label class="col-md-3 control-label">
                         {{ 'components.transactions.fields.type.text' | translate }}
@@ -52,8 +53,7 @@
                         </select>
                     </div>
                 </div>
-                -->
-                <!-- ACCOUNT SOURCE
+                <!-- ACCOUNT SOURCE -->
                 <div class="form-group">
                     <label class="col-md-3 control-label">
                         {{ 'components.transactions.fields.account-source.text' | translate }}
@@ -67,8 +67,7 @@
                         </select>
                     </div>
                 </div>
-                -->
-                <!-- ACCOUNT DESTINATION
+                <!-- ACCOUNT DESTINATION -->
                 <div class="form-group"
                      ng-show="formState.accountDestination.visible">
                     <label class="col-md-3 control-label">
@@ -83,8 +82,7 @@
                         </select>
                     </div>
                 </div>
-                -->
-                <!-- CATEGORY
+                <!-- CATEGORY -->
                 <div class="form-group"
                      ng-show="formState.category.visible">
                     <label class="col-md-3 control-label">
@@ -99,8 +97,7 @@
                         </select>
                     </div>
                 </div>
-                -->
-                <!-- NOTE
+                <!-- NOTE -->
                 <div class="form-group">
                     <label class="col-md-3 control-label">
                         {{ 'components.transactions.fields.note.text' | translate }}
@@ -108,10 +105,10 @@
                     <div class="col-md-9">
                         <textarea name="note" type="note" class="form-control"
                                placeholder="{{ 'components.transactions.fields.note.placeholder' | translate }}"
+                               ng-disabled="!formState.note.enable"
                                ng-model="model.note"></textarea>
                     </div>
                 </div>
-                -->
                 <hr>
                 <div class="btn-group pull-right">
                     <button class="btn btn-default" type="button"ng-click="Cancel()">
@@ -120,7 +117,7 @@
                     <button class="btn btn-primary" type="submit"
                             ng-click="editTransaction()"
                             ng-disabled="!formState.submit.enable" >
-                        {{ 'common.buttons.save' | translate }}
+                        {{ formState.texts.saveButton }}
                     </button>
                 </div>
             </form>
