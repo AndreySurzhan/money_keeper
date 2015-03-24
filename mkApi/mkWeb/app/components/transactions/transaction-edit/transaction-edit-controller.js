@@ -10,12 +10,23 @@ define(
         '../../currencies/currencies-services'
     ],
     function (mkControllers, enums, config, _, $, logger) {
+        var scopeApplySafely = function ($scope, callback) {
+            var interval = 10;
+            var phase = $scope.$$phase;
+
+            if(phase !== '$apply' && phase !== '$digest') {
+                $scope.$apply(callback);
+            } else {
+                setTimeout(function () {
+                    scopeApplySafely($scope, callback);
+                }, interval);
+            }
+        };
+
         // Accounts
         var storedAccounts;
         var getAccounts = function (accountsFactory) {
             var result = new $.Deferred();
-
-            logger.log('-- Getting accounts...');
 
             if (storedAccounts) {
                 logger.log('Return stored accounts');
@@ -23,19 +34,20 @@ define(
                 return result.promise();
             }
 
+            logger.groupCollapsed('Getting accounts');
             logger.time('Getting accounts');
             accountsFactory.query(
                 function (accounts) {
                     logger.timeEnd('Getting accounts');
-                    logger.groupCollapsed('Getting accounts result:');
                     logger.logAccounts(accounts);
-                    logger.groupEnd('Getting accounts result:');
+                    logger.groupEnd('Getting accounts');
 
                     storedAccounts = accounts;
                     result.resolve(storedAccounts)
                 },
                 function (error) {
                     logger.timeEnd('Getting accounts');
+                    logger.groupEnd('Getting accounts');
                     logger.error(error);
 
                     result.reject(error);
@@ -50,27 +62,26 @@ define(
         var getIncomeCategories = function (Category) {
             var result = $.Deferred();
 
-            logger.log('-- Getting income categories...');
-
             if (storedIncomeCategories) {
                 logger.log('Return stored income categories');
                 result.resolve(storedIncomeCategories);
                 return result.promise();
             }
 
+            logger.groupCollapsed('Getting income categories');
             logger.time('Getting income categories');
             Category.getIncome(
                 function (categories) {
                     logger.timeEnd('Getting income categories');
-                    logger.groupCollapsed('Getting income categories result:');
                     logger.logAccounts(categories);
-                    logger.groupEnd('Getting income categories result:');
+                    logger.groupEnd('Getting income categories');
 
                     storedIncomeCategories = categories;
                     result.resolve(storedIncomeCategories)
                 },
                 function (error) {
                     logger.timeEnd('Getting income categories');
+                    logger.groupEnd('Getting income categories');
                     logger.error(error);
 
                     result.reject(error);
@@ -79,12 +90,9 @@ define(
 
             return result.promise();
         };
-
         var storedOutcomeCategories;
         var getOutcomeCategories = function (Category) {
             var result = new $.Deferred();
-
-            logger.log('-- Getting outcome categories...');
 
             if (storedOutcomeCategories) {
                 logger.log('Return stored outcome categories');
@@ -92,19 +100,20 @@ define(
                 return result.promise();
             }
 
+            logger.groupCollapsed('Getting outcome categories');
             logger.time('Getting outcome categories');
             Category.getOutcome(
                 function (categories) {
                     logger.timeEnd('Getting outcome categories');
-                    logger.groupCollapsed('Getting outcome categories result:');
                     logger.logAccounts(categories);
-                    logger.groupEnd('Getting outcome categories result:');
+                    logger.groupEnd('Getting outcome categories');
 
                     storedOutcomeCategories = categories;
                     result.resolve(storedOutcomeCategories);
                 },
                 function (error) {
                     logger.timeEnd('Getting outcome categories');
+                    logger.groupEnd('Getting outcome categories');
                     logger.error(error);
 
                     result.reject(error);
@@ -113,7 +122,6 @@ define(
 
             return result.promise();
         };
-
         var getEmptyCategorieslist = function () {
             var result = new $.Deferred();
 
@@ -145,15 +153,15 @@ define(
             var result = new $.Deferred();
             var transactionDate;
 
-            logger.log('Getting transaction... #' + id);
+            logger.groupCollapsed('Getting transaction  #' + id);
             logger.time('Getting transaction #' + id);
-
             transactionsFactory.get(
                 {
                     id: id
                 },
                 function (transaction) {
                     logger.timeEnd('Getting transaction #' + id);
+                    logger.groupEnd('Getting transaction  #' + id);
 
                     transactionDate = new Date(transaction.date);
                     transaction.date = transactionDate.toLocaleDateString(config.lang);
@@ -161,7 +169,8 @@ define(
                     result.resolve(transaction);
                 },
                 function (error) {
-                    logger.timeEnd('Getting transaction #' + $scope.id);
+                    logger.timeEnd('Getting transaction #' + id);
+                    logger.groupEnd('Getting transaction  #' + id);
 
                     result.reject(error);
                 }
@@ -179,7 +188,7 @@ define(
             findCondition[fieldProperty] = currentValue;
 
             transaction[field] = _.findWhere(list, findCondition);
-            transaction[field] = transaction[field] ? transaction[field] : null;
+            transaction[field] = transaction[field] ? transaction[field] : currentValue;
         };
         var initTransactionForm = function (transaction, $scope, $filter, Account, Category) {
             var result = new $.Deferred();
@@ -215,8 +224,6 @@ define(
                     initTransactionField(transaction, 'category', categoriesList, '_id');
                     initTransactionField(transaction, 'type', transactionTypesList, 'value');
 
-                    logger.log('Initialized transaction:', transaction);
-
                     if (transactionType === enums.transactionTypes.transfer.value) {
                         formControlInit($scope, 'accountDestination', accountsList);
                         formControlDisable($scope, 'category');
@@ -238,6 +245,53 @@ define(
                 .fail(function (error) {
                     result.reject(error);
                 });
+
+            return result.promise();
+        };
+        var createTransaction = function (id, model, transactionFactory) {
+            var preparedData;
+            var result = new $.Deferred();
+
+            preparedData = model;
+
+            logger.info('preparedData', preparedData);
+            result.resolve();
+            return result.promise();
+
+            transactionFactory.save(
+                preparedData,
+                function (transaction) {
+                    result.resolve(transaction);
+                },
+                function (error) {
+                    result.reject(error);
+                }
+            );
+
+            return result.promise();
+        };
+        var saveTransaction = function (id, model, transactionFactory) {
+            var preparedData;
+            var result = new $.Deferred();
+
+            preparedData = model;
+
+            logger.info('preparedData', preparedData);
+            result.resolve();
+            return result.promise();
+
+            transactionFactory.update(
+                {
+                    id: id
+                },
+                preparedData,
+                function (transaction) {
+                    result.resolve(transaction);
+                },
+                function (error) {
+                    result.reject(error);
+                }
+            );
 
             return result.promise();
         };
@@ -349,7 +403,8 @@ define(
                 'Category',
                 'Account',
                 function ($scope, $routeParams, $filter, Transaction, Category, Account) {
-                    logger.log('--- Edit Transaction controller initialize');
+                    logger.info('--- Edit Transaction controller initialize ---');
+                    logger.time('Edit Transaction controller initialize');
 
                     var transactionOperationType;
                     var transactionPromise;
@@ -371,6 +426,8 @@ define(
                         initTransactionForm(transaction, $scope, $filter, Account, Category)
                             .done(function (transaction) {
                                 $scope.model = transaction;
+                                scopeApplySafely($scope);
+                                logger.timeEnd('Edit Transaction controller initialize');
                             })
                             .fail(function (error) {
                                 logger.error(error);
@@ -394,10 +451,10 @@ define(
 
                         switch (transactionOperationType) {
                             case 'create':
-                                operation = createTransaction($scope.model);
+                                operation = createTransaction($scope.id, $scope.model, Transaction);
                                 break;
                             case 'edit':
-                                operation = saveTransaction($scope.model);
+                                operation = saveTransaction($scope.id, $scope.model, Transaction);
                                 break;
                             default:
                                 logger.error('Unknown operation "' + transactionOperationType + '"');
@@ -405,10 +462,11 @@ define(
 
                         operation
                             .done(function () {
-
+                                logger.log('Transaction saved');
+                                window.history.back();
                             })
-                            .fail(function () {
-
+                            .fail(function (error) {
+                                logger.error(error);
                             });
                     };
 
@@ -421,14 +479,10 @@ define(
                     function editTransaction() {
 
 
-                        logger.warn('date', $scope.model.date);
-                        
-                        logger.groupCollapsed('Editing transaction');
 
                         var dateStr;
                         var saveData = _.clone($scope.model);
 
-                        console.log('saveData', saveData);
 
                         $scope.formState.submit.enable = false;
                         
@@ -453,39 +507,6 @@ define(
                                 ? $scope.model.accountDestination._id
                                 : $scope.model.accountDestination;
                         }
-
-                        logger.log('date:', $scope.model.date);
-                        logger.log('type:', $scope.type.value);
-                        logger.log('category:', $scope.model.category);
-                        logger.log('accountSource:', $scope.model.accountSource);
-                        logger.log('accountDestination:', $scope.model.accountDestination);
-                        logger.log('value:', $scope.model.value);
-                        logger.log('note:', $scope.model.note);
-
-                        logger.groupEnd('Editing transaction');
-
-                        Transaction.update(
-                            {
-                                id: $scope.id
-                            },
-                            {
-                                date: $scope.model.date,
-                                category: $scope.model.category,
-                                type: $scope.type.value,
-                                accountSource: $scope.model.accountSource,
-                                accountDestination: $scope.model.accountDestination,
-                                value: $scope.model.value,
-                                note: $scope.model.note
-                            },
-                            function () {
-                                $scope.formState.submit.enable = true;
-                                window.history.back();
-                            },
-                            function (error) {
-                                $scope.formState.submit.enable = true;
-                                logger.error(error);
-                            }
-                        );
 
                     }
                      */
