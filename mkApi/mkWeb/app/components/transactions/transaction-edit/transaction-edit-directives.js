@@ -18,7 +18,15 @@ define(
                     $(element).dateDropper(params);
 
                     $(element).on('change', function () {
-                        scope[attrs.ngModel] = $(this).val();
+                        var chains = attrs.ngModel.split('.');
+                        var scopeField = scope;
+
+                        for (var i = 0; i < chains.length -1; i++) {
+                            scopeField = scopeField[chains[i]];
+                        }
+
+                        scopeField[chains[chains.length -1]] = $(this).val();
+
                     });
                 }
             };

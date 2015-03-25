@@ -248,14 +248,82 @@ define(
 
             return result.promise();
         };
+        var getPreparedData = function (data) {
+            var attributesMap = {
+                value: function (value) {
+                    return value;
+                },
+                date: function (dateStr) {
+                    var date;
+                    var result;
+                    var temp;
+
+                    switch (config.plugins.datedropper.format) {
+                        case 'd.m.Y':
+                            temp = dateStr.split('.');
+                            date = new Date(temp[2], temp[1] - 1, temp[0]);
+                            result = date.toString();
+                            break;
+                        default:
+                            logger.error('Unknown date format');
+                            result = null;
+                    }
+
+                    return result;
+                },
+                type: function (type) {
+                    if (_.isObject(type)) {
+                        return type.value;
+                    } else {
+                        return type;
+                    }
+                },
+                accountSource: function (accountSource) {
+                    if (_.isObject(accountSource)) {
+                        return accountSource._id;
+                    } else {
+                        return accountSource;
+                    }
+                },
+                accountDestination: function (accountDestination) {
+                    if (_.isObject(accountDestination)) {
+                        return accountDestination._id;
+                    } else {
+                        return accountDestination;
+                    }
+                },
+                category: function (category) {
+                    if (_.isObject(category)) {
+                        return category._id;
+                    } else {
+                        return category;
+                    }
+                },
+                note: function (note) {
+                    return note;
+                }
+            };
+            var preparedData = {};
+
+            for (var attribute in attributesMap) {
+                if (!attributesMap.hasOwnProperty(attribute)) {
+                    return;
+                }
+
+                preparedData[attribute] = attributesMap[attribute](data[attribute]);
+            }
+
+            return preparedData;
+        };
         var createTransaction = function (id, model, transactionFactory) {
             var preparedData;
             var result = new $.Deferred();
 
-            preparedData = model;
+            preparedData = getPreparedData(model);
 
             logger.info('preparedData', preparedData);
-            result.resolve();
+            logger.info('model', model);
+
             return result.promise();
 
             transactionFactory.save(
@@ -274,10 +342,11 @@ define(
             var preparedData;
             var result = new $.Deferred();
 
-            preparedData = model;
+            preparedData = getPreparedData(model);
 
             logger.info('preparedData', preparedData);
-            result.resolve();
+            logger.info('model', model);
+
             return result.promise();
 
             transactionFactory.update(
