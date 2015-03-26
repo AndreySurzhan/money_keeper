@@ -10,6 +10,7 @@ define(
         'components/categories/categories',
         'components/currencies/currencies',
         'components/accounts/accounts',
+        'components/transactions/transactions',
         'components/navigation-menu/navigation-menu'
     ],
     function (require, ng) {

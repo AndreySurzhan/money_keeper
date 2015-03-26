@@ -2,6 +2,7 @@ define(
     [
         'angular',
         'angular-route',
+        'angular-moment',
         'animations'
     ],
     function (ng) {
@@ -11,6 +12,7 @@ define(
             'app',
             [
                 'ngRoute',
+                'angularMoment',
                 'moneyKeeperControllers',
                 'moneyKeeperFilters',
                 'moneyKeeperServices',

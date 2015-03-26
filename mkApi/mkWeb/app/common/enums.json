@@ -1,0 +1,16 @@
+{
+    "transactionTypes": {
+        "income": {
+            "name": "common.enums.transactionTypes.income",
+            "value": "income"
+        },
+        "outcome": {
+            "name": "common.enums.transactionTypes.outcome",
+            "value": "outcome"
+        },
+        "transfer": {
+            "name": "common.enums.transactionTypes.transfer",
+            "value": "transfer"
+        }
+    }
+}

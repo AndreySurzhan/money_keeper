@@ -1,0 +1,41 @@
+{
+    "components": {
+        "transactions": {
+            "fields": {
+                "id": {
+                    "text": "#"
+                },
+                "date": {
+                    "text": "Дата",
+                    "default-value": "Укажите дату транзакции"
+                },
+                "category": {
+                    "text": "Категория",
+                    "default-value": "Категория не выбрана"
+                },
+                "value": {
+                    "text": "Сумма",
+                    "placeholder": "Укажите сумму операции"
+                },
+                "type": {
+                    "text": "Тип операции"
+                },
+                "account-source": {
+                    "text": "Счет",
+                    "default-value": "Счет не выбран"
+                },
+                "account-destination": {
+                    "text": "На счет",
+                    "default-value": "Счет не выбран"
+                },
+                "note": {
+                    "text": "Комментарий",
+                    "placeholder": "Комментарий к транзакции"
+                }
+            },
+            "list": {
+                "header": "Транзакции"
+            }
+        }
+    }
+}

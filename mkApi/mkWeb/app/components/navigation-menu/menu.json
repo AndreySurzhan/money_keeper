@@ -49,5 +49,22 @@
                 "href": "#/accounts/add"
             }
         ]
+    },
+    {
+        "name": "navigation-menu.transactions.root",
+        "icon": "fa fa-money",
+        "href": "#/transactions",
+        "children": [
+            {
+                "name": "navigation-menu.transactions.list",
+                "icon": "fa fa-list",
+                "href": "#/transactions"
+            },
+            {
+                "name": "navigation-menu.transactions.add",
+                "icon": "fa fa-plus",
+                "href": "#/transactions/add"
+            }
+        ]
     }
 ]

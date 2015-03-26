@@ -1,0 +1,80 @@
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title-box">
+                <h3>
+                    {{ 'components.transactions.list.header' | translate }}
+                </h3>
+                <span>
+                    {{ 'components.transactions.list.header' | translate }}
+                </span>
+            </div>
+            <ul class="panel-controls">
+                <li>
+                    <a href="#/transactions/add" class="button header-button-create"
+                       title="{{ 'common.buttons.create' | translate }}">
+                        <span class="fa fa-plus"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="panel-body">
+            <table class="accounts-list table table-hover table-striped">
+                <thead>
+                <tr>
+                    <th class="transactions-id-column">
+                        {{ 'components.transactions.fields.id.text' | translate }}
+                    </th>
+                    <th>
+                        {{ 'components.transactions.fields.date.text' | translate }}
+                    </th>
+                    <th>
+                        {{ 'components.transactions.fields.category.text' | translate }}
+                    </th>
+                    <th>
+                        {{ 'components.transactions.fields.value.text' | translate }}
+                    </th>
+                    <th>
+                        {{ 'components.transactions.fields.account-source.text' | translate }}
+                    </th>
+                    <th>
+                        {{ 'components.transactions.fields.note.text' | translate }}
+                    </th>
+                    <th class="transaction-actions-column"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="transaction in transactions | filter:query | orderBy:orderProp">
+                    <td class="transaction-id-column">
+                        {{ transaction._id }}
+                    </td>
+                    <td>
+                        {{ transaction.date | transactionDate | amDateFormat:'Do MMM YY' }}
+                    </td>
+                    <td ng-bind-html="transaction | transactionCategory"></td>
+                    <td class="transaction-value {{ transaction.type }}">
+                        {{ transaction.value }}
+                    </td>
+                    <td>
+                        {{ transaction.accountSource | accountName }}
+                    </td>
+                    <td>
+                        {{ transaction.note }}
+                    </td>
+                    <td class="account-actions-column">
+                        <button class="btn btn-default btn-rounded btn-condensed btn-sm"
+                                ng-click="showDetails(transaction._id)">
+                            <span class="fa fa-pencil"></span>
+                        </button>
+                        <button class="btn btn-danger btn-rounded btn-condensed btn-sm"
+                                ng-click="remove(transaction._id)">
+                            <span class="fa fa-times"></span>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="panel-footer"></div>
+    </div>
+</div>

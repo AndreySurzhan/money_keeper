@@ -39,6 +39,18 @@ var copyFilesList = [
         from: vendorDir + 'angular-translate/angular-translate.js',
         to: destDir + 'angular/'
     },
+    {
+        from: vendorDir + 'angular-moment/angular-moment.js',
+        to: destDir + 'angular/'
+    },
+    {
+        from: vendorDir + 'moment/locale/ru.js',
+        to: destDir + 'angular/angular-moment-locales/'
+    },
+    {
+        from: vendorDir + 'moment/locale/en-gb.js',
+        to: destDir + 'angular/angular-moment-locales/'
+    },
     // jQuery
     {
         from: vendorDir + 'jquery/dist/jquery.js',
@@ -60,6 +72,27 @@ var copyFilesList = [
     {
         from: vendorDir + 'requirejs-plugins/lib/text.js',
         to: destDir + 'requirejs/'
+    },
+    // Other
+    {
+        from: vendorDir + 'moment/moment.js',
+        to: destDir + 'moment/'
+    },
+    {
+        from: vendorDir + 'underscore/underscore.js',
+        to: destDir + 'underscore/'
+    },
+    {
+        from: vendorDir + 'datedropper/datedropper.js',
+        to: destDir + 'datedropper/'
+    },
+    {
+        from: vendorDir + 'datedropper/datedropper.css',
+        to: destDir + '../styles/datedropper/'
+    },
+    {
+        from: vendorDir + 'datedropper/icons/*',
+        to: destDir + '../styles/datedropper/icons/'
     },
     // Styles
     {

@@ -18,6 +18,13 @@
                 "next": "Вперед",
                 "shown": "Показано с {{from}} по {{to}} из {{total}}"
             }
+        },
+        "enums": {
+            "transactionTypes": {
+                "income": "Доход",
+                "outcome": "Расход",
+                "transfer": "Перевод"
+            }
         }
     }
 }

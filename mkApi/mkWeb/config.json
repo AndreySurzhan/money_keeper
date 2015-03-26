@@ -1,4 +1,13 @@
 {
     "lang": "ru",
-    "api": "api/"
+    "api": "api/",
+    "logLevel": 0,
+    "plugins": {
+        "datedropper": {
+            "format": "d.m.Y",
+            "color": "#33414e",
+            "textColor": "#33414e",
+            "bgColor": "#F5F5F5"
+        }
+    }
 }

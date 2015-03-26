@@ -1,0 +1,32 @@
+.transaction-value {
+    font-weight: bold;
+
+    &:before {
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        text-align: center;
+        width: 15px;
+    }
+
+    &.income {
+        color: @green;
+    }
+    &.income:before {
+        content: '+';
+    }
+
+    &.outcome {
+        color: @red;
+    }
+    &.outcome:before {
+        content: '-';
+    }
+
+    &.transfer {
+        color: @dark-grey;
+    }
+    &.transfer:before {
+        content: '\f07e';
+        font-size: 10px;
+    }
+}
