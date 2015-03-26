@@ -279,25 +279,45 @@ define(
                     }
                 },
                 accountSource: function (accountSource) {
+                    var accountId;
+
                     if (_.isObject(accountSource)) {
-                        return accountSource._id;
+                        accountId = accountSource._id;
                     } else {
-                        return accountSource;
+                        accountId = accountSource;
                     }
+
+                    accountId = accountId === 0 ? null : accountId;
+
+                    return accountId;
                 },
                 accountDestination: function (accountDestination) {
+                    var accountId;
+
                     if (_.isObject(accountDestination)) {
-                        return accountDestination._id;
+                        accountId = accountDestination._id;
                     } else {
-                        return accountDestination;
+                        accountId = accountDestination;
                     }
+
+                    accountId = accountId === 0 ? null : accountId;
+
+                    return accountId;
                 },
                 category: function (category) {
+                    var categoryId;
+
                     if (_.isObject(category)) {
-                        return category._id;
+                        categoryId = category._id;
                     } else {
-                        return category;
+                        categoryId = category;
                     }
+
+                    console.log('categoryId', categoryId);
+
+                    categoryId = categoryId === 0 ? null : categoryId;
+
+                    return categoryId;
                 },
                 note: function (note) {
                     return note;
@@ -321,11 +341,6 @@ define(
 
             preparedData = getPreparedData(model);
 
-            logger.info('preparedData', preparedData);
-            logger.info('model', model);
-
-            return result.promise();
-
             transactionFactory.save(
                 preparedData,
                 function (transaction) {
@@ -343,11 +358,6 @@ define(
             var result = new $.Deferred();
 
             preparedData = getPreparedData(model);
-
-            logger.info('preparedData', preparedData);
-            logger.info('model', model);
-
-            return result.promise();
 
             transactionFactory.update(
                 {
@@ -542,45 +552,6 @@ define(
                     $scope.Cancel = function () {
                         window.history.back();
                     };
-
-
-                    /*
-                    function editTransaction() {
-
-
-
-                        var dateStr;
-                        var saveData = _.clone($scope.model);
-
-
-                        $scope.formState.submit.enable = false;
-                        
-                        
-
-                        dateStr = $scope.model.date;
-                        $scope.model.date = new Date();
-                        $scope.model.date.setTime(Date.parse(dateStr));
-
-                        $scope.model.accountSource = typeof $scope.model.accountSource === 'object'
-                            ? $scope.model.accountSource._id
-                            : $scope.model.accountSource;
-
-                        if ($scope.type.value !== enums.transactionTypes.transfer.value) {
-                            $scope.model.category = typeof $scope.model.category === 'object'
-                                ? $scope.model.category._id
-                                : $scope.model.category;
-                            $scope.model.accountDestination = null;
-                        } else {
-                            $scope.model.category = null;
-                            $scope.model.accountDestination = typeof $scope.model.accountDestination === 'object'
-                                ? $scope.model.accountDestination._id
-                                : $scope.model.accountDestination;
-                        }
-
-                    }
-                     */
-
-
                 }
             ]
         );
