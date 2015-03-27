@@ -75,6 +75,37 @@
                 </tbody>
             </table>
         </div>
-        <div class="panel-footer"></div>
+        <div class="panel-footer">
+            <div class="collection-status">
+                <span>
+                    {{ pagination.status}}
+                </span>
+            </div>
+            <div class="collection-pager pull-right">
+                <pagination class="pagination-sm"
+                            ng-model="pagination.currentPage"
+                            items-per-page="pagination.itemsPerPage"
+                            total-items="pagination.totalItems"
+                            max-size="pagination.maxSize"
+                            ng-change="pageChanged()"
+                            rotate="false"
+                            direction-links="false"
+                            first-text="«"
+                            last-text="»"
+                            boundary-links="true">
+                </pagination>
+                <span>
+                    {{ 'common.lists.pager.per-page' | translate }}
+                </span>
+                <select class="page-size-selector form-control">
+                    <option>10</option>
+                    <option>25</option>
+                    <option>50</option>
+                    <option>100</option>
+                </select>
+            </div>
+
+
+        </div>
     </div>
 </div>

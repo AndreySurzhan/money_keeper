@@ -10,9 +10,10 @@ define(
             'TransactionListCtrl',
             [
                 '$scope',
+                '$filter',
                 'Transaction',
                 'amMoment',
-                function ($scope, Transaction, amMoment) {
+                function ($scope, $filter, Transaction, amMoment) {
                     logger.log('--- Transaction List controller initialize');
 
                     amMoment.changeLocale(config.lang);
@@ -51,6 +52,43 @@ define(
                             }
                         );
                     };
+
+
+                    // ---------------
+
+                    console.log(1);
+
+                    $scope.pagination = {
+                        totalItems: 64,
+                        currentPage: 1,
+                        itemsPerPage: 10,
+                        maxSize: 5,
+
+                        start: 1,
+                        end: 10
+                    };
+
+                    $scope.pagination.status = $filter('translate')('common.lists.pager.shown', {
+                        from: $scope.pagination.start,
+                        to: $scope.pagination.end,
+                        total: $scope.pagination.totalItems
+                    });
+
+                    $scope.pageChanged = function() {
+                        logger.log('Page changed to: ' + $scope.pagination.currentPage);
+
+                        $scope.pagination.start = ($scope.pagination.currentPage - 1) * $scope.pagination.itemsPerPage + 1;
+                        $scope.pagination.end = $scope.pagination.start + $scope.pagination.itemsPerPage - 1;
+
+
+                        $scope.pagination.status = $filter('translate')('common.lists.pager.shown', {
+                            from: $scope.pagination.start,
+                            to: $scope.pagination.end ,
+                            total: $scope.pagination.totalItems
+                        });
+                    };
+
+
                 }
             ]
         );

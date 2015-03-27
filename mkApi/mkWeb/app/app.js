@@ -3,6 +3,7 @@ define(
         'angular',
         'angular-route',
         'angular-moment',
+        'angular-bootstrap',
         'animations'
     ],
     function (ng) {
@@ -13,6 +14,7 @@ define(
             [
                 'ngRoute',
                 'angularMoment',
+                'ui.bootstrap',
                 'moneyKeeperControllers',
                 'moneyKeeperFilters',
                 'moneyKeeperServices',
