@@ -3,7 +3,8 @@ var Account = require('../models/account');
 var Category = require('../models/category');
 
 var TransactionController = {
-    getAll: function (user, callback) {
+    getAll: function (user, pagination, callback) {
+        /*
         Transaction.find(
             {
                 _owner: user._id
@@ -12,6 +13,28 @@ var TransactionController = {
             .populate('accountSource')
             .populate('accountDestination')
             .exec(callback);
+        */
+
+        pagination = pagination || {};
+        pagination.page = pagination.page || 1;
+        pagination.perPage = pagination.perPage || 10;
+
+        Transaction.paginate(
+            {
+                _owner: user._id
+            },
+            pagination.page,
+            pagination.perPage,
+            function (error, pageCount, paginatedResults, totalItems) {
+                console.log('pagination result');
+                console.log('page: ', pagination.page);
+                console.log('perPage: ', pagination.perPage);
+                console.log('pageCount: ', pageCount);
+                console.log('totalItems: ', totalItems);
+
+                callback(error, paginatedResults, totalItems);
+            }
+        );
     },
     getById: function (user, id, callback) {
         Transaction.findOne({

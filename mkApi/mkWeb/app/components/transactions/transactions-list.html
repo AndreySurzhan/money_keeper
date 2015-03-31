@@ -87,7 +87,7 @@
                             items-per-page="pagination.itemsPerPage"
                             total-items="pagination.totalItems"
                             max-size="pagination.maxSize"
-                            ng-change="pageChanged()"
+                            ng-change="onPageChanged()"
                             rotate="false"
                             direction-links="false"
                             first-text="«"
@@ -97,11 +97,10 @@
                 <span>
                     {{ 'common.lists.pager.per-page' | translate }}
                 </span>
-                <select class="page-size-selector form-control">
-                    <option>10</option>
-                    <option>25</option>
-                    <option>50</option>
-                    <option>100</option>
+                <select class="page-size-selector form-control"
+                        ng-model="pagination.itemsPerPage"
+                        ng-options="pageSize for pageSize in pageSizes"
+                        ng-change="onPageSizeChanged()">
                 </select>
             </div>
 

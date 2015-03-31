@@ -4,7 +4,7 @@ define(
         'json!enums',
         'json!config',
         'underscore',
-        'datedropper',
+        'jquery',
         'logger',
         '../transactions-services',
         '../../currencies/currencies-services'
