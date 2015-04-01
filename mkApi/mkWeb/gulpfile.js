@@ -20,6 +20,10 @@ var destDir = 'libs/';
 var copyFilesList = [
     // AngularJS
     {
+        from: vendorDir + 'angular-bootstrap/ui-bootstrap-tpls.js',
+        to: destDir + 'angular/'
+    },
+    {
         from: vendorDir + 'angular/angular.js',
         to: destDir + 'angular/'
     },

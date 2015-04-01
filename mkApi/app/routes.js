@@ -378,13 +378,18 @@ module.exports = function (app, passport, router) {
         .get(isAuthorized, function (req, res) {
             TransactionController.getAll(
                 req.user,
-                function (err, transactions) {
+                {
+                    page: req.query.page,
+                    perPage: req.query.perPage
+                },
+                function (err, transactions, totalItems) {
                     if (err) {
                         sendError(err, res);
 
                         return;
                     }
 
+                    res.setHeader('X-Total-Count', totalItems);
                     res.json(transactions);
                 }
             );
