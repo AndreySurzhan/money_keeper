@@ -1,12 +1,13 @@
 define(
     [
         'angular',
+        'json!./menu.json',
         'angular-route',
         'angular-moment',
         'angular-bootstrap',
         'animations'
     ],
-    function (ng) {
+    function (ng, menu) {
         'use strict';
 
         var app = ng.module(
@@ -33,6 +34,16 @@ define(
                         });
                 }
             ]
+        );
+
+        app.controller(
+            'mainController',
+            function($scope) {
+                console.info('mainController init');
+                console.log('menu', menu);
+
+                $scope.menu = menu;
+            }
         );
 
         return app;

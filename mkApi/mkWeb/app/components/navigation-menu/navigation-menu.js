@@ -1,7 +1,7 @@
 define(
     [
-        './navigation-menu-controller',
-        './navigation-menu-translations'
+        './navigation-menu-translations',
+        './navigation-menu-directives'
     ],
     function () {
         'use strict';

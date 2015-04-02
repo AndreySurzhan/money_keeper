@@ -11,7 +11,8 @@ define(
         'components/currencies/currencies',
         'components/accounts/accounts',
         'components/transactions/transactions',
-        'components/navigation-menu/navigation-menu'
+        'components/navigation-menu/navigation-menu',
+        'components/accounts/accounts'
     ],
     function (require, ng) {
         'use strict';
