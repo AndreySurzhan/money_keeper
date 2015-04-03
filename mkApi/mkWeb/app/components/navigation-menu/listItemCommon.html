@@ -1,6 +1,6 @@
-<li ng-repeat="child in menuItem.children">
-    <a href="{{ child.href }}">
-        <span class="{{ child.icon }}"></span>
-        <span class="xn-text">{{ child.name | translate }}</span>
-    </a>
-</li>
+<a href="{{ menuItem.href }}">
+    <span class="{{ menuItem.icon }}"></span>
+    <span class="xn-text">
+        {{ menuItem.name | translate }}
+    </span>
+</a>
