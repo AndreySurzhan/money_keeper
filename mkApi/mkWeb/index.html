@@ -10,8 +10,16 @@
     <script src="libs/datedropper/datedropper.js"></script>
     <script src="libs/requirejs/require.js" data-main="app/requirejs.config.js"></script>
 </head>
-<body>
+<body ng-controller="mainController">
 <div class="sidebar-menu">
+    <ul class="x-navigation">
+        <li class="xn-logo">
+            {{ 'app.name' | translate }}
+        </li>
+        <li class="xn-title">
+            {{ 'navigation-menu.title' | translate }}
+        </li>
+    </ul>
     <!--
     <div class="avatar-group">
         <button class="avatar-left-control">
@@ -29,6 +37,8 @@
     </span>
     </div>
     -->
+    <div navigation-menu="menu"></div>
+    <!--
     <ul class="x-navigation" ng-controller="NavigationMenuCtrl">
         <li class="xn-logo">
             {{ 'app.name' | translate }}
@@ -36,20 +46,7 @@
         <li class="xn-title">
             {{ 'navigation-menu.title' | translate }}
         </li>
-        <li class="xn-openable {{ menuItem.active ? 'active' : '' }}" ng-repeat="menuItem in menu">
-            <a href="{{ menuItem.href }}" ng-click="menuItemClickEvents(menuItem)">
-                <span class="{{ menuItem.icon }}"></span>
-                <span class="xn-text">{{ menuItem.name | translate }}</span>
-            </a>
-            <ul>
-                <li ng-repeat="child in menuItem.children">
-                    <a href="{{ child.href }}">
-                        <span class="{{ child.icon }}"></span>
-                        <span class="xn-text">{{ child.name | translate }}</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
+        <li class="xn-navigation-menu" ng-bind-html="menuHtml"></li>
         <!--
         <li class="xn-openable">
             <a href="#/categories">
