@@ -2,19 +2,7 @@
     {
         "name": "navigation-menu.transactions.root",
         "icon": "fa fa-money",
-        "href": "#/transactions",
-        "children": [
-            {
-                "name": "navigation-menu.transactions.list",
-                "icon": "fa fa-list",
-                "href": "#/transactions"
-            },
-            {
-                "name": "navigation-menu.transactions.add",
-                "icon": "fa fa-plus",
-                "href": "#/transactions/add"
-            }
-        ]
+        "href": "#/transactions"
     },
     {
         "name": "navigation-menu.settings.root",
@@ -24,53 +12,17 @@
             {
                 "name": "navigation-menu.categories.root",
                 "icon": "fa fa-folder-o",
-                "href": "#/categories",
-                "children": [
-                    {
-                        "name": "navigation-menu.categories.list",
-                        "icon": "fa fa-list",
-                        "href": "#/categories"
-                    },
-                    {
-                        "name": "navigation-menu.categories.add",
-                        "icon": "fa fa-plus",
-                        "href": "#/categories/add"
-                    }
-                ]
+                "href": "#/categories"
             },
             {
                 "name": "navigation-menu.currencies.root",
                 "icon": "fa fa-usd",
-                "href": "#/currencies",
-                "children": [
-                    {
-                        "name": "navigation-menu.currencies.list",
-                        "icon": "fa fa-list",
-                        "href": "#/currencies"
-                    },
-                    {
-                        "name": "navigation-menu.currencies.add",
-                        "icon": "fa fa-plus",
-                        "href": "#/currencies/add"
-                    }
-                ]
+                "href": "#/currencies"
             },
             {
                 "name": "navigation-menu.accounts.root",
                 "icon": "fa fa-credit-card",
-                "href": "#/accounts",
-                "children": [
-                    {
-                        "name": "navigation-menu.accounts.list",
-                        "icon": "fa fa-list",
-                        "href": "#/accounts"
-                    },
-                    {
-                        "name": "navigation-menu.accounts.add",
-                        "icon": "fa fa-plus",
-                        "href": "#/accounts/add"
-                    }
-                ]
+                "href": "#/accounts"
             }
         ]
     }

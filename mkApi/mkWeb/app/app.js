@@ -39,9 +39,6 @@ define(
         app.controller(
             'mainController',
             function($scope) {
-                console.info('mainController init');
-                console.log('menu', menu);
-
                 $scope.menu = menu;
             }
         );
