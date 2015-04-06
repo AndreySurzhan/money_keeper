@@ -1,20 +1,9 @@
 var Transaction = require('../models/transaction');
 var Account = require('../models/account');
 var Category = require('../models/category');
-
-var TransactionController = {
+var transactionRoutes = require('./transaction_routes');
+var transactionController = {
     getAll: function (user, pagination, callback) {
-        /*
-        Transaction.find(
-            {
-                _owner: user._id
-            })
-            .populate('category')
-            .populate('accountSource')
-            .populate('accountDestination')
-            .exec(callback);
-        */
-
         pagination = pagination || {};
         pagination.page = pagination.page || 1;
         pagination.perPage = pagination.perPage || 10;
@@ -346,7 +335,10 @@ var TransactionController = {
                 );
             }
         );
+    },
+    registerRoutes: function (router, isAuthorized) {
+        transactionRoutes(router, this, isAuthorized);
     }
 };
 
-module.exports = TransactionController;
+module.exports = transactionController;

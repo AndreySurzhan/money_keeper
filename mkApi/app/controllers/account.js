@@ -1,5 +1,6 @@
 var Account = require('../models/account');
-var AccountController = {
+var accountRoutes = require('./account_routes');
+var accountController = {
     getAll: function (user, callback) {
         Account.find(
             {
@@ -72,7 +73,10 @@ var AccountController = {
                     .exec(callback);
             }
         );
+    },
+    registerRoutes: function (router, isAuthorized) {
+        accountRoutes(router, this, isAuthorized);
     }
 };
 
-module.exports = AccountController;
+module.exports = accountController;

@@ -1,5 +1,6 @@
 var Currency = require('../models/currency');
-var CurrencyController = {
+var currencyRoutes = require('./currency_routes');
+var currencyController = {
     getAll: function (user, callback) {
         Currency.find(
             {
@@ -59,7 +60,10 @@ var CurrencyController = {
                     .exec(callback);
             }
         );
+    },
+    registerRoutes: function (router, isAuthorized) {
+        currencyRoutes(router, this, isAuthorized);
     }
 };
 
-module.exports = CurrencyController;
+module.exports = currencyController;
