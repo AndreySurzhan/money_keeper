@@ -36,6 +36,9 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 // routes ======================================================================
 require('./app/routes.js')(app, passport, express.Router()); // load our routes and pass in our app and fully configured passport
 app.use(express.static(__dirname + '/mkWeb'));
+app.use(function(req, res, next) {
+    res.status(404).redirect('/');
+});
 
 // launch ======================================================================
 app.listen(port);
