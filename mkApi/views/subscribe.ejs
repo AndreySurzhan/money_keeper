@@ -8,16 +8,30 @@
     <link href="styles/subscribe.css" rel="stylesheet">
 </head>
 <body>
-<div class="subscribe-panel">
-    <form id="subscribe-form" action="/subscribe" method="POST">
-        <div class="input-group">
-            <div class="input-group-addon">
-                <span class="fa fa-lock"></span>
+<div class="subscribe-panel-wrapper">
+    <div class="subscribe-panel">
+        <h1>
+            MoneyKeeper
+        </h1>
+        <p>
+            На данное время сервис находится в стадии разработки и временно не доступен.
+        </p>
+        <p>
+            Вы можете подписаться на уведомление о начале работы нашего сервиса.
+        </p>
+        <p>
+            Укажите ваш адрес электронной почты и нажмите кнопку "Подписаться"
+        </p>
+        <form id="subscribe-form" action="/subscribe" method="POST">
+            <div class="input-group">
+                <div class="input-group-addon">
+                    <span class="fa fa-lock"></span>
+                </div>
+                <input type="email" name="email" class="form-control" placeholder="email" value="default@email.com">
+                <input id="subscribe-form-submit" type="submit" class="subscribe-button" value="Подписаться">
             </div>
-            <input type="email" name="email" class="form-control" placeholder="Password" value="default@email.com">
-            <input id="subscribe-form-submit" type="submit" class="subscribe-button" value="Subscribe">
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
     <script src="//code.jquery.com/jquery-2.1.3.js"></script>
     <script>
