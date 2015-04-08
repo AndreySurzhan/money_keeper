@@ -1,0 +1,107 @@
+body {
+    background: url("../images/background.jpg") left top no-repeat fixed;
+}
+
+.subscribe-panel {
+    background: rgba(255, 255, 255, 0.2);
+    width: 500px;
+    padding: 20px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin: 200px auto;
+}
+
+.subscribe-button {
+    background-color: #e0401d;
+    border: 1px solid #d73d1c;
+    border-radius: 3px;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    float: right;
+    font-size: 14px;
+    font-weight: bold;
+    height: 40px;
+    line-height: 20px;
+    margin: 5px 0;
+    padding: 8px 20px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 200ms ease;
+    user-select: none;
+    vertical-align: middle;
+    white-space: nowrap;
+
+    -webkit-border-radius: 3px;
+       -moz-border-radius: 3px;
+
+    -webkit-transition: all 200ms ease;
+       -moz-transition: all 200ms ease;
+        -ms-transition: all 200ms ease;
+         -o-transition: all 200ms ease;
+
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+}
+
+.subscribe-button:hover {
+    background-color: #c93a1a;
+    border-color: #c93a1a;
+}
+
+.input-group {
+    position: relative;
+    display: table;
+    border-collapse: separate;
+    width: 100%;
+}
+
+.input-group-addon {
+    background: #FFF;
+    border: 1px solid #D5D5D5;
+    box-sizing: border-box;
+    border-radius: 5px 0 0 5px;
+    border-right: none;
+    color: #33414e;
+    float: left;
+    font-size: 21px;
+    height: 50px;
+    width: 50px;
+}
+
+.fa {
+    background: url("../images/mail.png") 4px 4px no-repeat;
+    display: block;
+    height: 40px;
+    margin: 5px;
+    width: 40px;
+}
+
+.form-control {
+    background: #FFF;
+    border: 1px solid #D5D5D5;
+    border-left: none;
+    border-radius: 0 5px 5px 0;
+    box-shadow: none;
+    box-sizing: border-box;
+    color: #33414e;
+    float: left;
+    font-size: 15px;
+    height: 50px;
+    line-height: 20px;
+    outline: none;
+    padding: 10px 15px;
+    transition: all 200ms ease;
+    width: 270px;
+
+
+    -webkit-box-shadow: none;
+       -moz-box-shadow: none;
+
+    -webkit-transition: all 200ms ease;
+       -moz-transition: all 200ms ease;
+        -ms-transition: all 200ms ease;
+         -o-transition: all 200ms ease;
+}

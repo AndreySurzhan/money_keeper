@@ -105,9 +105,6 @@ module.exports = function (app, passport, router) {
         function (req, res, next) {
             var email = req.body.email;
 
-            console.warn('Subscribe');
-            console.log('body', req.body);
-
             subscriberController.add(
                 email,
                 function (err, result) {
