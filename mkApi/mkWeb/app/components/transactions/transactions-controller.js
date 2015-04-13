@@ -12,6 +12,8 @@ define(
         // Transactions
 
         var updateTransactionsList = function (transactionsFactory, page, perPage) {
+            logger.time('Updating transactions list');
+
             var result = new $.Deferred();
 
             transactionsFactory.query(
@@ -20,9 +22,17 @@ define(
                     perPage: perPage
                 },
                 function (transactions) {
+                    logger.timeEnd('Updating transactions list');
+                    logger.groupCollapsed('Updating transactions list');
+                    logger.logTransactions(transactions);
+                    logger.groupEnd('Updating transactions list');
+
                     result.resolve(transactions);
                 },
                 function (error) {
+                    logger.timeEnd('Updating transactions list');
+                    logger.error(error);
+
                     result.reject(error);
                 }
             );
@@ -107,6 +117,9 @@ define(
                 'Transaction',
                 'amMoment',
                 function ($scope, $filter, Transaction, amMoment) {
+                    logger.info('--- Transaction List controller initialize ---');
+                    logger.time('Transaction List controller initialize');
+
                     amMoment.changeLocale(config.lang);
 
                     $scope.pageSizes = config.pagination.pageSizes;
@@ -120,6 +133,8 @@ define(
 
                     updateTransactionsList(Transaction, $scope.pagination.currentPage, $scope.pagination.itemsPerPage)
                         .done(function (transactions) {
+                            logger.timeEnd('Transaction List controller initialize');
+
                             $scope.transactions = transactions;
                             $scope.pagination = updatePagination(
                                 $scope.pagination,
@@ -132,24 +147,29 @@ define(
                             );
                         })
                         .fail(function (error) {
-
+                            logger.timeEnd('Transaction List controller initialize');
+                            logger.error(error);
                         });
 
                     $scope.orderProp = '_id';
+
                     $scope.showDetails = function (transactiontId) {
                        window.location.hash = '#/transactions/' + transactiontId;
                     };
-
                     $scope.remove = function (transactiontId) {
+                        logger.log('Remove transaction #' + transactiontId);
+
                         Transaction.remove(
                             {
                                 id: transactiontId
                             },
                             function (transactions) {
+                                logger.log('Transactions removed');
+
                                 $scope.transactions = transactions;
                             },
-                            function () {
-                                console.error('error', arguments);
+                            function (error) {
+                                logger.error(error);
                             }
                         );
                     };

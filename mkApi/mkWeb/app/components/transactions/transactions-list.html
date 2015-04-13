@@ -22,17 +22,14 @@
             <table class="accounts-list table table-hover table-striped">
                 <thead>
                 <tr>
-                    <th class="transactions-id-column">
-                        {{ 'components.transactions.fields.id.text' | translate }}
-                    </th>
                     <th>
                         {{ 'components.transactions.fields.date.text' | translate }}
                     </th>
                     <th>
-                        {{ 'components.transactions.fields.category.text' | translate }}
+                        {{ 'components.transactions.fields.value.text' | translate }}
                     </th>
                     <th>
-                        {{ 'components.transactions.fields.value.text' | translate }}
+                        {{ 'components.transactions.fields.category.text' | translate }}
                     </th>
                     <th>
                         {{ 'components.transactions.fields.account-source.text' | translate }}
@@ -45,16 +42,13 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="transaction in transactions | filter:query | orderBy:orderProp">
-                    <td class="transaction-id-column">
-                        {{ transaction._id }}
-                    </td>
                     <td>
                         {{ transaction.date | transactionDate | amDateFormat:'Do MMM YY' }}
                     </td>
-                    <td ng-bind-html="transaction | transactionCategory"></td>
                     <td class="transaction-value {{ transaction.type }}">
                         {{ transaction.value }}
                     </td>
+                    <td ng-bind-html="transaction | transactionCategory"></td>
                     <td>
                         {{ transaction.accountSource | accountName }}
                     </td>

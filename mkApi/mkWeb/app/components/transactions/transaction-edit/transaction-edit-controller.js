@@ -509,6 +509,7 @@ define(
                                 logger.timeEnd('Edit Transaction controller initialize');
                             })
                             .fail(function (error) {
+                                logger.timeEnd('Edit Transaction controller initialize');
                                 logger.error(error);
                             });
                     });

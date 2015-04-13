@@ -23,10 +23,6 @@ define(
                                 url: config.api + 'transactions',
                                 isArray: true,
                                 transformResponse: function (data, headersGetter) {
-                                    console.warn('transformResponse');
-                                    console.info('headers', headersGetter());
-                                    console.warn('-----');
-
                                     var headers = headersGetter();
                                     var transactions = angular.fromJson(data);
 
