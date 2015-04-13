@@ -43,7 +43,7 @@
                     <th>
                         {{ 'components.categories.fields.parent.text' | translate }}
                     </th>
-                    <th class="category-actions-column"></th>
+                    <th class="actions-column"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -60,7 +60,7 @@
                     <td>
                         {{ category.parent | parentCategoryName }}
                     </td>
-                    <td class="category-actions-column">
+                    <td class="actions-column">
                         <button class="btn btn-default btn-rounded btn-condensed btn-sm"
                                 ng-click="showDetails(category._id)">
                             <span class="fa fa-pencil"></span>
