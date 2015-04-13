@@ -2,6 +2,16 @@ body {
     background: url("../images/background.jpg") left top no-repeat fixed;
 }
 
+.main-content {
+    box-sizing: border-box;
+    min-height: 100%;
+    padding: 5px;
+    position: absolute;
+    right: 300px;
+    top: 0;
+    width: 900px;
+}
+
 .subscribe-panel-wrapper {
     position: fixed;
     margin: 0;
@@ -89,7 +99,7 @@ body {
 .input-group {
     border-collapse: separate;
     display: table;
-    margin-top: 20px;
+    margin-top: 30px;
     position: relative;
     width: 100%;
 }
