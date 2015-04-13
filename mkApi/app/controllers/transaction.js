@@ -22,6 +22,10 @@ var transactionController = {
                 console.log('totalItems: ', totalItems);
 
                 callback(error, paginatedResults, totalItems);
+            },
+            {
+                populate: ['category', 'accountSource', 'accountDestination']
+                //sortBy: {title: -1}
             }
         );
     },
@@ -31,7 +35,8 @@ var transactionController = {
             _owner: user._id
         })
             .populate('category')
-            .populate('account')
+            .populate('accountSource')
+            .populate('accountDestination')
             .exec(callback);
     },
     post: function (user, data, callback) {
