@@ -13,6 +13,6 @@
     "pagination": {
         "pagesInRow": 5,
         "pageSizes": [10, 50, 100, 1000],
-        "pageSizeDefault": 50
+        "pageSizeDefault": 10
     }
 }
