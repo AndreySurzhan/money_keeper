@@ -12,7 +12,9 @@ define(
         'components/accounts/accounts',
         'components/transactions/transactions',
         'components/navigation-menu/navigation-menu',
-        'components/accounts/accounts'
+        'components/accounts/accounts',
+
+        'mkDirectives'
     ],
     function (require, ng) {
         'use strict';

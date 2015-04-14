@@ -24,6 +24,7 @@ requirejs.config(
             'config': '../config.json',
             'logger': 'common/logger',
             'mkControllers': 'common/controllers',
+            'mkDirectives': 'common/directives',
             'mkTranslations': 'common/translations',
             'mkServices': 'common/services',
             'mkFilters': 'common/filters',

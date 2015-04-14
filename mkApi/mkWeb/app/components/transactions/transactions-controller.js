@@ -83,6 +83,8 @@ define(
             return function () {
                 var pagination = $scope.pagination;
 
+                $scope.isUpdating = true;
+
                 pagination = updatePagination(
                     pagination,
                     {
@@ -94,6 +96,7 @@ define(
 
                 updateTransactionsList(transactionsFactory, $scope.pagination.currentPage, $scope.pagination.itemsPerPage)
                     .done(function (transactions) {
+                        $scope.isUpdating = false;
                         $scope.transactions = transactions;
                         $scope.pagination = updatePagination(
                             $scope.pagination,
@@ -104,7 +107,8 @@ define(
                         );
                     })
                     .fail(function (error) {
-
+                        $scope.isUpdating = false;
+                        logger.error(error);
                     });
             };
         };
@@ -122,6 +126,7 @@ define(
 
                     amMoment.changeLocale(config.lang);
 
+                    $scope.isUpdating = false;
                     $scope.pageSizes = config.pagination.pageSizes;
                     $scope.pagination = getInitPagination(
                         {
@@ -131,10 +136,12 @@ define(
                         $filter
                     );
 
+                    $scope.isUpdating = true;
                     updateTransactionsList(Transaction, $scope.pagination.currentPage, $scope.pagination.itemsPerPage)
                         .done(function (transactions) {
                             logger.timeEnd('Transaction List controller initialize');
 
+                            $scope.isUpdating = false;
                             $scope.transactions = transactions;
                             $scope.pagination = updatePagination(
                                 $scope.pagination,
@@ -149,6 +156,8 @@ define(
                         .fail(function (error) {
                             logger.timeEnd('Transaction List controller initialize');
                             logger.error(error);
+
+                            $scope.isUpdating = false;
                         });
 
                     $scope.orderProp = '_id';
