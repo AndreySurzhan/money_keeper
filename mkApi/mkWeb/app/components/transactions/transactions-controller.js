@@ -79,7 +79,7 @@ define(
 
         // Events
 
-        var onPaginationChanged = function ($scope, $filter, transactionsFactory) {
+        var refreshTransactionsList = function ($scope, $filter, transactionsFactory) {
             return function () {
                 var pagination = $scope.pagination;
 
@@ -153,6 +153,7 @@ define(
 
                     $scope.orderProp = '_id';
 
+                    $scope.refresh = refreshTransactionsList($scope, $filter, Transaction);
                     $scope.showDetails = function (transactiontId) {
                        window.location.hash = '#/transactions/' + transactiontId;
                     };
@@ -174,8 +175,8 @@ define(
                         );
                     };
 
-                    $scope.onPageChanged = onPaginationChanged($scope, $filter, Transaction);
-                    $scope.onPageSizeChanged = onPaginationChanged($scope, $filter, Transaction);
+                    $scope.onPageChanged = refreshTransactionsList($scope, $filter, Transaction);
+                    $scope.onPageSizeChanged = refreshTransactionsList($scope, $filter, Transaction);
                 }
             ]
         );
