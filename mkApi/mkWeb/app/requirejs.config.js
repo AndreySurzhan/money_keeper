@@ -31,6 +31,7 @@ requirejs.config(
             // Utils
             'entityUtil': 'common/utils/entityUtil',
             'scopeUtil': 'common/utils/scopeUtil',
+            'formUtil': 'common/utils/formUtil',
 
             'enums': 'common/enums.json'
         },

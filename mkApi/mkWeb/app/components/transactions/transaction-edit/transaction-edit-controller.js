@@ -8,10 +8,11 @@ define(
         'logger',
         'scopeUtil',
         'entityUtil',
+        'formUtil',
         '../transactions-services',
         '../../currencies/currencies-services'
     ],
-    function (mkControllers, enums, config, _, $, logger, scopeUtil, entityUtil) {
+    function (mkControllers, enums, config, _, $, logger, scopeUtil, entityUtil, formUtil) {
         // Accounts
         var storedAccounts;
         var getAccounts = function (accountsFactory) {
@@ -202,20 +203,28 @@ define(
                     entityUtil.normalizeEntityField(transaction, 'type', 'value', transactionTypesList);
 
                     if (transactionType === enums.transactionTypes.transfer.value) {
-                        formControlInit($scope, 'accountDestination', accountsList);
-                        formControlDisable($scope, 'category');
+                        formUtil.initControl($scope, 'accountDestination', {
+                            data: accountsList
+                        });
+                        formUtil.hideAndDisableControl($scope, 'category');
                     } else {
-                        formControlInit($scope, 'category', categoriesList);
-                        formControlDisable($scope, 'accountDestination');
+                        formUtil.initControl($scope, 'category', {
+                            data: categoriesList
+                        });
+                        formUtil.hideAndDisableControl($scope, 'accountDestination');
                     }
 
-                    formControlInit($scope, 'value');
-                    formControlInit($scope, 'date');
-                    formControlInit($scope, 'transactionTypes', transactionTypesList);
-                    formControlInit($scope, 'accountSource', accountsList);
-                    formControlInit($scope, 'note');
+                    formUtil.initControl($scope, 'value');
+                    formUtil.initControl($scope, 'date');
+                    formUtil.initControl($scope, 'transactionTypes', {
+                        data: transactionTypesList
+                    });
+                    formUtil.initControl($scope, 'accountSource', {
+                        data: accountsList
+                    });
+                    formUtil.initControl($scope, 'note');
 
-                    formControlInit($scope, 'submit');
+                    formUtil.initControl($scope, 'submit');
 
                     result.resolve(transaction);
                 })
@@ -411,31 +420,6 @@ define(
                     saveButton: 'save button'
                 }
             };
-        };
-        var formControlInit = function ($scope, controlName, controlData) {
-            if (!$scope.formState[controlName]) {
-                logger.error('Control "' + controlName + '" does not exist.');
-
-                return;
-            }
-
-            $scope.formState[controlName].enable = true;
-            $scope.formState[controlName].visible = true;
-
-            if (controlData) {
-                $scope.formState[controlName].data = controlData;
-            }
-        };
-        var formControlDisable = function ($scope, controlName) {
-            if (!$scope.formState[controlName]) {
-                logger.error('Control "' + controlName + '" does not exist.');
-
-                return;
-            }
-
-            $scope.formState[controlName].enable = false;
-            $scope.formState[controlName].visible = false;
-            $scope.formState[controlName].data = [];
         };
         var setCreateTransactionTexts = function ($scope, $filter) {
             $scope.formState.texts.header = $filter('translate')('components.transactions.create.header');

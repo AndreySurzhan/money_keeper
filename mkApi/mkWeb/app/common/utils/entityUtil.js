@@ -18,7 +18,7 @@ define(
              * @param {string} fieldProperty
              * @param {Object[]} valuesList
              *
-             * returns void
+             * @returns void
              */
             normalizeEntityField: function (entity, field, fieldProperty, valuesList) {
                 var currentValue,

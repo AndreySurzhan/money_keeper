@@ -4,10 +4,10 @@ define(
         'logger',
         'scopeUtil',
         'entityUtil',
+        'formUtil',
         '../categories-services'
     ],
-    function (mkControllers, logger, scopeUtil, entityUtil) {
-
+    function (mkControllers, logger, scopeUtil, entityUtil, formUtil) {
         // Categories
         var storedIncomeCategories;
         var getIncomeCategories = function (Category) {
@@ -126,15 +126,19 @@ define(
                 .done(function (categoriesList) {
                     entityUtil.normalizeEntityField(category, 'parent', '_id', categoriesList);
 
-                    formControlInit($scope, 'name');
-                    if (operationType === 'create') {
-                        formControlInit($scope, 'income');
-                    } else {
-                        formControlDisable($scope, 'income');
-                    }
-                    formControlInit($scope, 'parent', categoriesList);
 
-                    formControlInit($scope, 'submit');
+
+                    formUtil.initControl($scope, 'name');
+                    if (operationType === 'create') {
+                        formUtil.initControl($scope, 'income');
+                    } else {
+                        formUtil.hideAndDisableControl($scope, 'income');
+                    }
+                    formUtil.initControl($scope, 'parent', {
+                        data: categoriesList
+                    });
+
+                    formUtil.initControl($scope, 'submit');
 
                     result.resolve(category);
                 })
@@ -220,31 +224,6 @@ define(
         };
 
         // Form state
-        var formControlInit = function ($scope, controlName, controlData) {
-            if (!$scope.formState[controlName]) {
-                logger.error('Control "' + controlName + '" does not exist.');
-
-                return;
-            }
-
-            $scope.formState[controlName].enable = true;
-            $scope.formState[controlName].visible = true;
-
-            if (controlData) {
-                $scope.formState[controlName].data = controlData;
-            }
-        };
-        var formControlDisable = function ($scope, controlName) {
-            if (!$scope.formState[controlName]) {
-                logger.error('Control "' + controlName + '" does not exist.');
-
-                return;
-            }
-
-            $scope.formState[controlName].enable = false;
-            $scope.formState[controlName].visible = false;
-            $scope.formState[controlName].data = [];
-        };
         var setInitialFormState = function ($scope) {
             $scope.formState = {
                 name: {
