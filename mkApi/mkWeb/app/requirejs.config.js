@@ -28,6 +28,9 @@ requirejs.config(
             'mkTranslations': 'common/translations',
             'mkServices': 'common/services',
             'mkFilters': 'common/filters',
+            // Utils
+            'entityUtil': 'common/utils/entityUtil',
+            'scopeUtil': 'common/utils/scopeUtil',
 
             'enums': 'common/enums.json'
         },

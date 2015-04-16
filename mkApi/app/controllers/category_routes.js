@@ -15,7 +15,6 @@ module.exports = function (router, CategoryController, isAuthorized) {
             );
         })
         .post(isAuthorized, function (req, res) {
-            console.log('call route POST: /categories');
             CategoryController.post(
                 req.user,
                 {
