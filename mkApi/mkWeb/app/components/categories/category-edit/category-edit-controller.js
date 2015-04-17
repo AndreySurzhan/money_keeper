@@ -126,8 +126,6 @@ define(
                 .done(function (categoriesList) {
                     entityUtil.normalizeEntityField(category, 'parent', '_id', categoriesList);
 
-
-
                     formUtil.initControl($scope, 'name');
                     if (operationType === 'create') {
                         formUtil.initControl($scope, 'income');
