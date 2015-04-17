@@ -1,15 +1,21 @@
 <div class="col-md-12">
-    <div class="panel panel-default" ng-controller="CategoryListCtrl">
+    <div class="panel panel-default"
+         panel-disabled="isUpdating">
         <div class="panel-heading">
             <div class="panel-title-box">
                 <h3>
                     {{ 'components.categories.list.header' | translate }}
                 </h3>
                 <span>
-                    {{ 'components.categories.list.header' | translate }}
+                    {{ 'components.categories.list.sub-header' | translate }}
                 </span>
             </div>
             <ul class="panel-controls">
+                <li>
+                    <button ng-click="refresh()">
+                        <span class="fa fa-refresh"></span>
+                    </button>
+                </li>
                 <li>
                     <a href="#/categories/add" class="button header-button-create"
                        title="{{ 'common.buttons.create' | translate }}">
@@ -31,10 +37,7 @@
             <table class="categories-list table table-hover table-striped">
                 <thead>
                 <tr>
-                    <th class="category-id-column">
-                        {{ 'components.categories.fields.id.text' | translate }}
-                    </th>
-                    <th class="category-income-column">
+                    <th class="first-column category-income-column">
                         {{ 'components.categories.fields.income.text' | translate }}
                     </th>
                     <th>
@@ -48,10 +51,7 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="category in categories | filter:query | orderBy:orderProp">
-                    <td class="category-id-column">
-                        {{ category._id }}
-                    </td>
-                    <td class="category-income-column"
+                    <td class="first-column category-income-column"
                         ng-bind-html="category.income | categoryIncomeMark">
                     </td>
                     <td>
@@ -74,8 +74,6 @@
                 </tbody>
             </table>
         </div>
-        <div class="panel-footer">
-
-        </div>
+        <div class="panel-footer"></div>
     </div>
 </div>
