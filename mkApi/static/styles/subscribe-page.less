@@ -1,3 +1,5 @@
+@import "subscribe-page-content.less";
+
 body {
     background: url("../../images/background.jpg") left top no-repeat fixed;
 }
@@ -5,11 +7,13 @@ body {
 .main-content {
     box-sizing: border-box;
     min-height: 100%;
-    padding: 5px;
+    padding: 0;
     position: absolute;
     right: 300px;
     top: 0;
     width: 900px;
+    margin: 5px;
+    border-radius: 5px;
 }
 
 .subscribe-panel-wrapper {
@@ -31,28 +35,28 @@ body {
     padding: 20px;
     border-radius: 5px;
     box-sizing: border-box;
-}
 
-.subscribe-panel h1 {
-    color: #fff;
-    background-color: #e0401d;
-    text-align: center;
-    margin: -20px 0 20px -20px;
-    width: 290px;
-    padding: 12px;
-    box-sizing: border-box;
-    font-size: 20px;
-    font-family: Georgia;
-    font-weight: bold;
+    h1 {
+        color: #fff;
+        background-color: @red;
+        text-align: center;
+        margin: -20px 0 20px -20px;
+        width: 290px;
+        padding: 12px;
+        box-sizing: border-box;
+        font-size: 20px;
+        font-family: Georgia;
+        font-weight: bold;
 
-    border-radius: 5px 5px 0 0;
-}
+        border-radius: 5px 5px 0 0;
+    }
 
-.subscribe-panel p {
-    color: #fff;
-    font-size: 15px;
-    text-align: left;
-    width: 100%;
+    .subscribe-panel p {
+        color: #fff;
+        font-size: 15px;
+        text-align: left;
+        width: 100%;
+    }
 }
 
 .subscribe-button {

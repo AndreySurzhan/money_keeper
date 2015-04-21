@@ -14,7 +14,7 @@
             MoneyKeeper
         </h1>
         <p>
-            На данное время сервис находится в стадии разработки и временно не доступен.
+            В данное время сервис находится в стадии разработки и временно не доступен.
         </p>
         <p>
             Вы можете подписаться на уведомление о начале работы нашего сервиса.
@@ -34,7 +34,40 @@
     </div>
 </div>
 <div class="main-content">
-
+    <h1>
+        Учитывайте финансы
+    </h1>
+    <div class="row backgrounded">
+        <div class="col-md-8">
+            Объедините все ваши финансы в одной системе.
+            Ведите общий учет наличных, карт, ПИФов, кредитов и вкладов.
+        </div>
+        <div class="col-md-4">
+            <img class="row-pic" src="../images/money_1.jpg">
+        </div>
+    </div>
+    <h1>
+        Составляйте планы
+    </h1>
+    <div class="row backgrounded">
+        <div class="col-md-4">
+            <img class="row-pic" src="../images/money_2.jpg">
+        </div>
+        <div class="col-md-8">
+            Планируйте свои расходы и доходы. Составляйте прогнозы и контролируйте исполнение бюджета.
+        </div>
+    </div>
+    <h1>
+        Ведите накопления
+    </h1>
+    <div class="row backgrounded">
+        <div class="col-md-4">
+            <img class="row-pic" src="../images/money_3.jpg">
+        </div>
+        <div class="col-md-8">
+            Откладывайте деньги ежемесячно и достигайте поставленных целей
+        </div>
+    </div>
 </div>
     <script src="//code.jquery.com/jquery-2.1.3.js"></script>
     <script>
@@ -47,8 +80,6 @@
 
         $submit.on('click', function () {
             var dataString = $form.serialize();
-
-            console.log('sending data', dataString);
 
             $.ajax({
                 type: $form.attr('method'),
