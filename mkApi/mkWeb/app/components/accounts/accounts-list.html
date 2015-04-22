@@ -1,15 +1,21 @@
 <div class="col-md-12">
-    <div class="panel panel-default" ng-controller="AccountListCtrl">
+    <div class="panel panel-default"
+         panel-disabled="isUpdating">
         <div class="panel-heading">
             <div class="panel-title-box">
                 <h3>
                     {{ 'components.accounts.list.header' | translate }}
                 </h3>
                 <span>
-                    {{ 'components.accounts.list.header' | translate }}
+                    {{ 'components.accounts.list.sub-header' | translate }}
                 </span>
             </div>
             <ul class="panel-controls">
+                <li>
+                    <button ng-click="refresh()">
+                        <span class="fa fa-refresh"></span>
+                    </button>
+                </li>
                 <li>
                     <a href="#/accounts/add" class="button header-button-create"
                        title="{{ 'common.buttons.create' | translate }}">
@@ -22,10 +28,7 @@
             <table class="accounts-list table table-hover table-striped">
                 <thead>
                 <tr>
-                    <th class="accounts-id-column">
-                        {{ 'components.accounts.fields.id.text' | translate }}
-                    </th>
-                    <th>
+                    <th class="first-column">
                         {{ 'components.accounts.fields.name.text' | translate }}
                     </th>
                     <th>
@@ -34,15 +37,12 @@
                     <th>
                         {{ 'components.accounts.fields.initValue.text' | translate }}
                     </th>
-                    <th class="account-actions-column"></th>
+                    <th class="actions-column"></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="account in accounts | filter:query | orderBy:orderProp">
-                    <td class="account-id-column">
-                        {{ account._id }}
-                    </td>
-                    <td>
+                    <td class="first-column">
                         {{ account.name }}
                     </td>
                     <td>
