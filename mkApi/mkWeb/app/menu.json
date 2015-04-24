@@ -7,7 +7,7 @@
     {
         "name": "navigation-menu.settings.root",
         "icon": "fa fa-cogs",
-        "href": "#",
+        "href": "#/settings",
         "children": [
             {
                 "name": "navigation-menu.categories.root",
