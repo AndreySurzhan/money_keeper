@@ -41,6 +41,7 @@ define(
                 function ($scope, Category) {
                     $scope.categories = [];
                     $scope.orderProp = '_id';
+
                     updateCategoriesList($scope, Category)
                         .done(function (categories) {
                             $scope.categories = categories
@@ -58,12 +59,14 @@ define(
                                 $scope.categories = [];
                             });
                     };
+
                     $scope.showDetails = function (categoryId) {
                         console.log('showDetails');
                         console.log(categoryId);
 
                         window.location.hash = '#/categories/' + categoryId;
                     };
+
                     $scope.remove = function (categoryId) {
                         Category.remove(
                             {

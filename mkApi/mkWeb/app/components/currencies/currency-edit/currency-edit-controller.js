@@ -31,7 +31,7 @@ define(
                 },
                 function (currency) {
                     logger.timeEnd('Getting currency #' + id);
-                    logger.table(currency);
+                    logger.logCurrencies(currency);
                     logger.groupEnd('Getting currency  #' + id);
 
                     result.resolve(currency);
