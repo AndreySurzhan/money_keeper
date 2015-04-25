@@ -5,17 +5,17 @@ define(
     function (app) {
         'use strict';
 
-        var moduleUrl = 'app/components/currencies/currency-create/';
+        var moduleUrl = 'app/components/settings/';
 
         app.config(
             [
                 '$routeProvider',
                 function ($routeProvider) {
                     $routeProvider
-                        .when('/currencies/add',
+                        .when('/settings',
                         {
-                            templateUrl: moduleUrl + 'currency-create.html',
-                            controller: 'CurrencyCreateCtrl'
+                            templateUrl: moduleUrl + 'settings-list.html',
+                            controller: 'SettingsCtrl'
                         });
                 }
             ]

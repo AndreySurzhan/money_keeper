@@ -7,12 +7,15 @@ define(
         'require',
         'angular',
         'app',
+        'components/settings/settings',
         'components/categories/categories',
         'components/currencies/currencies',
         'components/accounts/accounts',
         'components/transactions/transactions',
         'components/navigation-menu/navigation-menu',
-        'components/accounts/accounts'
+        'components/accounts/accounts',
+
+        'mkDirectives'
     ],
     function (require, ng) {
         'use strict';

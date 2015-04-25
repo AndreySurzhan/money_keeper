@@ -6,23 +6,13 @@ define(
         'underscore',
         'jquery',
         'logger',
+        'scopeUtil',
+        'entityUtil',
+        'formUtil',
         '../transactions-services',
         '../../currencies/currencies-services'
     ],
-    function (mkControllers, enums, config, _, $, logger) {
-        var scopeApplySafely = function ($scope, callback) {
-            var interval = 10;
-            var phase = $scope.$$phase;
-
-            if(phase !== '$apply' && phase !== '$digest') {
-                $scope.$apply(callback);
-            } else {
-                setTimeout(function () {
-                    scopeApplySafely($scope, callback);
-                }, interval);
-            }
-        };
-
+    function (mkControllers, enums, config, _, $, logger, scopeUtil, entityUtil, formUtil) {
         // Accounts
         var storedAccounts;
         var getAccounts = function (accountsFactory) {
@@ -73,7 +63,7 @@ define(
             Category.getIncome(
                 function (categories) {
                     logger.timeEnd('Getting income categories');
-                    logger.logAccounts(categories);
+                    logger.logCategories(categories);
                     logger.groupEnd('Getting income categories');
 
                     storedIncomeCategories = categories;
@@ -105,7 +95,7 @@ define(
             Category.getOutcome(
                 function (categories) {
                     logger.timeEnd('Getting outcome categories');
-                    logger.logAccounts(categories);
+                    logger.logCategories(categories);
                     logger.groupEnd('Getting outcome categories');
 
                     storedOutcomeCategories = categories;
@@ -178,18 +168,6 @@ define(
 
             return result.promise();
         };
-        var initTransactionField = function (transaction, field, list, fieldProperty) {
-            var currentValue = _.isObject(transaction[field])
-                ? transaction[field][fieldProperty]
-                : transaction[field];
-            var findCondition;
-
-            findCondition = {};
-            findCondition[fieldProperty] = currentValue;
-
-            transaction[field] = _.findWhere(list, findCondition);
-            transaction[field] = transaction[field] ? transaction[field] : currentValue;
-        };
         var initTransactionForm = function (transaction, $scope, $filter, Account, Category) {
             var result = new $.Deferred();
             var accounts;
@@ -219,26 +197,34 @@ define(
                         ? transaction.type.value
                         : transaction.type;
 
-                    initTransactionField(transaction, 'accountSource', accountsList, '_id');
-                    initTransactionField(transaction, 'accountDestination', accountsList, '_id');
-                    initTransactionField(transaction, 'category', categoriesList, '_id');
-                    initTransactionField(transaction, 'type', transactionTypesList, 'value');
+                    entityUtil.normalizeEntityField(transaction, 'accountSource', '_id', accountsList);
+                    entityUtil.normalizeEntityField(transaction, 'accountDestination', '_id', accountsList);
+                    entityUtil.normalizeEntityField(transaction, 'category', '_id', categoriesList);
+                    entityUtil.normalizeEntityField(transaction, 'type', 'value', transactionTypesList);
 
                     if (transactionType === enums.transactionTypes.transfer.value) {
-                        formControlInit($scope, 'accountDestination', accountsList);
-                        formControlDisable($scope, 'category');
+                        formUtil.initControl($scope, 'accountDestination', {
+                            data: accountsList
+                        });
+                        formUtil.hideAndDisableControl($scope, 'category');
                     } else {
-                        formControlInit($scope, 'category', categoriesList);
-                        formControlDisable($scope, 'accountDestination');
+                        formUtil.initControl($scope, 'category', {
+                            data: categoriesList
+                        });
+                        formUtil.hideAndDisableControl($scope, 'accountDestination');
                     }
 
-                    formControlInit($scope, 'value');
-                    formControlInit($scope, 'date');
-                    formControlInit($scope, 'transactionTypes', transactionTypesList);
-                    formControlInit($scope, 'accountSource', accountsList);
-                    formControlInit($scope, 'note');
+                    formUtil.initControl($scope, 'value');
+                    formUtil.initControl($scope, 'date');
+                    formUtil.initControl($scope, 'transactionTypes', {
+                        data: transactionTypesList
+                    });
+                    formUtil.initControl($scope, 'accountSource', {
+                        data: accountsList
+                    });
+                    formUtil.initControl($scope, 'note');
 
-                    formControlInit($scope, 'submit');
+                    formUtil.initControl($scope, 'submit');
 
                     result.resolve(transaction);
                 })
@@ -312,8 +298,6 @@ define(
                     } else {
                         categoryId = category;
                     }
-
-                    console.log('categoryId', categoryId);
 
                     categoryId = categoryId === 0 ? null : categoryId;
 
@@ -437,31 +421,6 @@ define(
                 }
             };
         };
-        var formControlInit = function ($scope, controlName, controlData) {
-            if (!$scope.formState[controlName]) {
-                logger.error('Control "' + controlName + '" does not exist.');
-
-                return;
-            }
-
-            $scope.formState[controlName].enable = true;
-            $scope.formState[controlName].visible = true;
-
-            if (controlData) {
-                $scope.formState[controlName].data = controlData;
-            }
-        };
-        var formControlDisable = function ($scope, controlName) {
-            if (!$scope.formState[controlName]) {
-                logger.error('Control "' + controlName + '" does not exist.');
-
-                return;
-            }
-
-            $scope.formState[controlName].enable = false;
-            $scope.formState[controlName].visible = false;
-            $scope.formState[controlName].data = [];
-        };
         var setCreateTransactionTexts = function ($scope, $filter) {
             $scope.formState.texts.header = $filter('translate')('components.transactions.create.header');
             $scope.formState.texts.saveButton = $filter('translate')('common.buttons.create');
@@ -505,10 +464,11 @@ define(
                         initTransactionForm(transaction, $scope, $filter, Account, Category)
                             .done(function (transaction) {
                                 $scope.model = transaction;
-                                scopeApplySafely($scope);
+                                scopeUtil.applySafely($scope);
                                 logger.timeEnd('Edit Transaction controller initialize');
                             })
                             .fail(function (error) {
+                                logger.timeEnd('Edit Transaction controller initialize');
                                 logger.error(error);
                             });
                     });
@@ -549,7 +509,7 @@ define(
                             });
                     };
 
-                    $scope.Cancel = function () {
+                    $scope.cancel = function () {
                         window.history.back();
                     };
                 }

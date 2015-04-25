@@ -12,6 +12,8 @@ define(
         // Transactions
 
         var updateTransactionsList = function (transactionsFactory, page, perPage) {
+            logger.time('Updating transactions list');
+
             var result = new $.Deferred();
 
             transactionsFactory.query(
@@ -20,9 +22,17 @@ define(
                     perPage: perPage
                 },
                 function (transactions) {
+                    logger.timeEnd('Updating transactions list');
+                    logger.groupCollapsed('Updating transactions list');
+                    logger.logTransactions(transactions);
+                    logger.groupEnd('Updating transactions list');
+
                     result.resolve(transactions);
                 },
                 function (error) {
+                    logger.timeEnd('Updating transactions list');
+                    logger.error(error);
+
                     result.reject(error);
                 }
             );
@@ -69,9 +79,11 @@ define(
 
         // Events
 
-        var onPaginationChanged = function ($scope, $filter, transactionsFactory) {
+        var refreshTransactionsList = function ($scope, $filter, transactionsFactory) {
             return function () {
                 var pagination = $scope.pagination;
+
+                $scope.isUpdating = true;
 
                 pagination = updatePagination(
                     pagination,
@@ -84,6 +96,7 @@ define(
 
                 updateTransactionsList(transactionsFactory, $scope.pagination.currentPage, $scope.pagination.itemsPerPage)
                     .done(function (transactions) {
+                        $scope.isUpdating = false;
                         $scope.transactions = transactions;
                         $scope.pagination = updatePagination(
                             $scope.pagination,
@@ -94,7 +107,8 @@ define(
                         );
                     })
                     .fail(function (error) {
-
+                        $scope.isUpdating = false;
+                        logger.error(error);
                     });
             };
         };
@@ -107,8 +121,12 @@ define(
                 'Transaction',
                 'amMoment',
                 function ($scope, $filter, Transaction, amMoment) {
+                    logger.info('--- Transaction List controller initialize ---');
+                    logger.time('Transaction List controller initialize');
+
                     amMoment.changeLocale(config.lang);
 
+                    $scope.isUpdating = false;
                     $scope.pageSizes = config.pagination.pageSizes;
                     $scope.pagination = getInitPagination(
                         {
@@ -118,8 +136,12 @@ define(
                         $filter
                     );
 
+                    $scope.isUpdating = true;
                     updateTransactionsList(Transaction, $scope.pagination.currentPage, $scope.pagination.itemsPerPage)
                         .done(function (transactions) {
+                            logger.timeEnd('Transaction List controller initialize');
+
+                            $scope.isUpdating = false;
                             $scope.transactions = transactions;
                             $scope.pagination = updatePagination(
                                 $scope.pagination,
@@ -132,30 +154,38 @@ define(
                             );
                         })
                         .fail(function (error) {
+                            logger.timeEnd('Transaction List controller initialize');
+                            logger.error(error);
 
+                            $scope.isUpdating = false;
                         });
 
                     $scope.orderProp = '_id';
+
+                    $scope.refresh = refreshTransactionsList($scope, $filter, Transaction);
                     $scope.showDetails = function (transactiontId) {
                        window.location.hash = '#/transactions/' + transactiontId;
                     };
-
                     $scope.remove = function (transactiontId) {
+                        logger.log('Remove transaction #' + transactiontId);
+
                         Transaction.remove(
                             {
                                 id: transactiontId
                             },
                             function (transactions) {
+                                logger.log('Transactions removed');
+
                                 $scope.transactions = transactions;
                             },
-                            function () {
-                                console.error('error', arguments);
+                            function (error) {
+                                logger.error(error);
                             }
                         );
                     };
 
-                    $scope.onPageChanged = onPaginationChanged($scope, $filter, Transaction);
-                    $scope.onPageSizeChanged = onPaginationChanged($scope, $filter, Transaction);
+                    $scope.onPageChanged = refreshTransactionsList($scope, $filter, Transaction);
+                    $scope.onPageSizeChanged = refreshTransactionsList($scope, $filter, Transaction);
                 }
             ]
         );

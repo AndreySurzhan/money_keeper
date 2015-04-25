@@ -1,14 +1,15 @@
 <div class="col-md-12">
-    <div class="panel panel-default" ng-controller="AccountEditCtrl">
+    <div class="panel panel-default">
         <div class="panel-heading">
             <div class="panel-title-box">
                 <h3>
-                    {{ 'components.accounts.edit.header' | translate }}
+                    {{ formState.texts.header  }}
                 </h3>
             </div>
         </div>
         <div class="panel-body">
             <form class="form-horizontal">
+                <!-- INIT NAME -->
                 <div class="form-group">
                     <label class="col-md-3 control-label">
                         {{ 'components.accounts.fields.name.text' | translate }}
@@ -16,9 +17,11 @@
                     <div class="col-md-9">
                         <input name="name" type="text" class="form-control"
                                placeholder="{{ 'components.accounts.fields.name.placeholder' | translate }}"
-                               ng-model="name">
+                               ng-model="model.name"
+                               ng-disabled="!formState.name.enable">
                     </div>
                 </div>
+                <!-- INIT VALUE -->
                 <div class="form-group">
                     <label class="col-md-3 control-label">
                         {{ 'components.accounts.fields.initValue.text' | translate }}
@@ -26,31 +29,33 @@
                     <div class="col-md-9">
                         <input name="name" type="text" class="form-control"
                                placeholder="{{ 'components.accounts.fields.initValue.placeholder' | translate }}"
-                               ng-model="initValue">
+                               ng-model="model.initValue"
+                               ng-disabled="!formState.initValue.enable">
                     </div>
                 </div>
+                <!-- CURRENCY -->
                 <div class="form-group">
                     <label class="col-md-3 control-label">
                         {{ 'components.accounts.fields.currency.text' | translate }}
                     </label>
                     <div class="col-md-9">
                         <select class="form-control"
-                                ng-model="currency"
-                                ng-disabled="selectCurrencyDisabled"
-                                ng-options="currency.name for currency in selectCurrencyData track by currency._id" >
+                                ng-model="model.currency"
+                                ng-disabled="!formState.currency.enable"
+                                ng-options="currency.name for currency in formState.currency.data track by currency._id" >
                             <option value="">{{ 'components.accounts.fields.currency.default-value' | translate }}</option>
                         </select>
                     </div>
                 </div>
                 <hr>
                 <div class="btn-group pull-right">
-                    <button class="btn btn-default" type="button"ng-click="Cancel()">
+                    <button class="btn btn-default" type="button"ng-click="cancel()">
                         {{ 'common.buttons.cancel' | translate }}
                     </button>
                     <button class="btn btn-primary" type="submit"
-                            ng-click="editAccount(this)"
-                            ng-disabled="submitDisabled" >
-                        {{ 'common.buttons.save' | translate }}
+                            ng-click="executeOperation()"
+                            ng-disabled="!formState.submit.enable" >
+                        {{ formState.texts.saveButton }}
                     </button>
                 </div>
             </form>

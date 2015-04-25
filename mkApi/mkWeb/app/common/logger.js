@@ -121,6 +121,11 @@ define(
             this.table(categories, ['_id', 'income', 'name', '_owner']);
         };
 
+        // Currencies
+        logger.logCurrencies = function (currencies) {
+            this.table(currencies, ['_id', 'name', '_owner']);
+        };
+
         return logger;
     }
 );

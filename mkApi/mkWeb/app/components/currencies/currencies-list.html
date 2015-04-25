@@ -1,15 +1,21 @@
 <div class="col-md-12">
-    <div class="panel panel-default" ng-controller="CurrencyListCtrl">
+    <div class="panel panel-default"
+         panel-disabled="isUpdating">
         <div class="panel-heading">
             <div class="panel-title-box">
                 <h3>
                     {{ 'components.currencies.list.header' | translate }}
                 </h3>
                 <span>
-                    {{ 'components.currencies.list.header' | translate }}
+                    {{ 'components.currencies.list.sub-header' | translate }}
                 </span>
             </div>
             <ul class="panel-controls">
+                <li>
+                    <button ng-click="refresh()">
+                        <span class="fa fa-refresh"></span>
+                    </button>
+                </li>
                 <li>
                     <a href="#/currencies/add" class="button header-button-create"
                        title="{{ 'common.buttons.create' | translate }}">
@@ -22,24 +28,18 @@
             <table class="currencies-list table table-hover table-striped">
                 <thead>
                 <tr>
-                    <th class="currency-id-column">
-                        {{ 'components.currencies.fields.id.text' | translate }}
-                    </th>
                     <th>
                         {{ 'components.currencies.fields.name.text' | translate }}
                     </th>
-                    <th class="currency-actions-column"></th>
+                    <th class="actions-column"></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="currency in currencies | filter:query | orderBy:orderProp">
-                    <td class="category-id-column">
-                        {{ currency._id }}
-                    </td>
                     <td>
                         {{ currency.name }}
                     </td>
-                    <td class="currency-actions-column">
+                    <td class="actions-column">
                         <button class="btn btn-default btn-rounded btn-condensed btn-sm"
                                 ng-click="showDetails(currency._id)">
                             <span class="fa fa-pencil"></span>

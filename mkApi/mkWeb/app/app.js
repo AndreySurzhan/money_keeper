@@ -17,6 +17,7 @@ define(
                 'angularMoment',
                 'ui.bootstrap',
                 'moneyKeeperControllers',
+                'moneyKeeperDirectives',
                 'moneyKeeperFilters',
                 'moneyKeeperServices',
                 'moneyKeeperAnimations',

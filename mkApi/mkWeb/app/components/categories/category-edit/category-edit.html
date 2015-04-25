@@ -1,32 +1,38 @@
 <div class="col-md-12">
-    <div class="panel panel-default" ng-controller="CategoryEditCtrl">
+    <div class="panel panel-default">
         <div class="panel-heading">
             <div class="panel-title-box">
                 <h3>
-                    {{ 'components.categories.create.header' | translate }}
+                    {{ formState.texts.header }}
                 </h3>
             </div>
         </div>
         <div class="panel-body">
             <form class="form-horizontal">
+                <!-- NAME -->
                 <div class="form-group">
                     <label class="col-md-3 control-label">
                         {{ 'components.categories.fields.name.text' | translate }}
                     </label>
                     <div class="col-md-9">
                         <input name="name" type="text" class="form-control"
-                               placeholder="{{ 'components.categories.fields.name.placeholder' | translate }}" ng-model="name">
+                               placeholder="{{ 'components.categories.fields.name.placeholder' | translate }}"
+                               ng-model="model.name"
+                               ng-disabled="!formState.name.enable">
                     </div>
                 </div>
-                <div class="form-group">
+                <!-- INCOME -->
+                <div class="form-group"
+                     ng-show="formState.income.visible">
                     <label class="col-md-3 control-label">
                         {{ 'components.categories.fields.income.text' | translate }}
                     </label>
                     <div class="col-md-9">
                         <label class="switch">
                             <input type="checkbox" id="income" disabled="disabled"
-                                   ng-model="income"
-                                   ng-change="incomeChanged()" >
+                                   ng-model="model.income"
+                                   ng-change="incomeChanged()"
+                                   ng-disabled="!formState.income.enable">
                             <span></span>
                             <label class="switch-checked-label" for="income">
                                 {{ 'components.categories.text.income' | translate }}
@@ -37,28 +43,30 @@
                         </label>
                     </div>
                 </div>
+                <!-- PARENT -->
                 <div class="form-group">
                     <label class="col-md-3 control-label">
                         {{ 'components.categories.fields.parent.text' | translate }}
                     </label>
                     <div class="col-md-9">
                         <select parent="name" class="form-control"
-                                ng-model="parent"
-                                ng-disabled="selectParentDisabled"
-                                ng-options="category.name for category in selectParentData track by category._id" >
+                                ng-model="model.parent"
+                                ng-disabled="!formState.parent.enable"
+                                ng-options="category.name for category in formState.parent.data track by category._id" >
                             <option value="">{{ 'components.categories.fields.parent.default-value' | translate }}</option>
                         </select>
                     </div>
                 </div>
                 <hr>
                 <div class="btn-group pull-right">
-                    <button class="btn btn-default" type="button"ng-click="Cancel()">
+                    <button class="btn btn-default" type="button"
+                            ng-click="cancel()">
                         {{ 'common.buttons.cancel' | translate }}
                     </button>
                     <button class="btn btn-primary" type="submit"
-                            ng-click="editCategory(this)"
-                            ng-disabled="submitDisabled" >
-                        {{ 'common.buttons.save' | translate }}
+                            ng-click="executeOperation()"
+                            ng-disabled="!formState.submit.enable" >
+                        {{ formState.texts.saveButton }}
                     </button>
                 </div>
             </form>
