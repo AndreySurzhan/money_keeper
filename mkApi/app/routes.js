@@ -95,7 +95,7 @@ module.exports = function (app, passport, router) {
         '/subscribe',
         function (req, res) {
             res.render(
-                'subscribe.ejs'
+                'landing-page.ejs'
             );
         }
     );

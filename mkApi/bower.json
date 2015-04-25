@@ -1,0 +1,19 @@
+{
+  "name": "mkApi",
+  "version": "0.0.0",
+  "homepage": "https://github.com/dimkahare/money_keeper",
+  "authors": [
+    "Gorlov Dmitry <dimkahare@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "font-awesome": "~4.2.0"
+  }
+}

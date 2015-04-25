@@ -11,5 +11,7 @@ mkApi/mkWeb/styles/framework/font-awesome/
 mkApi/mkWeb/styles/styles.css
 mkApi/mkWeb/styles/lock-screens.css
 mkApi/node_modules/
+mkApi/bower-components/
 mkApi/static/styles/built/
+mkApi/static/vendor/
 **/npm-debug.log
