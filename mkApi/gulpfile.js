@@ -60,13 +60,13 @@ gulp.task('vendor', function (callback) {
 
 gulp.task('default', function (callback) {
 
-    gulp.watch('./static/styles/**', function (event) {
-        gulp.run('less');
-    });
-
     runSequence(
         'vendor',
         'less',
         callback
     );
+
+    gulp.watch('./static/styles/**', function (event) {
+        gulp.run('less');
+    });
 });

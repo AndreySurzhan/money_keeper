@@ -1,9 +1,24 @@
 @black: #323232;
+
+@gray: #f9f9f9;
+@gray-border: #e5e5e5;
+
 @red: #e0401d;
+@red-border: #d73d1c;
+@red-darken: #c93a1a;
+
+@content-width: 1100px;
 
 .full-width () {
     float: left;
     margin: 0;
     padding: 0;
     width: 100%;
+}
+
+.transition () {
+    -moz-transition: all 200ms ease;
+    -ms-transition: all 200ms ease;
+    -o-transition: all 200ms ease;
+    transition: all 200ms ease;
 }
