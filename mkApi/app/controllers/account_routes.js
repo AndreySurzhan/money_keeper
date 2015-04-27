@@ -34,6 +34,23 @@ module.exports = function (router, AccountController, isAuthorized, sendError) {
             );
         });
 
+    router.route('/accounts/:accounts_id/recalculate')
+        .get(isAuthorized, function (req, res) {
+            AccountController.recalculate(
+                req.user,
+                req.params.accounts_id,
+                function (err, account) {
+                    if (err) {
+                        sendError(err, res);
+
+                        return;
+                    }
+
+                    res.json(account);
+                }
+            );
+        });
+
     router.route('/accounts/:accounts_id')
         .get(isAuthorized, function (req, res) {
             AccountController.getById(

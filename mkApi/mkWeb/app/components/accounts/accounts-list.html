@@ -51,7 +51,13 @@
                     <td>
                         {{ account.initValue }} {{ account.currency | currencyName }}
                     </td>
-                    <td class="account-actions-column">
+                    <td class="actions-column">
+                        <button class="btn btn-default btn-rounded btn-condensed btn-sm"
+                                ng-disabled="account.recalculating"
+                                ng-click="recalculate(account._id)">
+                            <span class="fa fa-refresh"
+                                  ng-class="{rotating: account.recalculating}"></span>
+                        </button>
                         <button class="btn btn-default btn-rounded btn-condensed btn-sm"
                                 ng-click="showDetails(account._id)">
                             <span class="fa fa-pencil"></span>

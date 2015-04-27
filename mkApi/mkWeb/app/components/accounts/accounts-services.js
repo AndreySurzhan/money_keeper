@@ -23,6 +23,10 @@ define(
                                 method: 'PUT',
                                 url: config.api + 'accounts/:id'
                             },
+                            recalculate: {
+                                method: 'GET',
+                                url: config.api + 'accounts/:id/recalculate'
+                            },
                             remove: {
                                 method: 'DELETE',
                                 url: config.api + 'accounts/:id',
