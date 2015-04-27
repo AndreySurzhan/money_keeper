@@ -61,8 +61,8 @@ var currencyController = {
             }
         );
     },
-    registerRoutes: function (router, isAuthorized) {
-        currencyRoutes(router, this, isAuthorized);
+    registerRoutes: function (router, isAuthorized, sendError) {
+        currencyRoutes(router, this, isAuthorized, sendError);
     }
 };
 

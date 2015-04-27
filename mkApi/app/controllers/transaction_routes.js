@@ -1,4 +1,4 @@
-module.exports = function (router, TransactionController, isAuthorized) {
+module.exports = function (router, TransactionController, isAuthorized, sendError) {
     router.route('/transactions')
         .get(isAuthorized, function (req, res) {
             TransactionController.getAll(

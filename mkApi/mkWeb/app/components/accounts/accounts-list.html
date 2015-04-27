@@ -28,7 +28,7 @@
             <table class="accounts-list table table-hover table-striped">
                 <thead>
                 <tr>
-                    <th class="first-column">
+                    <th class="first-column accounts-list-name-column">
                         {{ 'components.accounts.fields.name.text' | translate }}
                     </th>
                     <th>
@@ -42,7 +42,7 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="account in accounts | filter:query | orderBy:orderProp">
-                    <td class="first-column">
+                    <td class="first-column accounts-list-name-column">
                         {{ account.name }}
                     </td>
                     <td>

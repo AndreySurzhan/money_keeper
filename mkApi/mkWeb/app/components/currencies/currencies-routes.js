@@ -1,11 +1,10 @@
 define(
     [
-        'app'
+        'app',
+        'text!./currencies-list.html'
     ],
-    function (app) {
+    function (app, template) {
         'use strict';
-
-        var moduleUrl = 'app/components/currencies/';
 
         app.config(
             [
@@ -14,7 +13,7 @@ define(
                     $routeProvider
                         .when('/currencies',
                         {
-                            templateUrl: moduleUrl + 'currencies-list.html',
+                            template: template,
                             controller: 'CurrencyListCtrl'
                         });
                 }

@@ -1,11 +1,10 @@
 define(
     [
-        'app'
+        'app',
+        'text!./settings-list.html'
     ],
-    function (app) {
+    function (app, template) {
         'use strict';
-
-        var moduleUrl = 'app/components/settings/';
 
         app.config(
             [
@@ -14,7 +13,7 @@ define(
                     $routeProvider
                         .when('/settings',
                         {
-                            templateUrl: moduleUrl + 'settings-list.html',
+                            template: template,
                             controller: 'SettingsCtrl'
                         });
                 }

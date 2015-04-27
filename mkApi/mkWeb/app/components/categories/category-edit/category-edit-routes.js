@@ -1,11 +1,10 @@
 define(
     [
-        'app'
+        'app',
+        'text!./category-edit.html'
     ],
-    function (app) {
+    function (app, template) {
         'use strict';
-
-        var moduleUrl = 'app/components/categories/category-edit/';
 
         app.config(
             [
@@ -14,7 +13,7 @@ define(
                     $routeProvider
                         .when('/categories/:id',
                         {
-                            templateUrl: moduleUrl + 'category-edit.html',
+                            template: template,
                             controller: 'CategoryEditCtrl'
                         });
                 }

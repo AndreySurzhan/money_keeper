@@ -1,7 +1,7 @@
 define(
     [
         'app',
-        'text!./transactions-list.html'
+        'text!./dashboard-page.html'
     ],
     function (app, template) {
         'use strict';
@@ -11,10 +11,10 @@ define(
                 '$routeProvider',
                 function ($routeProvider) {
                     $routeProvider
-                        .when('/transactions',
+                        .when('/',
                         {
                             template: template,
-                            controller: 'TransactionListCtrl'
+                            controller: 'DashboardCtrl'
                         });
                 }
             ]

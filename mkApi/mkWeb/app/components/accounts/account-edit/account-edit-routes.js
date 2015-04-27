@@ -1,11 +1,10 @@
 define(
     [
-        'app'
+        'app',
+        'text!./account-edit.html'
     ],
-    function (app) {
+    function (app, template) {
         'use strict';
-
-        var moduleUrl = 'app/components/accounts/account-edit/';
 
         app.config(
             [
@@ -14,7 +13,7 @@ define(
                     $routeProvider
                         .when('/accounts/:id',
                         {
-                            templateUrl: moduleUrl + 'account-edit.html',
+                            template: template,
                             controller: 'AccountEditCtrl'
                         });
                 }

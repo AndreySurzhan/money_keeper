@@ -1,4 +1,4 @@
-module.exports = function (router, CurrencyController, isAuthorized) {
+module.exports = function (router, CurrencyController, isAuthorized, sendError) {
     router.route('/currencies')
         .get(isAuthorized, function (req, res) {
             CurrencyController.getAll(
