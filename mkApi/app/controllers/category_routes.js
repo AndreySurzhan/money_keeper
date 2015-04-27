@@ -1,4 +1,4 @@
-module.exports = function (router, CategoryController, isAuthorized) {
+module.exports = function (router, CategoryController, isAuthorized, sendError) {
     router.route('/categories')
         .get(isAuthorized, function (req, res) {
             CategoryController.getAll(

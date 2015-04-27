@@ -1,3 +1,4 @@
+var dashboardController = require('./controllers/dashboard');
 var categoryController = require('./controllers/category');
 var currencyController = require('./controllers/currency');
 var accountController = require('./controllers/account');
@@ -72,10 +73,11 @@ module.exports = function (app, passport, router) {
         res.json({message: 'Welcome to MoneyKeeper API'});
     });
     // ----------------------------------------------------
-    accountController.registerRoutes(router, isAuthorized);
-    categoryController.registerRoutes(router, isAuthorized);
-    currencyController.registerRoutes(router, isAuthorized);
-    transactionController.registerRoutes(router, isAuthorized);
+    dashboardController.registerRoutes(router, isAuthorized, sendError);
+    accountController.registerRoutes(router, isAuthorized, sendError);
+    categoryController.registerRoutes(router, isAuthorized, sendError);
+    currencyController.registerRoutes(router, isAuthorized, sendError);
+    transactionController.registerRoutes(router, isAuthorized, sendError);
     // all of our routes will be prefixed with /api
     app.use('/api', router);
     // =================================================================================================================

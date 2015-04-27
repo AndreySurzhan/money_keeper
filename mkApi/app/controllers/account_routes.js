@@ -1,4 +1,4 @@
-module.exports = function (router, AccountController, isAuthorized) {
+module.exports = function (router, AccountController, isAuthorized, sendError) {
     router.route('/accounts')
         .get(isAuthorized, function (req, res) {
             AccountController.getAll(

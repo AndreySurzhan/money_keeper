@@ -84,8 +84,8 @@ var categoryController = {
             }
         );
     },
-    registerRoutes: function (router, isAuthorized) {
-        categoryRoutes(router, this, isAuthorized);
+    registerRoutes: function (router, isAuthorized, sendError) {
+        categoryRoutes(router, this, isAuthorized, sendError);
     }
 };
 

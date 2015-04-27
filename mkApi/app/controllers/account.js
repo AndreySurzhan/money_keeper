@@ -74,8 +74,8 @@ var accountController = {
             }
         );
     },
-    registerRoutes: function (router, isAuthorized) {
-        accountRoutes(router, this, isAuthorized);
+    registerRoutes: function (router, isAuthorized, sendError) {
+        accountRoutes(router, this, isAuthorized, sendError);
     }
 };
 
