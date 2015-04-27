@@ -14,12 +14,10 @@ define(
                 function ($scope, dashboardFactory) {
                     dashboardFactory.get(
                         function (dashboardData) {
-                            console.log('dashboardData', dashboardData);
-
                             $scope.total = dashboardData.total;
                         },
                         function (error) {
-                            console.error(error);
+                            logger.error(error);
                         }
                     );
 

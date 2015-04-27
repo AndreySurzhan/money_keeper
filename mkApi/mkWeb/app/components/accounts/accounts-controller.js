@@ -2,9 +2,10 @@ define(
     [
         'mkControllers',
         'logger',
+        'scopeUtil',
         './accounts-services'
     ],
-    function (mkControllers, logger) {
+    function (mkControllers, logger, scopeUtil) {
         var updateAccountsList = function ($scope, accountsFactory) {
             var result = new $.Deferred();
 
@@ -58,6 +59,32 @@ define(
                             .fail(function (error) {
                                 $scope.accounts = [];
                             });
+                    };
+
+                    $scope.recalculate = function (accountId) {
+                        var account = _.findWhere(
+                            $scope.accounts,
+                            {
+                                _id: accountId
+                            }
+                        );
+
+                        account.recalculating = true;
+
+                        Account.recalculate(
+                            {
+                                id: accountId
+                            },
+                            function (updatedAccount) {
+                                account.recalculating = false;
+                                account.value = updatedAccount.value;
+                                scopeUtil.applySafely($scope);
+                            },
+                            function (error) {
+                                account.recalculating = false;
+                                logger.error('Recalculate error', error);
+                            }
+                        );
                     };
 
                     $scope.showDetails = function (accountId) {
