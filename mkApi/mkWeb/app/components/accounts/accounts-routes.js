@@ -1,11 +1,10 @@
 define(
     [
-        'app'
+        'app',
+        'text!./accounts-list.html'
     ],
-    function (app) {
+    function (app, template) {
         'use strict';
-
-        var moduleUrl = 'app/components/accounts/';
 
         app.config(
             [
@@ -14,7 +13,7 @@ define(
                     $routeProvider
                         .when('/accounts',
                         {
-                            templateUrl: moduleUrl + 'accounts-list.html',
+                            template: template,
                             controller: 'AccountListCtrl'
                         });
                 }

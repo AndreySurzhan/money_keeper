@@ -1,11 +1,10 @@
 define(
     [
-        'app'
+        'app',
+        'text!./dashboard-page.html'
     ],
-    function (app) {
+    function (app, template) {
         'use strict';
-
-        var moduleUrl = 'app/components/dashboard/';
 
         app.config(
             [
@@ -14,7 +13,7 @@ define(
                     $routeProvider
                         .when('/',
                         {
-                            templateUrl: moduleUrl + 'dashboard-page.html',
+                            template: template,
                             controller: 'DashboardCtrl'
                         });
                 }

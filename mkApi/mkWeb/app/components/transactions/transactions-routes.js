@@ -1,11 +1,10 @@
 define(
     [
-        'app'
+        'app',
+        'text!./transactions-list.html'
     ],
-    function (app) {
+    function (app, template) {
         'use strict';
-
-        var moduleUrl = 'app/components/transactions/';
 
         app.config(
             [
@@ -14,7 +13,7 @@ define(
                     $routeProvider
                         .when('/transactions',
                         {
-                            templateUrl: moduleUrl + 'transactions-list.html',
+                            template: template,
                             controller: 'TransactionListCtrl'
                         });
                 }
