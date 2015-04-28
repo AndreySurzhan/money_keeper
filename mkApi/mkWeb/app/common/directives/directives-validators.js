@@ -16,7 +16,7 @@ define(
                         require: 'ngModel',
                         link: function (scope, elm, attrs, ctrl) {
                             ctrl.$validators.mkRequired = function (modelValue, viewValue) {
-                                return !!viewValue;
+                                return attrs.disabled || !!viewValue;
                             };
                         }
                     };

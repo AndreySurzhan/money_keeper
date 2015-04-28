@@ -488,7 +488,7 @@ define(
                     $scope.executeOperation = function () {
                         var operation;
 
-                        $scope.transactionForm.$setDirty();
+                        formUtil.validateForm($scope.transactionForm);
                         if (!$scope.transactionForm.$valid) {
                             return;
                         }
