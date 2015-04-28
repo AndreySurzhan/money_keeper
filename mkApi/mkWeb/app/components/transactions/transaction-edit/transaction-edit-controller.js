@@ -488,6 +488,14 @@ define(
                     $scope.executeOperation = function () {
                         var operation;
 
+                        $scope.transactionForm.$setDirty();
+                        if (!$scope.transactionForm.$valid) {
+                            return;
+                        }
+
+                        debugger;
+                        return;
+
                         switch (transactionOperationType) {
                             case 'create':
                                 operation = createTransaction($scope.id, $scope.model, Transaction);

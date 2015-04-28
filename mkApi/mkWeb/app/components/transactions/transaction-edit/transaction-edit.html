@@ -8,17 +8,25 @@
             </div>
         </div>
         <div class="panel-body">
-            <form class="form-horizontal">
+            <form name="transactionForm" class="form-horizontal">
                 <!-- SUMM -->
                 <div class="form-group">
                     <label class="col-md-3 control-label">
                         {{ 'components.transactions.fields.value.text' | translate }}
                     </label>
                     <div class="col-md-9">
-                        <input name="value" type="text" class="form-control"
+                        <input name="transactionValue" type="text" class="form-control"
                                placeholder="{{ 'components.transactions.fields.value.placeholder' | translate }}"
                                ng-disabled="!formState.value.enable"
-                               ng-model="model.value">
+                               ng-model="model.value"
+                               mk-required mk-number>
+
+                        <div ng-show="transactionForm.transactionValue.$dirty && transactionForm.transactionValue.$error.mkRequired">
+                            Поле обязательное
+                        </div>
+                        <div ng-show="transactionForm.transactionValue.$dirty && transactionForm.transactionValue.$error.mkNumber">
+                            Значние должно быть числом
+                        </div>
                     </div>
                 </div>
                 <!-- DATE -->
@@ -61,7 +69,8 @@
                         <select class="form-control"
                                 ng-model="model.accountSource"
                                 ng-disabled="!formState.accountSource.enable"
-                                ng-options="account.name for account in formState.accountSource.data track by account._id" >
+                                ng-options="account.name for account in formState.accountSource.data track by account._id"
+                                 >
                             <option value="">{{ 'components.transactions.fields.account-source.default-value' | translate }}</option>
                         </select>
                     </div>
@@ -76,7 +85,8 @@
                         <select class="form-control"
                                 ng-model="model.accountDestination"
                                 ng-disabled="!formState.accountDestination.enable"
-                                ng-options="account.name for account in formState.accountDestination.data track by account._id" >
+                                ng-options="account.name for account in formState.accountDestination.data track by account._id"
+                                >
                             <option value="">{{ 'components.transactions.fields.account-destination.default-value' | translate }}</option>
                         </select>
                     </div>
@@ -89,9 +99,11 @@
                     </label>
                     <div class="col-md-9">
                         <select class="form-control"
+                                name="category"
                                 ng-model="model.category"
                                 ng-disabled="!formState.category.enable"
-                                ng-options="category.name for category in formState.category.data track by category._id" >
+                                ng-options="category.name for category in formState.category.data track by category._id"
+                                >
                             <option value="">{{ 'components.transactions.fields.category.default-value' | translate }}</option>
                         </select>
                     </div>
@@ -109,6 +121,7 @@
                     </div>
                 </div>
                 <hr>
+                <!-- CONTROLS -->
                 <div class="btn-group pull-right">
                     <button class="btn btn-default" type="button"ng-click="cancel()">
                         {{ 'common.buttons.cancel' | translate }}
