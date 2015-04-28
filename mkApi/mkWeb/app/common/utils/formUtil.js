@@ -88,6 +88,20 @@ define(
                 } else {
                     params.callback();
                 }
+            },
+
+            validateForm: function (form) {
+                form.$setDirty();
+
+                for (var field in form) {
+                    if (form.hasOwnProperty(field) &&
+                        typeof form[field] === 'object' &&
+                        typeof form[field].$validate === 'function') {
+
+                        form[field].$validate();
+                        form[field].$setDirty();
+                    }
+                }
             }
         }
     }

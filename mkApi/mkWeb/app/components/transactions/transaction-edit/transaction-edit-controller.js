@@ -488,6 +488,11 @@ define(
                     $scope.executeOperation = function () {
                         var operation;
 
+                        formUtil.validateForm($scope.transactionForm);
+                        if (!$scope.transactionForm.$valid) {
+                            return;
+                        }
+
                         switch (transactionOperationType) {
                             case 'create':
                                 operation = createTransaction($scope.id, $scope.model, Transaction);
