@@ -493,9 +493,6 @@ define(
                             return;
                         }
 
-                        debugger;
-                        return;
-
                         switch (transactionOperationType) {
                             case 'create':
                                 operation = createTransaction($scope.id, $scope.model, Transaction);

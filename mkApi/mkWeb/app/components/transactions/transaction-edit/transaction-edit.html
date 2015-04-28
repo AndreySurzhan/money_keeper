@@ -20,7 +20,7 @@
                                ng-disabled="!formState.value.enable"
                                ng-model="model.value"
                                mk-required mk-number>
-                        <label for="value" class="error" 
+                        <label for="value" class="error"
                                ng-show="transactionForm.value.$dirty &&
                                         transactionForm.value.$error.mkRequired">
                             {{ 'components.transactions.validation.value.mkRequired' | translate }}
