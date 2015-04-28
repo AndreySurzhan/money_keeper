@@ -183,6 +183,11 @@ define(
                     $scope.executeOperation = function () {
                         var operation;
 
+                        formUtil.validateForm($scope.currencyForm);
+                        if (!$scope.currencyForm.$valid) {
+                            return;
+                        }
+
                         switch (currencyOperationType) {
                             case 'create':
                                 operation = createCurrency($scope.id, $scope.model, Currency);

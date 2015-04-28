@@ -8,17 +8,23 @@
             </div>
         </div>
         <div class="panel-body">
-            <form class="form-horizontal">
+            <form name="currencyForm" class="form-horizontal">
                 <!-- NAME -->
                 <div class="form-group">
                     <label class="col-md-3 control-label">
                         {{ 'components.currencies.fields.name.text' | translate }}
                     </label>
                     <div class="col-md-9">
-                        <input name="name" type="text" class="form-control"
+                        <input id="name" name="name" type="text" class="form-control"
                                placeholder="{{ 'components.currencies.fields.name.placeholder' | translate }}"
                                ng-model="model.name"
-                               ng-disabled="!formState.name.enable">
+                               ng-disabled="!formState.name.enable"
+                               mk-required>
+                        <label for="name" class="error"
+                               ng-show="currencyForm.name.$dirty &&
+                                        currencyForm.name.$error.mkRequired">
+                            {{ 'components.currencies.validation.name.mkRequired' | translate }}
+                        </label>
                     </div>
                 </div>
                 <hr>
