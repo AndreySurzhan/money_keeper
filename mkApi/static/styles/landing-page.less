@@ -80,11 +80,89 @@ body {
 }
 
 .content {
-    .full-width ();
-
+    .full-width();
 }
 
 .footer {
-    .full-width ();
+    .full-width();
+}
 
+.page-content-wrap {
+    .full-width();
+
+    .page-content-holder {
+        margin: 0 auto;
+        padding: 60px 0 40px;
+        width: @content-width;
+    }
+
+    &.bg-light {
+        background-color: #F5F5F5;
+        color: #757575;
+    }
+
+    &.bg-dark {
+        background-color: #333333;
+        color: #F0F0F0;
+    }
+
+    &.bg-dark-gray {
+        background-color: #222222;
+        color: #F0F0F0;
+    }
+
+    &.bg-darken-gray {
+        background-color: #151515;
+        color: #F0F0F0;
+    }
+
+    &.bg-img-1 {
+        background-image: url("../../images/bg-1.jpg");
+        background-position: center center;
+        background-repeat: fixed;
+    }
+
+    &.bg-texture-1 {
+        background-image: url("../../images/texture-1.png");
+        background-position: left top;
+        background-repeat: repeat;
+    }
+}
+
+.divider {
+    background: #E5E5E5;
+    float: left;
+    height: 1px;
+    margin: 0;
+    position: relative;
+    width: 100%;
+
+    .box {
+        background: #FFF;
+        border: 1px solid #E5E5E5;
+        border-radius: 5px;
+        bottom: -12px;
+        height: 24px;
+        left: 50%;
+        line-height: 24px;
+        margin-left: -12px;
+        padding-left: 1px;
+        position: absolute;
+        text-align: center;
+        transform: rotate(45deg);
+        width: 24px;
+
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -ms-transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+
+        .fa {
+            color: #D5D5D5;
+            font-size: 13px;
+            transform: rotate(-45deg);
+            -ms-transform: rotate(-45deg);
+            -webkit-transform: rotate(-45deg);
+        }
+    }
 }

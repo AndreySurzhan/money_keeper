@@ -22,3 +22,59 @@
     -o-transition: all 200ms ease;
     transition: all 200ms ease;
 }
+
+.row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.col-md {
+    box-sizing: border-box;
+    float: left;
+    margin-bottom: 10px;
+    min-height: 1px;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: relative;
+}
+
+.col-md-4 {
+    .col-md;
+
+    width: 33.33333333%;
+}
+
+.col-md-8 {
+    .col-md;
+
+    width: 66.66666667%;
+}
+
+.text-column {
+    float: left;
+    margin-bottom: 30px;
+    width: 100%;
+
+    &.text-column-centralized {
+        text-align: center;
+    }
+}
+
+.animated {
+    animation-duration: 400ms;
+    animation-fill-mode: both;
+    -webkit-animation-duration: 400ms;
+    -webkit-animation-fill-mode: both;
+}
+
+.fadeInLeft {
+    animation-name: fadeInLeft;
+    -webkit-animation-name: fadeInLeft;
+}
+
+.fadeInRight {
+    animation-name: fadeInRight;
+    -webkit-animation-name: fadeInRight;
+}
+
+
