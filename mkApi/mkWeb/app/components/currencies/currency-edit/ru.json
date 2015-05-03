@@ -3,6 +3,14 @@
         "currencies": {
             "edit": {
                 "header": "Редактирование валюты"
+            },
+            "create": {
+                "header": "Создание валюты"
+            },
+            "validation": {
+                "name": {
+                    "mkRequired": "Обязательное поле"
+                }
             }
         }
     }

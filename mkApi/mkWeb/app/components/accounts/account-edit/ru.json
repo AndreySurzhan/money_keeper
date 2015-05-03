@@ -6,6 +6,18 @@
             },
             "create": {
                 "header": "Создание нового счета"
+            },
+            "validation": {
+                "name": {
+                    "mkRequired": "Обязательное поле"
+                },
+                "initValue": {
+                    "mkRequired": "Обязательное поле",
+                    "mkNumber": "Значение должно быть числом"
+                },
+                "currency": {
+                    "mkRequired": "Обязательное поле"
+                }
             }
         }
     }

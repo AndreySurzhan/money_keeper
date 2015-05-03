@@ -7,6 +7,7 @@ define(
         'require',
         'angular',
         'app',
+        'components/dashboard/dashboard',
         'components/settings/settings',
         'components/categories/categories',
         'components/currencies/currencies',

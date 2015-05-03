@@ -341,8 +341,8 @@ var transactionController = {
             }
         );
     },
-    registerRoutes: function (router, isAuthorized) {
-        transactionRoutes(router, this, isAuthorized);
+    registerRoutes: function (router, isAuthorized, sendError) {
+        transactionRoutes(router, this, isAuthorized, sendError);
     }
 };
 

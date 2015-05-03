@@ -251,6 +251,11 @@ define(
                     $scope.executeOperation = function () {
                         var operation;
 
+                        formUtil.validateForm($scope.accountForm);
+                        if (!$scope.accountForm.$valid) {
+                            return;
+                        }
+
                         switch (accountOperationType) {
                             case 'create':
                                 operation = createAccount($scope.id, $scope.model, Account);

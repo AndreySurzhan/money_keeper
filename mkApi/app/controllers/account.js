@@ -1,4 +1,5 @@
 var Account = require('../models/account');
+var Transaction = require('../models/transaction');
 var accountRoutes = require('./account_routes');
 var accountController = {
     getAll: function (user, callback) {
@@ -52,6 +53,73 @@ var accountController = {
             }
         );
     },
+    recalculate: function (user, accountId, callback) {
+        console.log('recalculate');
+
+        var accountValue;
+
+        Account.findOne({
+            _id: accountId,
+            _owner: user._id
+        })
+            .exec(function (err, account) {
+                if (err) {
+                    callback(err);
+
+                    return;
+                }
+
+                accountValue = account.initValue;
+                console.log('init value', account.initValue);
+
+                Transaction.find(
+                    {
+                        _owner: user._id,
+                        accountSource: accountId
+                    })
+                    .exec(function (err, transactions) {
+                        if (err) {
+                            callback(err);
+
+                            return;
+                        }
+
+                        for (var i = 0; i < transactions.length; i++) {
+                            var transaction = transactions[i];
+
+                            if (transaction.type === 'income') {
+                                accountValue += transaction.value;
+                            } else {
+                                accountValue -= transaction.value;
+                            }
+                        }
+
+                        Transaction.find(
+                            {
+                                _owner: user._id,
+                                accountDestination: accountId
+                            })
+                            .exec(function (err, transactions) {
+                                if (err) {
+                                    callback(err);
+
+                                    return;
+                                }
+
+                                for (var i = 0; i < transactions.length; i++) {
+                                    var transaction = transactions[i];
+
+                                    accountValue += transaction.value;
+                                }
+
+                                account.value = accountValue;
+                                account.save(callback);
+                            });
+                    });
+            });
+
+
+    },
     remove: function (user, id, callback) {
         Account.remove(
             {
@@ -74,8 +142,8 @@ var accountController = {
             }
         );
     },
-    registerRoutes: function (router, isAuthorized) {
-        accountRoutes(router, this, isAuthorized);
+    registerRoutes: function (router, isAuthorized, sendError) {
+        accountRoutes(router, this, isAuthorized, sendError);
     }
 };
 

@@ -307,6 +307,12 @@ define(
                     $scope.executeOperation = function () {
                         var operation;
 
+                        formUtil.validateForm($scope.categoryForm);
+                        if (!$scope.categoryForm.$valid) {
+                            return;
+                        }
+
+
                         switch (categoryOperationType) {
                             case 'create':
                                 operation = createCategory($scope.id, $scope.model, Category);

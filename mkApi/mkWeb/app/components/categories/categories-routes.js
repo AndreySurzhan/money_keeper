@@ -1,11 +1,10 @@
 define(
     [
-        'app'
+        'app',
+        'text!./categories-list.html'
     ],
-    function (app) {
+    function (app, template) {
         'use strict';
-
-        var moduleUrl = 'app/components/categories/';
 
         app.config(
             [
@@ -14,7 +13,7 @@ define(
                     $routeProvider
                         .when('/categories',
                         {
-                            templateUrl: moduleUrl + 'categories-list.html',
+                            template: template,
                             controller: 'CategoryListCtrl'
                         });
                 }

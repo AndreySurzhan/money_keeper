@@ -40,7 +40,7 @@
                     <th>
                         {{ 'components.transactions.fields.account-source.text' | translate }}
                     </th>
-                    <th>
+                    <th class="transaction-list-note-column">
                         {{ 'components.transactions.fields.note.text' | translate }}
                     </th>
                     <th class="actions-column"></th>
@@ -58,7 +58,7 @@
                     <td>
                         {{ transaction.accountSource | accountName }}
                     </td>
-                    <td>
+                    <td class="transaction-list-note-column">
                         {{ transaction.note }}
                     </td>
                     <td class="actions-column">
