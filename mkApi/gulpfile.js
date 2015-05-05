@@ -27,6 +27,22 @@ var copyFilesList = [
     {
         from: vendorDir + 'jquery.appear/index.js',
         to: destDir + 'jquery/jquery.appear'
+    },
+    {
+        from: vendorDir + 'revolver/dist/revolver.min.js',
+        to: destDir + 'revolver/'
+    },
+    {
+        from: vendorDir + 'lodash/dist/lodash.min.js',
+        to: destDir + 'revolver/'
+    },
+    {
+        from: vendorDir + 'bean/bean.min.js',
+        to: destDir + 'revolver/'
+    },
+    {
+        from: vendorDir + 'velocity/velocity.min.js',
+        to: destDir + 'velocity/'
     }
 ];
 

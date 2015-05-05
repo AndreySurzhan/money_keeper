@@ -17,6 +17,8 @@
     "font-awesome": "~4.2.0",
     "animate.css": "~3.2.6",
     "jquery.appear": "https://raw.githubusercontent.com/bas2k/jquery.appear/master/jquery.appear.js",
-    "jquery": "~2.1.4"
+    "jquery": "~2.1.4",
+    "revolver": "~2.1.2",
+    "velocity": "~1.2.2"
   }
 }
