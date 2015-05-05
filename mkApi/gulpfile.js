@@ -15,6 +15,18 @@ var copyFilesList = [
     {
         from: vendorDir + 'font-awesome/fonts/*',
         to: destDir + 'font-awesome/fonts/'
+    },
+    {
+        from: vendorDir + 'animate.css/animate.min.css',
+        to: destDir + 'animate.css/'
+    },
+    {
+        from: vendorDir + 'jquery/dist/jquery.min.js',
+        to: destDir + 'jquery/'
+    },
+    {
+        from: vendorDir + 'jquery.appear/index.js',
+        to: destDir + 'jquery/jquery.appear'
     }
 ];
 
@@ -59,13 +71,15 @@ gulp.task('vendor', function (callback) {
 
 
 gulp.task('default', function (callback) {
-
     runSequence(
         'vendor',
         'less',
         callback
     );
+});
 
+gulp.task('develop', function (callback) {
+    gulp.run('default');
     gulp.watch('./static/styles/**', function (event) {
         gulp.run('less');
     });

@@ -14,6 +14,9 @@
     "tests"
   ],
   "dependencies": {
-    "font-awesome": "~4.2.0"
+    "font-awesome": "~4.2.0",
+    "animate.css": "~3.2.6",
+    "jquery.appear": "https://raw.githubusercontent.com/bas2k/jquery.appear/master/jquery.appear.js",
+    "jquery": "~2.1.4"
   }
 }
