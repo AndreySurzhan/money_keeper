@@ -18,10 +18,12 @@
             </a>
         </div>
         <div class="subscribe">
-            <input type="email" class="form-control" placeholder="e-mail">
-            <button title="Подписаться">
-                <span class="fa fa-paper-plane"></span>
-            </button>
+            <form class="subscribe-form" action="/subscribe" method="POST">
+                <input type="email" name="email" class="form-control" placeholder="e-mail">
+                <button class="subscribe-button" title="Подписаться">
+                    <span class="fa fa-paper-plane"></span>
+                </button>
+            </form>
         </div>
         <div class="language">
             
@@ -143,16 +145,18 @@
     </div>
     <div class="page-content-wrap bg-light bg-texture-1">
         <div class="page-content-holder">
-            <div class="quote">
-                <h3>
-                    <strong>Подписаться</strong> на запуск сервиса
-                </h3>
-                <div class="subscribe large">
-                    <input type="email" class="form-control" placeholder="e-mail">
-                    <button title="Подписаться">
-                        <span class="fa fa-paper-plane"></span>
-                    </button>
-                </div>
+            <div class="quote this-animate" data-animate="fadeInDown">
+                <form class="subscribe-form" action="/subscribe" method="POST">
+                    <h3>
+                        <strong>Подписаться</strong> на запуск сервиса
+                    </h3>
+                    <div class="subscribe large">
+                        <input type="email" name="email" class="form-control" placeholder="e-mail">
+                        <button class="subscribe-button" title="Подписаться">
+                            <span class="fa fa-paper-plane"></span>
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -166,6 +170,26 @@
     <div class="page-content-wrap bg-darken-gray">
         <div class="page-content-holder">
             Footer text 2
+        </div>
+    </div>
+</div>
+<div class="message-box opened animated fadeIn">
+    <div class="message-container success">
+        <div class="mb-middle">
+            <div class="mb-title">
+                <span class="fa fa-check"></span>
+                Спасибо за подписку
+            </div>
+            <div class="mb-content">
+                <p>
+                    Мы обязательно сообщим Вам о запуске сервиса
+                </p>
+            </div>
+            <div class="mb-footer">
+                <button class="btn btn-default btn-lg pull-right mb-control-close">
+                    Закрыть
+                </button>
+            </div>
         </div>
     </div>
 </div>

@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    // Slider
     var $controls = $('.slider-controls .control');
     var mySlider = new Revolver({
         containerSelector: '.slider',
@@ -23,6 +24,7 @@ $(document).ready(function () {
         $controls.filter('[data-argument='+this.currentSlide+']').addClass('active');
     });
 
+    // Animations
     $('.this-animate').each(function () {
         $(this).appear(function () {
             $(this)
@@ -31,6 +33,45 @@ $(document).ready(function () {
                 .addClass('this-animated');
         });
     });
+
+    // Subscribe form
+    var $form = $(".subscribe-form");
+    var $submit = $(".subscribe-button");
+
+    $form.on('submit', function () {
+        return false;
+    });
+
+    $submit.on('click', function () {
+        var dataString = $form.serialize();
+
+        showSubscribeSuccess();
+
+        return;
+
+        $.ajax({
+            type: $form.attr('method'),
+            url: $form.attr('action'),
+            data: dataString,
+            dataType: "json",
+            success: function (data, textStatus, jqXHR) {
+                console.log('success', data);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log('error', textStatus, errorThrown);
+            },
+            beforeSend: function (jqXHR, settings) {
+                $submit.attr("disabled", true);
+            },
+            complete: function (jqXHR, textStatus) {
+                $submit.attr("disabled", false);
+            }
+        });
+    });
+
+    function showSubscribeSuccess() {
+
+    }
 });
 
 Revolver.registerTransition('fade', function(options, done) {

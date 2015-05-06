@@ -237,3 +237,101 @@ body {
         }
     }
 }
+
+.message-box {
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    z-index: 9999;
+    width: 100%;
+
+    &.opened {
+        display: block;
+    }
+
+    .message-container {
+        background: rgba(0, 0, 0, 0.9);
+        font-family: 'Open Sans', sans-serif;
+        left: 0px;
+        padding: 20px;
+        position: absolute;
+        top: 35%;
+        width: 100%;
+
+        &.success {
+            background: rgba(149, 183, 93, 0.9);
+        }
+
+        .mb-middle {
+            color: #FFF;
+            left: 25%;
+            position: relative;
+            width: 50%;
+
+            .mb-title {
+                width: 100%;
+                float: left;
+                padding: 10px 0px 0px;
+                font-size: 31px;
+                font-weight: 400;
+                line-height: 36px;
+
+                .fa {
+                    font-size: 38px;
+                    float: left;
+                    margin-right: 10px;
+                }
+            }
+
+            .mb-content {
+                width: 100%;
+                float: left;
+                padding: 10px 0px 0px;
+
+                p {
+                    font-size: 12px;
+                    line-height: 1.42857143;
+                    margin-bottom: 0px;
+                }
+            }
+
+            .mb-footer {
+                width: 100%;
+                float: left;
+                padding: 10px 0px;
+
+                button {
+                    background-image: none;
+                    border: 1px solid transparent;
+                    touch-action: manipulation;
+                    cursor: pointer;
+                    -webkit-user-select: none;
+                    text-align: center;
+                    white-space: nowrap;
+                    vertical-align: middle;
+                    margin-bottom: 0;
+                    display: inline-block;
+                    line-height: 20px;
+                    font-weight: 400;
+                    -moz-border-radius: 5px;
+                    -webkit-border-radius: 5px;
+                    border-radius: 5px;
+                    -webkit-transition: all 200ms ease;
+                    -moz-transition: all 200ms ease;
+                    -ms-transition: all 200ms ease;
+                    -o-transition: all 200ms ease;
+                    transition: all 200ms ease;
+                    color: #333;
+                    font-size: 14px;
+                    padding: 12px 20px;
+                    background-color: #F5F5F5;
+                    border-color: #DDD;
+
+                }
+            }
+        }
+    }
+}
