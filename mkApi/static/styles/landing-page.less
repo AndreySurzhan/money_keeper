@@ -15,6 +15,65 @@ body {
     color: @red;
 }
 
+.subscribe {
+    float: right;
+    padding: 10px 0;
+
+    input {
+        background-color: @gray;
+        border: 1px solid @gray-border;
+        border-radius: 4px 0 0 4px;
+        border-right: none;
+        box-sizing: border-box;
+        color: #555;
+        float: left;
+        height: 30px;
+        outline:none;
+        padding: 6px 12px;
+        width: 210px;
+
+        -webkit-user-select: none;
+    }
+
+    button {
+        .transition();
+
+        background-color: @red;
+        border: solid 1px @red-border;
+        border-radius: 0 4px 4px 0;
+        box-sizing: border-box;
+        color: #fff;
+        float: left;
+        height: 30px;
+        outline:none;
+        width: 45px;
+
+        -webkit-user-select: none;
+
+        &:hover {
+            background-color: @red-darken;
+            border-color: @red-darken;
+            cursor: pointer;
+        }
+    }
+
+    &.large {
+        padding: 0;
+
+        input {
+            font-size: 16px;
+            height: 50px;
+            width: 350px;
+        }
+
+        button {
+            font-size: 20px;
+            height: 50px;
+            width: 60px;
+        }
+    }
+}
+
 .header {
     .full-width ();
     background-color: #fff;
@@ -31,49 +90,6 @@ body {
                 font-size: 1.5em;
                 padding: 10px 0;
                 text-decoration: none;
-            }
-        }
-
-        .subscribe {
-            float: right;
-            padding: 10px 0;
-
-            input {
-                background-color: @gray;
-                border: 1px solid @gray-border;
-                border-radius: 4px 0 0 4px;
-                border-right: none;
-                box-sizing: border-box;
-                color: #555;
-                float: left;
-                height: 30px;
-                outline:none;
-                padding: 6px 12px;
-                width: 210px;
-
-                -webkit-user-select: none;
-            }
-
-            button {
-                .transition();
-
-                background-color: @red;
-                border: solid 1px @red-border;
-                border-radius: 0 4px 4px 0;
-                box-sizing: border-box;
-                color: #fff;
-                float: left;
-                height: 30px;
-                outline:none;
-                width: 45px;
-
-                -webkit-user-select: none;
-
-                &:hover {
-                    background-color: @red-darken;
-                    border-color: @red-darken;
-                    cursor: pointer;
-                }
             }
         }
     }
