@@ -139,7 +139,7 @@ body {
 
 .slider {
     height: @slider-height;
-    padding: 40px 0 !important;
+    padding: 0;
 
     .slide {
 
@@ -153,6 +153,35 @@ body {
             display: none;
         }
     }
+}
+
+.slider-controls {
+    margin-bottom: 0;
+    padding: 0;
+
+    li {
+        display: inline-block;
+
+        .control {
+            background-color: @gray;
+            border: 1px solid @gray-border;
+            border-radius: 50%;
+            cursor: pointer;
+            display: block;
+            height: 7px;
+            margin-right: 3px;
+            width: 7px;
+
+            .transition();
+
+            &:hover,
+            &.active {
+                background-color: @red;
+                border-color: @red-darken;
+            }
+        }
+    }
+
 }
 
 .divider {

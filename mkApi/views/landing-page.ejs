@@ -30,19 +30,27 @@
 </div>
 <div class="content">
     <div class="page-content-wrap bg-dark">
-        <div class="page-content-holder slider">
-            <div class="slide">
-                slide 1
+        <div class="page-content-holder">
+            <div class="slider">
+                <div class="slide">
+                    slide 1
+                </div>
+                <div class="slide hidden">
+                    slide 2
+                </div>
+                <div class="slide hidden">
+                    slide 3
+                </div>
+                <div class="slide hidden">
+                    slide 4
+                </div>
             </div>
-            <div class="slide hidden">
-                slide 2
-            </div>
-            <div class="slide hidden">
-                slide 3
-            </div>
-            <div class="slide hidden">
-                slide 4
-            </div>
+            <ul class="slider-controls">
+                <li><a class="control active" data-method="goTo" data-argument="0"></a></li>
+                <li><a class="control" data-method="goTo" data-argument="1"></a></li>
+                <li><a class="control" data-method="goTo" data-argument="2"></a></li>
+                <li><a class="control" data-method="goTo" data-argument="3"></a></li>
+            </ul>
         </div>
     </div>
     <div class="divider">
