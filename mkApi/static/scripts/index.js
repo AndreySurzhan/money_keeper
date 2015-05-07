@@ -92,6 +92,11 @@ $(document).ready(function () {
             $currentMessageWindow.find('.mb-content p').text(message);
         }
     }
+
+    // Footer
+    var date = new Date();
+
+    $('#current-year').text(date.getFullYear());
 });
 
 Revolver.registerTransition('fade', function(options, done) {
