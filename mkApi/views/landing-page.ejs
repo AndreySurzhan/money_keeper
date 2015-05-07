@@ -173,7 +173,7 @@
         </div>
     </div>
 </div>
-<div class="message-box opened animated fadeIn">
+<div id="succes-message" class="message-box animated fadeIn">
     <div class="message-container success">
         <div class="mb-middle">
             <div class="mb-title">
@@ -186,7 +186,27 @@
                 </p>
             </div>
             <div class="mb-footer">
-                <button class="btn btn-default btn-lg pull-right mb-control-close">
+                <button class="btn btn-default btn-lg pull-right close-message-box">
+                    Закрыть
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="error-message" class="message-box animated fadeIn">
+    <div class="message-container error">
+        <div class="mb-middle">
+            <div class="mb-title">
+                <span class="fa fa-times"></span>
+                Что-то пошло не так
+            </div>
+            <div class="mb-content">
+                <p>
+                    Приносим свои извинения. Попробуйте повторить попытку позднее.
+                </p>
+            </div>
+            <div class="mb-footer">
+                <button class="btn btn-default btn-lg pull-right close-message-box">
                     Закрыть
                 </button>
             </div>

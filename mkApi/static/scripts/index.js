@@ -36,7 +36,12 @@ $(document).ready(function () {
 
     // Subscribe form
     var $form = $(".subscribe-form");
+    var $messageBoxes = $('.message-box');
+    var $messageBoxButton = $('.close-message-box');
     var $submit = $(".subscribe-button");
+
+    var $succesMessage = $('#succes-message');
+    var $errorMessage = $('#error-message');
 
     $form.on('submit', function () {
         return false;
@@ -45,20 +50,16 @@ $(document).ready(function () {
     $submit.on('click', function () {
         var dataString = $form.serialize();
 
-        showSubscribeSuccess();
-
-        return;
-
         $.ajax({
             type: $form.attr('method'),
             url: $form.attr('action'),
             data: dataString,
             dataType: "json",
             success: function (data, textStatus, jqXHR) {
-                console.log('success', data);
+                showSubscribeMessage('success');
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                console.log('error', textStatus, errorThrown);
+                showSubscribeMessage('error');
             },
             beforeSend: function (jqXHR, settings) {
                 $submit.attr("disabled", true);
@@ -69,8 +70,27 @@ $(document).ready(function () {
         });
     });
 
-    function showSubscribeSuccess() {
+    $messageBoxButton.on('click', function () {
+        $messageBoxes.removeClass('opened');
+    });
 
+    function showSubscribeMessage(type, message) {
+        var $currentMessageWindow;
+
+        switch (type) {
+            case 'success':
+                $currentMessageWindow = $succesMessage;
+                break;
+            case 'error':
+                $currentMessageWindow = $errorMessage;
+                break;
+        }
+
+        $currentMessageWindow.addClass('opened');
+
+        if (message) {
+            $currentMessageWindow.find('.mb-content p').text(message);
+        }
     }
 });
 
