@@ -48,15 +48,33 @@ $(document).ready(function () {
     });
 
     $submit.on('click', function () {
-        var dataString = $form.serialize();
+        var $currentForm = $(this).closest('form');
+        var dataString = $currentForm.serialize();
+        var email = $currentForm.serializeArray()[0].value;
+
+        if (!validateEmail(email)) {
+            showSubscribeMessage('error', 'Введите корректный email.');
+            return;
+        }
 
         $.ajax({
-            type: $form.attr('method'),
-            url: $form.attr('action'),
+            type: $currentForm.attr('method'),
+            url: $currentForm.attr('action'),
             data: dataString,
             dataType: "json",
             success: function (data, textStatus, jqXHR) {
-                showSubscribeMessage('success');
+                var message;
+
+                switch (data.status) {
+                    case 200:
+                        message = 'Вы уже подписаны.';
+                        break;
+                    case 201:
+                        message = 'Мы Вам обязательно сообщим о запуске сервиса.';
+                        break;
+                }
+
+                showSubscribeMessage('success', message);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 showSubscribeMessage('error');
@@ -68,6 +86,11 @@ $(document).ready(function () {
                 $submit.attr("disabled", false);
             }
         });
+
+        function validateEmail(email) {
+            var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+            return re.test(email);
+        }
     });
 
     $messageBoxButton.on('click', function () {
