@@ -1,0 +1,108 @@
+<div class="col-md-12">
+    <div class="panel panel-default"
+         panel-disabled="isUpdating">
+        <div class="panel-heading">
+            <div class="panel-title-box">
+                <h3>
+                    {{ 'components.transactions.list.header' | translate }}
+                </h3>
+                <span>
+                    {{ 'components.transactions.list.sub-header' | translate }}
+                </span>
+            </div>
+            <ul class="panel-controls">
+                <li>
+                    <button ng-click="refresh()">
+                        <span class="fa fa-refresh"></span>
+                    </button>
+                </li>
+                <li>
+                    <a href="#/transactions/add" class="button header-button-create"
+                       title="{{ 'common.buttons.create' | translate }}">
+                        <span class="fa fa-plus"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="panel-body">
+            <table class="accounts-list table table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>
+                        {{ 'components.transactions.fields.date.text' | translate }}
+                    </th>
+                    <th>
+                        {{ 'components.transactions.fields.value.text' | translate }}
+                    </th>
+                    <th>
+                        {{ 'components.transactions.fields.category.text' | translate }}
+                    </th>
+                    <th>
+                        {{ 'components.transactions.fields.account-source.text' | translate }}
+                    </th>
+                    <th class="transaction-list-note-column">
+                        {{ 'components.transactions.fields.note.text' | translate }}
+                    </th>
+                    <th class="actions-column"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="transaction in transactions | filter:query | orderBy:orderProp">
+                    <td>
+                        {{ transaction.date | transactionDate | amDateFormat:'Do MMM YY' }}
+                    </td>
+                    <td class="transaction-value {{ transaction.type }}">
+                        {{ transaction.value }}
+                    </td>
+                    <td ng-bind-html="transaction | transactionCategory"></td>
+                    <td>
+                        {{ transaction.accountSource | accountName }}
+                    </td>
+                    <td class="transaction-list-note-column">
+                        {{ transaction.note }}
+                    </td>
+                    <td class="actions-column">
+                        <button class="btn btn-default btn-rounded btn-condensed btn-sm"
+                                ng-click="showDetails(transaction._id)">
+                            <span class="fa fa-pencil"></span>
+                        </button>
+                        <button class="btn btn-danger btn-rounded btn-condensed btn-sm"
+                                ng-click="remove(transaction._id)">
+                            <span class="fa fa-times"></span>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="panel-footer">
+            <div class="collection-status">
+                <span>
+                    {{ pagination.status}}
+                </span>
+            </div>
+            <div class="collection-pager pull-right">
+                <pagination class="pagination-sm"
+                            ng-model="pagination.currentPage"
+                            items-per-page="pagination.itemsPerPage"
+                            total-items="pagination.totalItems"
+                            max-size="pagination.maxSize"
+                            ng-change="onPageChanged()"
+                            rotate="false"
+                            direction-links="false"
+                            first-text="«"
+                            last-text="»"
+                            boundary-links="true">
+                </pagination>
+                <span>
+                    {{ 'common.lists.pager.per-page' | translate }}
+                </span>
+                <select class="page-size-selector form-control"
+                        ng-model="pagination.itemsPerPage"
+                        ng-options="pageSize for pageSize in pageSizes"
+                        ng-change="onPageSizeChanged()">
+                </select>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,9 @@
+{
+    "components": {
+        "transactions": {
+            "list": {
+                "header": "List of Transactions"
+            }
+        }
+    }
+}

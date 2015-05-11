@@ -1,0 +1,76 @@
+<div class="col-md-12">
+    <div class="panel panel-default"
+         panel-disabled="isUpdating">
+        <div class="panel-heading">
+            <div class="panel-title-box">
+                <h3>
+                    {{ 'components.accounts.list.header' | translate }}
+                </h3>
+                <span>
+                    {{ 'components.accounts.list.sub-header' | translate }}
+                </span>
+            </div>
+            <ul class="panel-controls">
+                <li>
+                    <button ng-click="refresh()">
+                        <span class="fa fa-refresh"></span>
+                    </button>
+                </li>
+                <li>
+                    <a href="#/accounts/add" class="button header-button-create"
+                       title="{{ 'common.buttons.create' | translate }}">
+                        <span class="fa fa-plus"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="panel-body">
+            <table class="accounts-list table table-hover table-striped">
+                <thead>
+                <tr>
+                    <th class="first-column accounts-list-name-column">
+                        {{ 'components.accounts.fields.name.text' | translate }}
+                    </th>
+                    <th>
+                        {{ 'components.accounts.fields.value.text' | translate }}
+                    </th>
+                    <th>
+                        {{ 'components.accounts.fields.initValue.text' | translate }}
+                    </th>
+                    <th class="actions-column"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="account in accounts | filter:query | orderBy:orderProp">
+                    <td class="first-column accounts-list-name-column">
+                        {{ account.name }}
+                    </td>
+                    <td>
+                        {{ account.value }} {{ account.currency | currencyName }}
+                    </td>
+                    <td>
+                        {{ account.initValue }} {{ account.currency | currencyName }}
+                    </td>
+                    <td class="actions-column">
+                        <button class="btn btn-default btn-rounded btn-condensed btn-sm"
+                                ng-disabled="account.recalculating"
+                                ng-click="recalculate(account._id)">
+                            <span class="fa fa-refresh"
+                                  ng-class="{rotating: account.recalculating}"></span>
+                        </button>
+                        <button class="btn btn-default btn-rounded btn-condensed btn-sm"
+                                ng-click="showDetails(account._id)">
+                            <span class="fa fa-pencil"></span>
+                        </button>
+                        <button class="btn btn-danger btn-rounded btn-condensed btn-sm"
+                                ng-click="remove(account._id)">
+                            <span class="fa fa-times"></span>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="panel-footer"></div>
+    </div>
+</div>

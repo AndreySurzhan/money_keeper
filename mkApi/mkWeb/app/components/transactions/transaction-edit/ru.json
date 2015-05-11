@@ -1,0 +1,30 @@
+{
+    "components": {
+        "transactions": {
+            "edit": {
+                "header": "Редактирование транзакции"
+            },
+            "create": {
+                "header": "Создание новой тразакции"
+            },
+            "validation": {
+                "value": {
+                    "mkRequired": "Обязательное поле",
+                    "mkNumber": "Значение должно быть числом"
+                },
+                "accountSource": {
+                    "mkRequired": "Обязательное поле"
+                },
+                "accountSource": {
+                    "mkRequired": "Обязательное поле"
+                },
+                "accountDestination": {
+                    "mkRequired": "Обязательное поле"
+                },
+                "category": {
+                    "mkRequired": "Обязательное поле"
+                }
+            }
+        }
+    }
+}

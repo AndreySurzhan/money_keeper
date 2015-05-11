@@ -3,6 +3,14 @@
         "categories": {
             "edit": {
                 "header": "Редактирование категории"
+            },
+            "create": {
+                "header": "Создание новой категории"
+            },
+            "validation": {
+                "name": {
+                    "mkRequired": "Обязательное поле"
+                }
             }
         }
     }

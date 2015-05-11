@@ -7,8 +7,16 @@ define(
         'require',
         'angular',
         'app',
+        'components/dashboard/dashboard',
+        'components/settings/settings',
         'components/categories/categories',
-        'components/navigation-menu/navigation-menu'
+        'components/currencies/currencies',
+        'components/accounts/accounts',
+        'components/transactions/transactions',
+        'components/navigation-menu/navigation-menu',
+        'components/accounts/accounts',
+
+        'mkDirectives'
     ],
     function (require, ng) {
         'use strict';

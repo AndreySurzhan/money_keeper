@@ -1,0 +1,9 @@
+{
+    "components": {
+        "currencies": {
+            "list": {
+                "header": "List of Currencies"
+            }
+        }
+    }
+}

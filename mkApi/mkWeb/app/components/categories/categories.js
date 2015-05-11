@@ -5,7 +5,6 @@ define(
         './categories-routes',
         './categories-filters',
 
-        './category-create/category-create',
         './category-edit/category-edit'
     ],
     function () {

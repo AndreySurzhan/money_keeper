@@ -1,0 +1,87 @@
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title-box">
+                <h3>
+                    {{ formState.texts.header  }}
+                </h3>
+            </div>
+        </div>
+        <div class="panel-body">
+            <form name="accountForm" class="form-horizontal">
+                <!-- INIT NAME -->
+                <div class="form-group">
+                    <label class="col-md-3 control-label">
+                        {{ 'components.accounts.fields.name.text' | translate }}
+                    </label>
+                    <div class="col-md-9">
+                        <input id="name" name="name" type="text" class="form-control"
+                               placeholder="{{ 'components.accounts.fields.name.placeholder' | translate }}"
+                               ng-model="model.name"
+                               ng-disabled="!formState.name.enable"
+                               mk-required>
+                        <label for="name" class="error"
+                               ng-show="accountForm.name.$dirty &&
+                                        accountForm.name.$error.mkRequired">
+                            {{ 'components.accounts.validation.name.mkRequired' | translate }}
+                        </label>
+                    </div>
+                </div>
+                <!-- INIT VALUE -->
+                <div class="form-group">
+                    <label class="col-md-3 control-label">
+                        {{ 'components.accounts.fields.initValue.text' | translate }}
+                    </label>
+                    <div class="col-md-9">
+                        <input id="initValue" name="initValue" type="text" class="form-control"
+                               placeholder="{{ 'components.accounts.fields.initValue.placeholder' | translate }}"
+                               ng-model="model.initValue"
+                               ng-disabled="!formState.initValue.enable"
+                               mk-required mk-number>
+                        <label for="initValue" class="error"
+                               ng-show="accountForm.initValue.$dirty &&
+                                        accountForm.initValue.$error.mkRequired">
+                            {{ 'components.accounts.validation.initValue.mkRequired' | translate }}
+                        </label>
+                        <label for="initValue" class="error"
+                               ng-show="accountForm.initValue.$dirty &&
+                                        accountForm.initValue.$error.mkNumber">
+                            {{ 'components.accounts.validation.initValue.mkNumber' | translate }}
+                        </label>
+                    </div>
+                </div>
+                <!-- CURRENCY -->
+                <div class="form-group">
+                    <label class="col-md-3 control-label">
+                        {{ 'components.accounts.fields.currency.text' | translate }}
+                    </label>
+                    <div class="col-md-9">
+                        <select id="currency" name="currency" class="form-control"
+                                ng-model="model.currency"
+                                ng-disabled="!formState.currency.enable"
+                                ng-options="currency.name for currency in formState.currency.data track by currency._id"
+                                mk-required>
+                            <option value="">{{ 'components.accounts.fields.currency.default-value' | translate }}</option>
+                        </select>
+                        <label for="currency" class="error"
+                               ng-show="accountForm.currency.$dirty &&
+                                        accountForm.currency.$error.mkRequired">
+                            {{ 'components.accounts.validation.currency.mkRequired' | translate }}
+                        </label>
+                    </div>
+                </div>
+                <hr>
+                <div class="btn-group pull-right">
+                    <button class="btn btn-default" type="button"ng-click="cancel()">
+                        {{ 'common.buttons.cancel' | translate }}
+                    </button>
+                    <button class="btn btn-primary" type="submit"
+                            ng-click="executeOperation()"
+                            ng-disabled="!formState.submit.enable" >
+                        {{ formState.texts.saveButton }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

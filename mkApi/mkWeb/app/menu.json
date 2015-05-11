@@ -1,0 +1,29 @@
+[
+    {
+        "name": "navigation-menu.transactions.root",
+        "icon": "fa fa-money",
+        "href": "#/transactions"
+    },
+    {
+        "name": "navigation-menu.settings.root",
+        "icon": "fa fa-cogs",
+        "href": "#/settings",
+        "children": [
+            {
+                "name": "navigation-menu.categories.root",
+                "icon": "fa fa-folder-o",
+                "href": "#/categories"
+            },
+            {
+                "name": "navigation-menu.currencies.root",
+                "icon": "fa fa-usd",
+                "href": "#/currencies"
+            },
+            {
+                "name": "navigation-menu.accounts.root",
+                "icon": "fa fa-credit-card",
+                "href": "#/accounts"
+            }
+        ]
+    }
+]

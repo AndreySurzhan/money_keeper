@@ -1,0 +1,61 @@
+@red: #e0401d;
+
+.backgrounded {
+    background: url("../../images/bg-bump.png") left top repeat #33414e;
+}
+
+.row {
+    box-sizing: border-box;
+    width: 100%;
+    float: left;
+    color: white;
+    padding: 15px;
+    border-radius: 0 0 5px 5px;
+    font-size: 18px;
+    border-bottom: 2px solid @red;
+    margin-bottom: 30px;
+}
+
+.column {
+    float: left;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    box-sizing: border-box;
+}
+
+.col-md-12 {
+    .column();
+    width: 100%;
+}
+
+.col-md-8 {
+    .column();
+    width: 66.66666667%;
+}
+
+.col-md-4 {
+    .column();
+    width: 33.33333333%;
+}
+
+h1 {
+    background-color: @red;
+    border-radius: 5px 5px 0 0;
+    color: white;
+    font-size: 22px;
+    margin: 0;
+    padding: 10px 20px;
+
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.row-pic {
+    border: solid 1px @red;
+    border-radius: 5px;
+    width: 100%;
+}
+

@@ -1,0 +1,9 @@
+{
+    "components": {
+        "categories": {
+            "list": {
+                "header": "List of Categories"
+            }
+        }
+    }
+}
