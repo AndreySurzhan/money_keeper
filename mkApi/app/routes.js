@@ -1,4 +1,6 @@
+
 var dashboardController = require('./controllers/dashboard');
+var subscriberController = require('./controllers/subscriber');
 var categoryController = require('./controllers/category');
 var currencyController = require('./controllers/currency');
 var accountController = require('./controllers/account');
@@ -6,69 +8,120 @@ var transactionController = require('./controllers/transaction');
 
 
 module.exports = function (app, passport, router) {
-    // =====================================
-    // HOME PAGE (with login links) ========
-    // =====================================
-    app.get('/', isLoggedIn, function (req, res) {
-        res.render('../mkWeb/index.html'); // load the index.ejs file
+
+    // =================================================================================================================
+    // === App page ====================================================================================================
+    // =================================================================================================================
+    app.get('/', function (req, res) {
+        res.redirect('/subscribe');
     });
 
-    // =====================================
-    // LOGIN ===============================
-    // =====================================
-    // show the login form
+    app.get('/app', isLoggedIn, function (req, res) {
+        res.render('../mkWeb/index.html');
+    });
+
+    // =================================================================================================================
+    // === Static pages ================================================================================================
+    // =================================================================================================================
+
+    // --- Log in ---
+
     app.get('/login', function (req, res) {
-
-        // render the page and pass in any flash data if it exists
-        res.render('login.ejs', {message: req.flash('loginMessage')});
+        res.render(
+            'login.ejs',
+            {
+                message: req.flash('loginMessage')
+            }
+        );
     });
+    app.post(
+        '/login',
+        passport.authenticate(
+            'local-login',
+            {
+                successRedirect: '/app',
+                failureRedirect: '/login',
+                failureFlash: true // allow flash messages
+            }
+        )
+    );
 
-    // process the login form
-    app.post('/login', passport.authenticate('local-login', {
-        successRedirect: '/', // redirect to the secure profile section
-        failureRedirect: '/login', // redirect back to the signup page if there is an error
-        failureFlash: true // allow flash messages
-    }));
+    // --- log out ---
 
-    // =====================================
-    // SIGNUP ==============================
-    // =====================================
-    // show the signup form
+    app.get(
+        '/logout',
+        function (req, res) {
+            req.logout();
+            res.redirect('/login');
+        }
+    );
+
+    // --- Sign up ---
+
     app.get('/signup', function (req, res) {
+        res.redirect('/'); // temporary close registration
 
-        // render the page and pass in any flash data if it exists
-        res.render('signup.ejs', {message: req.flash('signupMessage')});
+        res.render(
+            'signup.ejs',
+            {
+                message: req.flash('signupMessage')
+            }
+        );
     });
 
-    // process the signup form
+    // temporary close registration
+    /*
     app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect: '/', // redirect to the secure profile section
-        failureRedirect: '/signup', // redirect back to the signup page if there is an error
+        successRedirect: '/',
+        failureRedirect: '/signup',
         failureFlash: true // allow flash messages
     }));
+    */
 
-    // =====================================
-    // PROFILE SECTION =====================
-    // =====================================
-    // we will want this protected so you have to be logged in to visit
-    // we will use route middleware to verify this (the isLoggedIn function)
+    // --- Profile ---
+
     app.get('/profile', isLoggedIn, function (req, res) {
-        res.render('profile.ejs', {
-            user: req.user // get the user out of session and pass to template
-        });
+        res.render(
+            'profile.ejs',
+            {
+                user: req.user
+            }
+        );
     });
 
-    // =====================================
-    // LOGOUT ==============================
-    // =====================================
-    app.get('/logout', function (req, res) {
-        req.logout();
-        res.redirect('/login');
-    });
+    // --- Subscribe ---
+
+    app.get(
+        '/subscribe',
+        function (req, res) {
+            res.render(
+                'landing-page.ejs'
+            );
+        }
+    );
+
+    app.post(
+        '/subscribe',
+        function (req, res, next) {
+            var email = req.body.email;
+
+            subscriberController.add(
+                email,
+                function (err, result) {
+                    if (err) {
+                        res.send(500);
+                    }
+
+                    res.send(result);
+                }
+            );
+        }
+    );
 
     // =================================================================================================================
     // === Register API routes =========================================================================================
     // =================================================================================================================
+
     router.get('/', function (req, res) {
         res.json({message: 'Welcome to MoneyKeeper API'});
     });
@@ -80,14 +133,11 @@ module.exports = function (app, passport, router) {
     transactionController.registerRoutes(router, isAuthorized, sendError);
     // all of our routes will be prefixed with /api
     app.use('/api', router);
-    // =================================================================================================================
 };
 
 // route middleware to make sure a user is logged in
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
-        console.log('logged in');
-
         return next();
     }
 
