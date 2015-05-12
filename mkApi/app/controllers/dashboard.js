@@ -31,6 +31,17 @@ var dashboardController = {
                     return;
                 }
 
+                if (!accounts.length) {
+                    callback(
+                        null,
+                        {
+                            total: 0
+                        }
+                    );
+
+                    return;
+                }
+
                 total.currency = accounts[0].currency.name;
 
                 for (var i = 0; i < accounts.length; i++) {
