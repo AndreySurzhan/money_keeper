@@ -1,17 +1,27 @@
-menu {
-  background-color: #2d3945;
-  padding: 0;
-  margin: 0;
+@import 'variables';
+
+.menu {
+  background-color: @main-background-color;
   float: left;
+  margin: 0;
+  padding: 0;
 }
 
-menu > li {
+.responsive(mobile, {
+.menu {
+  .logo {
+    display: none;
+  }
+}
+});
+
+.navigation-menu > li {
   display: block;
   width: 100%;
   float: left;
 }
 
-menu > li.submenu > a:before {
+.navigation-menu > li.submenu > a:before {
   position: relative;
   font-family: "FontAwesome";
   content: "\f107";
@@ -24,11 +34,11 @@ menu > li.submenu > a:before {
   margin-left: -15px;
 }
 
-menu > li.submenu.expanded > a:before {
+.navigation-menu > li.submenu.expanded > a:before {
   content: "\f106";
 }
 
-menu > li > a {
+.navigation-menu > li > a {
   display: flex;
   width: 100%;
   min-height: 50px;
@@ -49,25 +59,25 @@ menu > li > a {
   background: #33414e;
 }
 
-menu > li > a > i {
+.navigation-menu > li > a > i {
   margin-right: 9px;
   margin-top: 3px;
 }
 
-menu > li > a:hover {
+.navigation-menu > li > a:hover {
   background: #3d4e5d;
   transition: all 200ms ease;
 }
 
-menu > li > a:hover > i {
+.navigation-menu > li > a:hover > i {
   color: #ffd559;
 }
 
-li > menu {
+li > .navigation-menu {
   padding-left: 30px;
   display: none;
 }
 
-li.expanded > menu {
+li.expanded > .navigation-menu {
   display: block;
 }

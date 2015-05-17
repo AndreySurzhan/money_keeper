@@ -155,3 +155,10 @@ gulp.task('default', function (callback) {
         callback
     );
 });
+
+gulp.task('develop', function (callback) {
+    gulp.watch('./styles/**', function (event) {
+        gulp.run('less');
+    });
+});
+
