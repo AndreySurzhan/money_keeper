@@ -1,5 +1,5 @@
-@import 'variables';
-@import 'mixins';
+@import '../variables.less';
+@import '../mixins.less';
 @import 'header.less';
 @import 'breadcrumbs.less';
 @import 'user-info.less';
@@ -40,8 +40,24 @@ body {
             height: @header-height;
             width: 100%;
         }
+
         .breadcrumbs {
             height: @breadcrumbs-height;
+        }
+
+        .content {
+            float: left;
+            width: 100%;
+
+            .component-container {
+                float: left;
+
+                .responsive(mobile, {
+                    & {
+                        padding: 0;
+                    }
+                });
+            }
         }
     }
 
