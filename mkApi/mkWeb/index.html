@@ -12,9 +12,9 @@
     <script src="//cdn.jsdelivr.net/velocity/1.2.2/velocity.min.js"></script>
     <script src="libs/datedropper/datedropper.js"></script>
     <script src="libs/requirejs/require.js" data-main="app/requirejs.config.js"></script>
-
 </head>
 <body ng-controller="mainController">
+<!--
 <div id="main-loading-screen" ng-cloak class="loading-screen">
     <div class="container">
         <svg class="machine"xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 645 526">
@@ -57,10 +57,13 @@
         });
     </script>
 </div>
-<div class="page-container">
+-->
+<div class="page-container navigation-menu-collapsed">
     <div class="menu-container">
         <div class="menu">
-            <img class="logo" src="images/logo_220x50_red.png">
+            <div class="logo-container">
+                <img class="logo" src="images/logo_220x50_red.png">
+            </div>
             <div class="navigation-menu" navigation-menu="menu"></div>
         </div>
     </div>
@@ -83,38 +86,21 @@
         <div class="content ng-view"></div>
     </div>
 </div>
+<script>
+    $(document).on('ready', function () {
+        var $pageContainer = $('.page-container');
+        var $menuToggleButton = $('.menu-toggle');
+        var menuCollapsedClass = 'navigation-menu-collapsed';
+        var mobileWidth = 480;
 
+        if ($pageContainer.width() > mobileWidth) {
+            $pageContainer.removeClass(menuCollapsedClass);
+        }
 
-
-
-<!--
-
-<div ng-cloak class="sidebar-menu">
-    <ul class="x-navigation">
-        <li class="xn-logo">
-            {{ 'app.name' | translate }}
-        </li>
-        <li class="xn-title">
-            {{ 'navigation-menu.title' | translate }}
-        </li>
-    </ul>
-
-</div>
-<div ng-cloak class="main-content-wrapper">
-    <div class="navigation">
-
-    </div>
-    <div class="breadcrumbs">
-        &nbsp;
-    </div>
-    <div class="view-container">
-        <div class="page-content view-frame">
-            <div class="row" ng-view></div>
-        </div>
-    </div>
-</div>
-
-
--->
+        $menuToggleButton.on('click', function () {
+            $pageContainer.toggleClass(menuCollapsedClass);
+        });
+    });
+</script>
 </body>
 </html>

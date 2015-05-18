@@ -1,70 +1,82 @@
 @import 'variables';
 @import 'mixins';
-
 @import 'header.less';
 @import 'breadcrumbs.less';
 @import 'user-info.less';
 @import 'menu.less';
 
 html {
-  height: 100%;
+    height: 100%;
 }
 
 body {
-  height: 100%;
+    height: 100%;
 }
 
 .page-container {
-  display: flex;
-  float: left;
-  height: 100%;
-  width: 100%;
-
-  .menu-container {
-    flex-basis: @menu-width;
-    flex-grow: 0;
-    flex-shrink: 0;
+    display: flex;
+    float: left;
     height: 100%;
-    width: @menu-width;
+    width: 100%;
 
-    .menu {
-      height: 100%;
-      width: 100%;
-    }
-  }
-  .content-container {
-    background: #e8e8e8 url(../images/bg.png) left top repeat;
-    flex-grow: 1;
-    overflow: auto;
+    .menu-container {
+        flex-basis: @menu-width;
+        flex-grow: 0;
+        flex-shrink: 0;
+        height: 100%;
 
-    .header {
-      height: @header-height;
-      width: 100%;
+        .menu {
+            height: 100%;
+            width: 100%;
+        }
     }
-    .breadcrumbs {
-      height: @breadcrumbs-height;
+
+    .content-container {
+        background: #e8e8e8 url(../images/bg.png) left top repeat;
+        flex-grow: 1;
+        overflow: auto;
+
+        .header {
+            height: @header-height;
+            width: 100%;
+        }
+        .breadcrumbs {
+            height: @breadcrumbs-height;
+        }
     }
-    .content {
+
+    &.navigation-menu-collapsed {
+        .menu-container {
+            flex-basis: @menu-collapsed-width;
+        }
     }
-  }
 }
 
 .responsive(mobile, {
 .page-container {
-  height: auto;
-  display: block;
-  .menu-container {
-    display: none;
-    height: 100%;
-    left: 0;
-    position: fixed;
-    top: @header-height;
-    width: 100%;
-    z-index: 500;
+    display: block;
+    height: auto;
+    .menu-container {
+        height: 100%;
+        left: 0;
+        position: fixed;
+        top: @header-height;
+        width: 100%;
+        z-index: 500;
 
-    .menu {
-      height: auto;
+        .menu {
+            height: auto;
+
+            .logo-container {
+                display: none;
+            }
+        }
     }
-  }
+
+    &.navigation-menu-collapsed {
+        .menu-container {
+            display: none;
+        }
+    }
 }
 });
