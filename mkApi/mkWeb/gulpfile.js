@@ -15,6 +15,7 @@ var pngquant = require('imagemin-pngquant');
 var gutil = require('gulp-util');
 
 var shell = require('gulp-shell');
+var rename = require('gulp-rename');
 
 
 // Local variables
@@ -24,13 +25,19 @@ var copyFilesList = require('./gulpfile-copy');
 
 // Subtasks
 
-gulp.task('scripts', shell.task([
-    'r.js -o app.build.js'
+gulp.task('scripts:build', shell.task([
+    'r.js -o baseUrl=. name=app/app.js out=app/mk.js'
 ], {
     templateData: {
         f: 'echo Hello'
     }
 }));
+
+gulp.task('scripts:dev', function () {
+    gulp.src('app/app.js')
+        .pipe(rename('mk.js'))
+        .pipe(gulp.dest('app/'));
+});
 
 gulp.task('style:build', function () {
     gutil.log('from', buildPath.styles.src);

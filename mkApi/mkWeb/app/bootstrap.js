@@ -6,7 +6,7 @@ define(
     [
         'require',
         'angular',
-        'app',
+        '_app',
         'components/dashboard/dashboard',
         'components/settings/settings',
         'components/categories/categories',

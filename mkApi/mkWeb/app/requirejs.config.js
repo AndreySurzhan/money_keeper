@@ -1,9 +1,10 @@
 requirejs.config(
     {
+        baseUrl: '.',
         paths: {
             'text': '../libs/requirejs/text',
             'json': '../libs/requirejs/json',
-            'domReady': '../libs/requirejs/domReady',
+            'domReady': 'libs/requirejs/domReady',
 
             'angular': '../libs/angular/angular',
             'angular-bootstrap': '../../libs/angular/ui-bootstrap-tpls',
@@ -53,7 +54,6 @@ requirejs.config(
                 exports: '$',
                 deps: ['jquery']
             }
-        },
-        deps: ['bootstrap']
+        }
     }
 );

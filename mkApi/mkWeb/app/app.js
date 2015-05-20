@@ -1,49 +1,15 @@
-define(
+require(
     [
-        'angular',
-        'json!./menu.json',
-        'angular-route',
-        'angular-moment',
-        'angular-bootstrap',
-        'animations'
+        'requirejs.config'
     ],
-    function (ng, menu) {
-        'use strict';
-
-        var app = ng.module(
-            'app',
+    function () {
+        require(
             [
-                'ngRoute',
-                'angularMoment',
-                'ui.bootstrap',
-                'moneyKeeperControllers',
-                'moneyKeeperDirectives',
-                'moneyKeeperFilters',
-                'moneyKeeperServices',
-                'moneyKeeperAnimations',
-                'moneyKeeperTranslations'
-            ]
-        );
-
-        app.config(
-            [
-                '$routeProvider',
-                function ($routeProvider) {
-                    $routeProvider
-                        .otherwise({
-                            redirectTo: '/'
-                        });
-                }
-            ]
-        );
-
-        app.controller(
-            'mainController',
-            function($scope) {
-                $scope.menu = menu;
+                'domReady!'
+            ],
+            function (document) {
+                console.log('DOM is ready!');
             }
         );
-
-        return app;
     }
 );
