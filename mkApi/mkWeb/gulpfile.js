@@ -14,12 +14,23 @@ var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
 var gutil = require('gulp-util');
 
+var shell = require('gulp-shell');
+
+
 // Local variables
 
 var buildPath = require('./gulpfile-path');
 var copyFilesList = require('./gulpfile-copy');
 
 // Subtasks
+
+gulp.task('scripts', shell.task([
+    'r.js -o app.build.js'
+], {
+    templateData: {
+        f: 'echo Hello'
+    }
+}));
 
 gulp.task('style:build', function () {
     gutil.log('from', buildPath.styles.src);
