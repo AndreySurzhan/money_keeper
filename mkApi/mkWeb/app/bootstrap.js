@@ -1,12 +1,8 @@
-/**
- * bootstraps angular onto the window.document node
- */
-
-define(
+require(
     [
         'require',
         'angular',
-        '_app',
+        'app',
         'components/dashboard/dashboard',
         'components/settings/settings',
         'components/categories/categories',

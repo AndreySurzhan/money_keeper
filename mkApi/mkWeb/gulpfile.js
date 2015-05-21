@@ -26,7 +26,7 @@ var copyFilesList = require('./gulpfile-copy');
 // Subtasks
 
 gulp.task('scripts:build', shell.task([
-    'r.js -o baseUrl=app/ mainConfigFile=app/requirejs.config.js name=app out=app/mk.js'
+    'r.js -o baseUrl=app/ mainConfigFile=app/requirejs.config.js name=bootstrap out=app/mk.js'
 ], {
     templateData: {
         f: 'echo Hello'
@@ -34,7 +34,7 @@ gulp.task('scripts:build', shell.task([
 }));
 
 gulp.task('scripts:dev', function () {
-    gulp.src('app/app.js')
+    gulp.src('app/bootstrap.js')
         .pipe(rename('mk.js'))
         .pipe(gulp.dest('app/'));
 });

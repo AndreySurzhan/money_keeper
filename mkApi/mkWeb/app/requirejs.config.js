@@ -7,7 +7,7 @@ requirejs.config(
             'domReady': '../libs/requirejs/domReady',
 
             'angular': '../libs/angular/angular',
-            'angular-bootstrap': '../../libs/angular/ui-bootstrap-tpls',
+            'angular-bootstrap': '../libs/angular/ui-bootstrap-tpls',
             'angular-animate': '../libs/angular/angular-animate',
             'angular-resource': '../libs/angular/angular-resource',
             'angular-route': '../libs/angular/angular-route',
