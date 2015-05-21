@@ -1,10 +1,10 @@
 requirejs.config(
     {
-        baseUrl: '.',
+        baseUrl: 'app/',
         paths: {
             'text': '../libs/requirejs/text',
             'json': '../libs/requirejs/json',
-            'domReady': 'libs/requirejs/domReady',
+            'domReady': '../libs/requirejs/domReady',
 
             'angular': '../libs/angular/angular',
             'angular-bootstrap': '../../libs/angular/ui-bootstrap-tpls',
@@ -22,7 +22,7 @@ requirejs.config(
             'datedropper': '../libs/datedropper/datedropper',
 
             'app': 'app',
-            'config': '../config.json',
+            'config': 'config.json',
             'logger': 'common/logger',
             'mkControllers': 'common/controllers',
             'mkDirectives': 'common/directives/directives',

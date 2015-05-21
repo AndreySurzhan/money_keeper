@@ -1,15 +1,9 @@
 require(
     [
-        'requirejs.config'
+        'domReady!',
+        'common/utils/formUtil'
     ],
-    function () {
-        require(
-            [
-                'domReady!'
-            ],
-            function (document) {
-                console.log('DOM is ready!');
-            }
-        );
+    function (document, formUtil) {
+        console.log('DOM is ready!', formUtil);
     }
 );
