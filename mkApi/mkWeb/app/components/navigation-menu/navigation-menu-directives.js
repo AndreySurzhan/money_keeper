@@ -24,45 +24,51 @@ define(
             };
         });
 
-        app.directive('menuItem', function($compile) {
-            return {
-                restrict: 'A',
-                scope: {
-                    menuItem: '=menuItem',
-                    cls: '=ngClass'
-                },
-                replace: true,
-                link: function($scope, $element, attrs) {
-                    var menuItem = $scope.menuItem,
-                        hasChildren = !!(menuItem.children && menuItem.children.length);
+        app.directive(
+            'menuItem',
+            [
+                '$compile',
+                function ($compile) {
+                    return {
+                        restrict: 'A',
+                        scope: {
+                            menuItem: '=menuItem',
+                            cls: '=ngClass'
+                        },
+                        replace: true,
+                        link: function ($scope, $element, attrs) {
+                            var menuItem = $scope.menuItem,
+                                hasChildren = !!(menuItem.children && menuItem.children.length);
 
-                    $element.html(
-                        hasChildren
-                            ? itemOpenableTemplate
-                            :itemCommonTemplate
-                    );
-                    $element.addClass(attrs.class);
-                    $element.addClass($scope.cls);
+                            $element.html(
+                                hasChildren
+                                    ? itemOpenableTemplate
+                                    : itemCommonTemplate
+                            );
+                            $element.addClass(attrs.class);
+                            $element.addClass($scope.cls);
 
-                    if (hasChildren) {
-                        $element.addClass('xn-openable');
-                    }
+                            if (hasChildren) {
+                                $element.addClass('xn-openable');
+                            }
 
-                    if (menuItem.active) {
-                        $element.addClass('active');
-                    }
+                            if (menuItem.active) {
+                                $element.addClass('active');
+                            }
 
-                    $scope.menuItem.onClick = function () {
-                        if (hasChildren) {
-                            $element.toggleClass('active');
+                            $scope.menuItem.onClick = function () {
+                                if (hasChildren) {
+                                    $element.toggleClass('active');
+                                }
+                            };
+
+
+                            $compile($element.contents())($scope);
                         }
                     };
-
-
-                    $compile($element.contents())($scope);
                 }
-            };
-        });
+            ]
+        );
 
         return;
     }

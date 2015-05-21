@@ -39,9 +39,12 @@ define(
 
         app.controller(
             'mainController',
-            function($scope) {
-                $scope.menu = menu;
-            }
+            [
+                '$scope',
+                function ($scope) {
+                    $scope.menu = menu;
+                }
+            ]
         );
 
         return app;

@@ -10,24 +10,27 @@ define(
 
         mkFilters.filter(
             'transactionCategory',
-            function ($sce) {
-                return function (transaction) {
-                    var accountDestinationName;
+            [
+                '$sce',
+                function ($sce) {
+                    return function (transaction) {
+                        var accountDestinationName;
 
-                    if (transaction.type !== enums.transactionTypes.transfer.value) {
-                        return $sce.trustAsHtml(transaction.category ? transaction.category.name : '');
+                        if (transaction.type !== enums.transactionTypes.transfer.value) {
+                            return $sce.trustAsHtml(transaction.category ? transaction.category.name : '');
+                        }
+
+                        // if transfer
+                        accountDestinationName = transaction.accountDestination ? transaction.accountDestination.name : '';
+
+                        if (!accountDestinationName) {
+                            return $sce.trustAsHtml('');
+                        }
+
+                        return $sce.trustAsHtml(arrowHtml + accountDestinationName);
                     }
-
-                    // if transfer
-                    accountDestinationName = transaction.accountDestination ? transaction.accountDestination.name : '';
-
-                    if (!accountDestinationName) {
-                        return $sce.trustAsHtml('');
-                    }
-
-                    return $sce.trustAsHtml(arrowHtml + accountDestinationName);
                 }
-            }
+            ]
         );
 
         mkFilters.filter(

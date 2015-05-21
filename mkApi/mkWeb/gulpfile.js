@@ -26,17 +26,15 @@ var copyFilesList = require('./gulpfile-copy');
 // Subtasks
 
 gulp.task('scripts:build', shell.task([
-    'r.js -o baseUrl=app/ mainConfigFile=app/requirejs.config.js name=bootstrap out=app/mk.js'
+    'r.js -o baseUrl=<%= baseUrl %> mainConfigFile=<%= config %> name=<%= src %> out=<%= dist %>'
 ], {
-    templateData: {
-        f: 'echo Hello'
-    }
+    templateData: buildPath.scripts.build
 }));
 
 gulp.task('scripts:dev', function () {
-    gulp.src('app/bootstrap.js')
-        .pipe(rename('mk.js'))
-        .pipe(gulp.dest('app/'));
+    gulp.src(buildPath.scripts.dev.src)
+        .pipe(rename(buildPath.scripts.dev.dist))
+        .pipe(gulp.dest(buildPath.scripts.dev.distFolder));
 });
 
 gulp.task('style:build', function () {
@@ -115,8 +113,8 @@ gulp.task('vendor', function (callback) {
 
 gulp.task('dev', function (callback) {
     runSequence(
-        'vendor',
-        ['image:build', 'style:dev'],
+        //'vendor',
+        ['image:build', 'style:dev', 'scripts:dev'],
         'watch',
         callback
     );
@@ -124,8 +122,8 @@ gulp.task('dev', function (callback) {
 
 gulp.task('build', function (callback) {
     runSequence(
-        'vendor',
-        ['image:build', 'style:build'],
+        //'vendor',
+        ['image:build', 'style:build', 'scripts:build'],
         callback
     );
 });

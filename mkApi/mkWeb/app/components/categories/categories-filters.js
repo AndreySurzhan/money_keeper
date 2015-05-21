@@ -18,11 +18,14 @@ define(
 
         mkFilters.filter(
             'categoryIncomeMark',
-            function ($sce) {
-                return function (income) {
-                    return $sce.trustAsHtml(income ? incomeHtml : outcomeHtml);
+            [
+                '$sce',
+                function ($sce) {
+                    return function (income) {
+                        return $sce.trustAsHtml(income ? incomeHtml : outcomeHtml);
+                    }
                 }
-            }
+            ]
         );
 
         return;
