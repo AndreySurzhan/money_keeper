@@ -23,6 +23,7 @@
     "gulp-util": "^3.0.4",
     "gulp-watch": "^4.2.4",
     "imagemin-pngquant": "^4.1.0",
+    "merge-stream": "^0.1.7",
     "requirejs": "^2.1.17",
     "rimraf": "^2.3.3",
     "run-sequence": "^1.0.2"

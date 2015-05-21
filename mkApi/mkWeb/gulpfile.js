@@ -13,10 +13,9 @@ var rimraf = require('rimraf');
 var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
 var gutil = require('gulp-util');
-
+var merge = require('merge-stream');
 var shell = require('gulp-shell');
 var rename = require('gulp-rename');
-
 
 // Local variables
 
@@ -71,33 +70,29 @@ gulp.task('image:build', function () {
         .pipe(gulp.dest(buildPath.images.dist));
 });
 
-gulp.task('watch', function(){
-    watch([buildPath.styles.watch], function(event, cb) {
-        gulp.start('style:dev');
-    });
-    watch([buildPath.images.watch], function(event, cb) {
-        gulp.start('image:build');
-    });
-});
-
 gulp.task('bower-install', function (callback) {
     return bower()
         .pipe(gulp.dest('bower-components/'));
 });
 
 gulp.task('bower-copy', function (callback) {
-    var stream;
+    var streams = [];
 
     for (var i = 0; i < copyFilesList.length; i++) {
-        stream = gulp.src(copyFilesList[i].from)
-            .pipe(gulp.dest(copyFilesList[i].to));
+        streams.push(
+            gulp.src(copyFilesList[i].from).pipe(gulp.dest(copyFilesList[i].to))
+        );
     }
 
-    return stream;
+    return merge.apply(merge, streams);
 });
 
 gulp.task('bower-clean', function (callback) {
-    rimraf(buildPath.vendor.src, callback);
+    var path = buildPath.vendor.src;
+
+    gutil.log('rimraf: ', path);
+
+    rimraf(path, callback);
 });
 
 gulp.task('vendor', function (callback) {
@@ -111,21 +106,31 @@ gulp.task('vendor', function (callback) {
 
 // Global tasks
 
+gulp.task('watch', function(){
+    watch([buildPath.styles.watch], function(event, cb) {
+        gulp.start('style:dev');
+    });
+    watch([buildPath.images.watch], function(event, cb) {
+        gulp.start('image:build');
+    });
+});
+
 gulp.task('dev', function (callback) {
     runSequence(
-        //'vendor',
-        ['image:build', 'style:dev', 'scripts:dev'],
-        'watch',
+        'vendor',
+        'image:build',
+        ['style:dev', 'scripts:dev'],
         callback
     );
 });
 
 gulp.task('build', function (callback) {
     runSequence(
-        //'vendor',
-        ['image:build', 'style:build', 'scripts:build'],
+        'vendor',
+        'image:build',
+        ['style:build', 'scripts:build'],
         callback
     );
 });
 
-gulp.task('default', ['dev']);
+gulp.task('default', ['build']);

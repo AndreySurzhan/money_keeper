@@ -67,6 +67,10 @@ module.exports = [
     },
     // Other
     {
+        from: vendorDir + 'velocity/velocity.js',
+        to: destDir + 'velocity/'
+    },
+    {
         from: vendorDir + 'moment/moment.js',
         to: destDir + 'moment/'
     },
