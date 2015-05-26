@@ -1,3 +1,6 @@
+@import '../../mixins.less';
+
+
 .transaction-value {
     font-weight: bold;
 
@@ -31,7 +34,17 @@
     }
 }
 
+.transaction-list-date-column {
+    min-width: 60px;
+}
+
 .transaction-list-note-column {
     max-width: 200px;
     overflow-x: auto;
+
+    .responsive(mobile, {
+    & {
+        display: none;
+    }
+    });
 }
