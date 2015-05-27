@@ -1,13 +1,28 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
 html {
     background: url("../images/background.jpg") left top no-repeat fixed;
     font-family: 'Open Sans', sans-serif;
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .login-box {
-    width: 400px;
-    margin: 0 auto;
-    padding-top: 100px;
     box-sizing: border-box;
+    margin: 0 auto;
+    margin-top: -80px;
+    max-width: 400px;
+    width: 100%;
 }
 
 .login-logo {
