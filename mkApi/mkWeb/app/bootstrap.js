@@ -1,8 +1,4 @@
-/**
- * bootstraps angular onto the window.document node
- */
-
-define(
+require(
     [
         'require',
         'angular',

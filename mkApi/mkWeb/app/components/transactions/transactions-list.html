@@ -1,4 +1,4 @@
-<div class="col-md-12">
+<div class="component-container col-md-12">
     <div class="panel panel-default"
          panel-disabled="isUpdating">
         <div class="panel-heading">
@@ -28,7 +28,7 @@
             <table class="accounts-list table table-hover table-striped">
                 <thead>
                 <tr>
-                    <th>
+                    <th class="transaction-list-date-column">
                         {{ 'components.transactions.fields.date.text' | translate }}
                     </th>
                     <th>
@@ -48,7 +48,7 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="transaction in transactions | filter:query | orderBy:orderProp">
-                    <td>
+                    <td class="transaction-list-date-column">
                         {{ transaction.date | transactionDate | amDateFormat:'Do MMM YY' }}
                     </td>
                     <td class="transaction-value {{ transaction.type }}">
@@ -81,7 +81,7 @@
                     {{ pagination.status}}
                 </span>
             </div>
-            <div class="collection-pager pull-right">
+            <div class="collection-pager">
                 <pagination class="pagination-sm"
                             ng-model="pagination.currentPage"
                             items-per-page="pagination.itemsPerPage"

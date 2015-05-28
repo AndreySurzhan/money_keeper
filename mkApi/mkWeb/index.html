@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title></title>
+    <title>MoneyKeeper</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
-    <link rel="stylesheet" href="styles/styles.css">
-    <link rel="stylesheet" href="styles/lock-screens.css">
+    <link rel="stylesheet" href="styles/framework/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="styles/_dist/app.css">
+    <link rel="stylesheet" href="styles/_dist/lockscreen.css">
 
     <script src="libs/jquery/jquery.js"></script>
-    <script src="//cdn.jsdelivr.net/velocity/1.2.2/velocity.min.js"></script>
+    <script src="libs/velocity/velocity.js"></script>
     <script src="libs/datedropper/datedropper.js"></script>
-    <script src="libs/requirejs/require.js" data-main="app/requirejs.config.js"></script>
 
+    <script src="libs/requirejs/require.js"></script>
+    <script src="app/requirejs.config.js"></script>
+    <script src="app/mk.js"></script>
 </head>
 <body ng-controller="mainController">
 <div id="main-loading-screen" ng-cloak class="loading-screen">
@@ -57,90 +60,49 @@
         });
     </script>
 </div>
-<div ng-cloak class="sidebar-menu">
-    <ul class="x-navigation">
-        <li class="xn-logo">
-            {{ 'app.name' | translate }}
-        </li>
-        <li class="xn-title">
-            {{ 'navigation-menu.title' | translate }}
-        </li>
-    </ul>
-    <!--
-    <div class="avatar-group">
-        <button class="avatar-left-control">
-            <i class="fa fa-info"></i>
-        </button>
-        <img class="avatar" src="images/avatar.jpg">
-        <button class="avatar-right-control">
-            <i class="fa fa-wrench"></i>
-        </button>
-    <span class="user-name">
-        Gorlov Dmitry
-    </span>
-    <span class="user-status">
-        Web Developer
-    </span>
+<div class="page-container navigation-menu-collapsed">
+    <div class="menu-container">
+        <div class="menu">
+            <div class="logo-container">
+                <img class="logo" src="images/_dist/logo_220x50_red.png">
+            </div>
+            <div class="navigation-menu" navigation-menu="menu"></div>
+        </div>
     </div>
-    -->
-    <div navigation-menu="menu"></div>
-    <!--
-    <ul class="x-navigation" ng-controller="NavigationMenuCtrl">
-        <li class="xn-logo">
-            {{ 'app.name' | translate }}
-        </li>
-        <li class="xn-title">
-            {{ 'navigation-menu.title' | translate }}
-        </li>
-        <li class="xn-navigation-menu" ng-bind-html="menuHtml"></li>
-        <!--
-        <li class="xn-openable">
-            <a href="#/categories">
-                <span class="fa fa-folder-o"></span>
-                <span class="xn-text">Категории</span>
-            </a>
-            <ul>
+    <div class="content-container">
+        <div class="header">
+            <ul class="header-navigation">
                 <li>
-                    <a href="#/categories">
-                        <span class="fa fa-list"></span>
-                        <span class="xn-text">Список</span>
-                    </a>
+                    <div class="menu-toggle">
+                        <i class="fa fa-bars"></i>
+                    </div>
                 </li>
-                <li>
-                    <a href="#/categories/add">
-                        <span class="fa fa-plus"></span>
-                        <span class="xn-text">Добавление</span>
+                <li class="pull-right">
+                    <a href="/logout" class="maximize-menu-button">
+                        <i class="fa fa-power-off"></i>
                     </a>
                 </li>
             </ul>
-        </li>
-        -->
-    </ul>
-</div>
-<div ng-cloak class="main-content-wrapper">
-    <div class="navigation">
-        <ul class="header-navigation">
-            <li class="pull-right">
-                <a href="/logout" class="maximize-menu-button">
-                    <i class="fa fa-power-off"></i>
-                </a>
-            </li>
-        </ul>
-    </div>
-    <div class="breadcrumbs">
-        &nbsp;
-    </div>
-    <div class="view-container">
-        <div class="page-content view-frame">
-            <div class="row" ng-view></div>
         </div>
+        <div class="breadcrumbs"></div>
+        <div class="content ng-view"></div>
     </div>
 </div>
-<footer ng-cloak>
-  <span class="author-sign">
-    {{ 'app.author' | translate }}: {{ 'app.author-name' | translate }}, 2015
-  </span>
-</footer>
+<script>
+    $(document).on('ready', function () {
+        var $pageContainer = $('.page-container');
+        var $menuToggleButton = $('.menu-toggle');
+        var menuCollapsedClass = 'navigation-menu-collapsed';
+        var mobileWidth = 480;
 
+        if ($pageContainer.width() > mobileWidth) {
+            $pageContainer.removeClass(menuCollapsedClass);
+        }
+
+        $menuToggleButton.on('click', function () {
+            $pageContainer.toggleClass(menuCollapsedClass);
+        });
+    });
+</script>
 </body>
 </html>

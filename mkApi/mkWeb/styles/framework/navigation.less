@@ -1,3 +1,5 @@
+@import '../mixins.less';
+
 .x-navigation,
 .x-navigation ul {
     width: 100%;
@@ -137,6 +139,7 @@
 .x-navigation > li > ul > li > a:hover {
     padding-left: 30px;
 }
+
 .x-navigation > li > ul > li.active > a {
     padding-left: 30px;
 }
@@ -185,6 +188,19 @@
 .x-navigation > li > ul > li > ul > li > ul > li > ul > li > ul > li > ul > li.active > a {
     padding-left: 85px;
 }
+
+.navigation-menu-collapsed .x-navigation > li > ul > li > a {
+    padding-left: 13px;
+}
+
+.navigation-menu-collapsed .x-navigation > li > ul > li > a:hover {
+    padding-left: 18px;
+}
+
+.navigation-menu-collapsed .x-navigation > li > ul > li.active > a {
+    padding-left: 18px;
+}
+
 .x-navigation > li:last-child > a {
     -moz-border-radius: 0px 0px 0px 5px;
     -webkit-border-radius: 0px 0px 0px 5px;

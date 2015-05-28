@@ -1,73 +1,112 @@
-menu {
-  background-color: #2d3945;
-  padding: 0;
-  margin: 0;
-  float: left;
+@import '../variables';
+
+.page-container {
+    .menu-container {
+        .menu {
+            background-color: @main-background-color;
+            float: left;
+            margin: 0;
+            padding: 0;
+
+            .logo-container {
+                background-color: @logo-background-color;
+                height: @header-height;
+                width: @menu-width;
+
+                img {
+                    height: 100%;
+                    width: 100%;
+                }
+            }
+
+            .navigation-menu {
+                & > li {
+                    display: block;
+                    float: left;
+                    width: 100%;
+
+                    &.submenu > a:before {
+                        position: relative;
+                        font-family: "FontAwesome";
+                        content: "\f107";
+                        font-size: 14px;
+                        width: 20px;
+                        height: 20px;
+                        color: #ffffff;
+                        cursor: pointer;
+                        left: 100%;
+                        margin-left: -15px;
+                    }
+
+                    &.submenu.expanded > a:before {
+                        content: "\f106";
+                    }
+
+                    & > a {
+                        display: flex;
+                        width: 100%;
+                        min-height: 50px;
+                        float: left;
+                        box-sizing: border-box;
+                        border-radius: 5px;
+                        line-height: 19px;
+                        color: #ffffff;
+                        font-size: 13px;
+                        font-weight: 400;
+                        padding: 15px 10px 15px 15px;
+                        text-decoration: none;
+                        border-bottom: 1px solid #2f3c48;
+                        vertical-align: text-bottom;
+                        background: #33414e;
+
+                        & > i {
+                            margin-right: 9px;
+                            margin-top: 3px;
+                        }
+
+                        &:hover {
+                            background: #3d4e5d;
+                            transition: all 200ms ease;
+
+                            & > i {
+                                color: #ffd559;
+                            }
+                        }
+                    }
+                }
+
+                li > .navigation-menu {
+                    padding-left: 30px;
+                    display: none;
+                }
+
+                li.expanded > .navigation-menu {
+                    display: block;
+                }
+            }
+        }
+    }
+
+    &.navigation-menu-collapsed {
+        .menu-container {
+            .menu {
+                .logo-container {
+                    img {
+                        display: none;
+                    }
+                }
+            }
+
+            .navigation-menu {
+                .xn-openable:before {
+                    display: none;
+                }
+                .xn-text {
+                    display: none;
+                }
+            }
+        }
+    }
 }
 
-menu > li {
-  display: block;
-  width: 100%;
-  float: left;
-}
-
-menu > li.submenu > a:before {
-  position: relative;
-  font-family: "FontAwesome";
-  content: "\f107";
-  font-size: 14px;
-  width: 20px;
-  height: 20px;
-  color: #ffffff;
-  cursor: pointer;
-  left: 100%;
-  margin-left: -15px;
-}
-
-menu > li.submenu.expanded > a:before {
-  content: "\f106";
-}
-
-menu > li > a {
-  display: flex;
-  width: 100%;
-  min-height: 50px;
-  float: left;
-  box-sizing: border-box;
-
-  border-radius: 5px;
-
-  line-height: 19px;
-  color: #ffffff;
-  font-size: 13px;
-  font-weight: 400;
-  padding: 15px 10px 15px 15px;
-  text-decoration: none;
-  border-bottom: 1px solid #2f3c48;
-  vertical-align: text-bottom;
-
-  background: #33414e;
-}
-
-menu > li > a > i {
-  margin-right: 9px;
-  margin-top: 3px;
-}
-
-menu > li > a:hover {
-  background: #3d4e5d;
-  transition: all 200ms ease;
-}
-
-menu > li > a:hover > i {
-  color: #ffd559;
-}
-
-li > menu {
-  padding-left: 30px;
-  display: none;
-}
-
-li.expanded > menu {
-  display: block;
-}
+.responsive(mobile, { });

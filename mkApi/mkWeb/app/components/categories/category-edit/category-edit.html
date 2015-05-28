@@ -1,4 +1,4 @@
-<div class="col-md-12">
+<div class="component-container col-md-12">
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class="panel-title-box">
@@ -63,19 +63,20 @@
                         </select>
                     </div>
                 </div>
-                <hr>
-                <div class="btn-group pull-right">
-                    <button class="btn btn-default" type="button"
-                            ng-click="cancel()">
-                        {{ 'common.buttons.cancel' | translate }}
-                    </button>
-                    <button class="btn btn-primary" type="submit"
-                            ng-click="executeOperation()"
-                            ng-disabled="!formState.submit.enable" >
-                        {{ formState.texts.saveButton }}
-                    </button>
-                </div>
             </form>
+        </div>
+        <div class="panel-footer">
+            <div class="btn-group pull-right">
+                <button class="btn btn-default" type="button"
+                        ng-click="cancel()">
+                    {{ 'common.buttons.cancel' | translate }}
+                </button>
+                <button class="btn btn-primary" type="submit"
+                        ng-click="executeOperation()"
+                        ng-disabled="!formState.submit.enable" >
+                    {{ formState.texts.saveButton }}
+                </button>
+            </div>
         </div>
     </div>
 </div>

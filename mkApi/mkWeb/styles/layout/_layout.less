@@ -1,48 +1,97 @@
+@import '../variables.less';
+@import '../mixins.less';
 @import 'header.less';
-@import 'sidebar.less';
+@import 'breadcrumbs.less';
 @import 'user-info.less';
 @import 'menu.less';
-@import 'footer.less';
 
 html {
-  background: url("../images/background.jpg") left top no-repeat fixed;
-  padding: 20px 0;
+    height: 100%;
 }
 
 body {
-  background: #33414e;
-  border-radius: 5px;
-  box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
-  float: left;
-  height: auto;
-  left:50%;
-  margin: 0 0 0 -600px;
-  position: relative;
-  width: 1200px;
+    height: 100%;
 }
 
-.xn-logo {
-  background: #e34724;
-  border-radius: 5px 0 0 0;
-  color: white;
-  font-family: "Times New Roman", Times, serif;
-  font-size: 24px;
-  height: 50px;
-  line-height: 50px;
-  text-align: center;
-  text-indent: 0;
-  width: 100%;
+.page-container {
+    display: flex;
+    float: left;
+    height: 100%;
+    width: 100%;
+
+    .menu-container {
+        flex-basis: @menu-width;
+        flex-grow: 0;
+        flex-shrink: 0;
+        height: 100%;
+
+        .menu {
+            height: 100%;
+            width: 100%;
+        }
+    }
+
+    .content-container {
+        background: #e8e8e8 url(../images/bg.png) left top repeat;
+        flex-grow: 1;
+        overflow: auto;
+
+        .header {
+            height: @header-height;
+            width: 100%;
+        }
+
+        .breadcrumbs {
+            height: @breadcrumbs-height;
+        }
+
+        .content {
+            float: left;
+            width: 100%;
+
+            .component-container {
+                float: left;
+                width: 100%;
+
+                .responsive(mobile, {
+                    & {
+                        padding: 0;
+                    }
+                });
+            }
+        }
+    }
+
+    &.navigation-menu-collapsed {
+        .menu-container {
+            flex-basis: @menu-collapsed-width;
+        }
+    }
 }
 
-.main-content-wrapper {
-  float: left;
-  width: 980px;
-}
+.responsive(mobile, {
+.page-container {
+    .menu-container {
+        height: 100%;
+        left: 0;
+        position: fixed;
+        top: @header-height;
+        width: 100%;
+        z-index: 500;
 
-.page-content {
-  background: #e8e8e8 url(../images/bg.png) left top repeat;
-  min-height: 500px;
-  width: 100%;
-  padding-top: 10px;
+        .menu {
+            height: auto;
+
+            .logo-container {
+                display: none;
+            }
+        }
+    }
+
+    &.navigation-menu-collapsed {
+        .menu-container {
+            display: none;
+        }
+    }
 }
+});
