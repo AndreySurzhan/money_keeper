@@ -17,10 +17,15 @@
                     </button>
                 </li>
                 <li>
+                    <button ng-click="addNewTransaction()">
+                        <span class="fa fa-plus"></span>
+                    </button>
+                    <!--
                     <a href="#/transactions/add" class="button header-button-create"
                        title="{{ 'common.buttons.create' | translate }}">
                         <span class="fa fa-plus"></span>
                     </a>
+                    -->
                 </li>
             </ul>
         </div>
@@ -63,7 +68,7 @@
                     </td>
                     <td class="actions-column">
                         <button class="btn btn-default btn-rounded btn-condensed btn-sm"
-                                ng-click="showDetails(transaction._id)">
+                                ng-click="editTransaction(transaction._id)">
                             <span class="fa fa-pencil"></span>
                         </button>
                         <button class="btn btn-danger btn-rounded btn-condensed btn-sm"

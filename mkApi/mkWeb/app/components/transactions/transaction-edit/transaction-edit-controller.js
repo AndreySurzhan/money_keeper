@@ -13,6 +13,7 @@ define(
         '../../currencies/currencies-services'
     ],
     function (mkControllers, enums, config, _, $, logger, scopeUtil, entityUtil, formUtil) {
+        var controllerName = 'TransactionEditCtrl';
         // Accounts
         var storedAccounts;
         var getAccounts = function (accountsFactory) {
@@ -432,22 +433,23 @@ define(
         };
 
         mkControllers.controller(
-            'TransactionEditCtrl',
+            controllerName,
             [
                 '$scope',
-                '$routeParams',
                 '$filter',
+                '$modalInstance',
                 'Transaction',
                 'Category',
                 'Account',
-                function ($scope, $routeParams, $filter, Transaction, Category, Account) {
+                'transactionId',
+                function ($scope, $filter, $modalInstance, Transaction, Category, Account, transactionId) {
                     logger.info('--- Edit Transaction controller initialize ---');
                     logger.time('Edit Transaction controller initialize');
 
                     var transactionOperationType;
                     var transactionPromise;
 
-                    $scope.id = $routeParams.id;
+                    $scope.id = transactionId;
                     setInitialFormState($scope);
 
                     if ($scope.id === 'add') {
@@ -505,9 +507,9 @@ define(
                         }
 
                         operation
-                            .done(function () {
+                            .done(function (transaction) {
                                 logger.log('Transaction saved');
-                                window.history.back();
+                                $modalInstance.close(transaction);
                             })
                             .fail(function (error) {
                                 logger.error(error);
@@ -515,12 +517,12 @@ define(
                     };
 
                     $scope.cancel = function () {
-                        window.history.back();
+                        $modalInstance.dismiss('cancel');
                     };
                 }
             ]
         );
 
-        return;
+        return controllerName;
     }
 );

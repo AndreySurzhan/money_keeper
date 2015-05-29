@@ -134,3 +134,34 @@ body {
         -o-transform:rotate(360deg);
         transform:rotate(360deg);}
 }
+
+.mkModalWindow {
+    z-index: 90;
+
+    .modal-dialog {
+        margin: 30px auto;
+        max-width: 900px;
+        width: 80%;
+
+        .modal-content {
+            background: rgba(0, 0, 0, 0);
+        }
+    }
+
+    .responsive(mobile, {
+    & {
+        .modal-dialog {
+            margin: 0;
+            width: 100%;
+
+            .component-container {
+                padding: 0;
+            }
+        }
+    }
+    });
+}
+
+.dd_wrap {
+    z-index: 1050;
+}
