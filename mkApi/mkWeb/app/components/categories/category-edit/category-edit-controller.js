@@ -9,15 +9,8 @@ define(
     ],
     function (mkControllers, logger, scopeUtil, entityUtil, formUtil) {
         // Categories
-        var storedIncomeCategories;
         var getIncomeCategories = function (Category) {
             var result = $.Deferred();
-
-            if (storedIncomeCategories) {
-                logger.log('Return stored income categories');
-                result.resolve(storedIncomeCategories);
-                return result.promise();
-            }
 
             logger.groupCollapsed('Getting income categories');
             logger.time('Getting income categories');
@@ -27,8 +20,7 @@ define(
                     logger.logCategories(categories);
                     logger.groupEnd('Getting income categories');
 
-                    storedIncomeCategories = categories;
-                    result.resolve(storedIncomeCategories)
+                    result.resolve(categories)
                 },
                 function (error) {
                     logger.timeEnd('Getting income categories');
@@ -41,15 +33,8 @@ define(
 
             return result.promise();
         };
-        var storedOutcomeCategories;
         var getOutcomeCategories = function (Category) {
             var result = new $.Deferred();
-
-            if (storedOutcomeCategories) {
-                logger.log('Return stored outcome categories');
-                result.resolve(storedOutcomeCategories);
-                return result.promise();
-            }
 
             logger.groupCollapsed('Getting outcome categories');
             logger.time('Getting outcome categories');
@@ -59,8 +44,7 @@ define(
                     logger.logCategories(categories);
                     logger.groupEnd('Getting outcome categories');
 
-                    storedOutcomeCategories = categories;
-                    result.resolve(storedOutcomeCategories);
+                    result.resolve(categories);
                 },
                 function (error) {
                     logger.timeEnd('Getting outcome categories');

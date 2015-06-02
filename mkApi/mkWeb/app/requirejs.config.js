@@ -15,11 +15,13 @@ requirejs.config(
             'angular-moment': '../libs/angular/angular-moment',
             'angular-moment-ru': '../libs/angular/angular-moment-locales/ru',
             'angular-moment-en': '../libs/angular/angular-moment-locales/en-gb',
+            'angular-sortable': '../libs/sortable/ng-sortable',
 
             'jquery': '../libs/jquery/jquery',
             'moment': '../libs/moment/moment',
             'underscore': '../libs/underscore/underscore',
             'datedropper': '../libs/datedropper/datedropper',
+            'Sortable': '../libs/sortable/Sortable',
 
             'app': 'app',
             'config': 'config.json',
@@ -49,6 +51,9 @@ requirejs.config(
             },
             'angular-moment' : {
                 deps: ['angular-moment-ru', 'angular-moment-en']
+            },
+            'angular-sortable': {
+                deps: ['Sortable']
             },
             'datedropper': {
                 exports: '$',

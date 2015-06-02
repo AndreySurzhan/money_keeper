@@ -90,6 +90,14 @@ module.exports = [
         from: vendorDir + 'datedropper/icons/*',
         to: destDir + '../styles/datedropper/icons/'
     },
+    {
+        from: vendorDir + 'Sortable/Sortable.js',
+        to: destDir + 'sortable/'
+    },
+    {
+        from: vendorDir + 'Sortable/ng-sortable.js',
+        to: destDir + 'sortable/'
+    },
     // Styles
     {
         from: vendorDir + 'bootstrap/dist/**/*.*',
