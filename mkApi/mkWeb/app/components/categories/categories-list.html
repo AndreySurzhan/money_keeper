@@ -34,29 +34,32 @@
                 <input id="table-search-field" value="">
             </div>
             -->
-            <ul ng-sortable="{animation:150}">
-                <li ng-repeat="category in categories | filter:query | orderBy:orderProp">
-
-                            <span class="income-column"
-                                ng-bind-html="category.income | categoryIncomeMark">
-                            </span>
-                            <span class="name-column">
-                                {{ category.name }}
-                            </span>
-                            <span class="parent-column">
-                                {{ category.parent | parentCategoryName }}
-                            </span>
-                            <span class="actions-column">
-                                <button class="btn btn-default btn-rounded btn-condensed btn-sm"
-                                        ng-click="showDetails(category._id)">
-                                    <span class="fa fa-pencil"></span>
-                                </button>
-                                <button class="btn btn-danger btn-rounded btn-condensed btn-sm"
-                                        ng-click="remove(category._id)">
-                                    <span class="fa fa-times"></span>
-                                </button>
-                            </span>
-
+            <ul class="list-group categories-list" ng-sortable="sortableOptions">
+                <li class="list-group-item categories-list-item" ng-repeat="category in categories | filter:query | orderBy:orderProp">
+                    <div class="content">
+                        <span class="income-column"
+                              ng-bind-html="category.income | categoryIncomeMark">
+                        </span>
+                        <span class="name-column">
+                            {{ category.name }}
+                        </span>
+                        <span class="parent-column">
+                            {{ category.parent | parentCategoryName }}
+                        </span>
+                        <span class="actions-column">
+                            <button class="btn btn-default btn-rounded btn-condensed btn-sm"
+                                    ng-click="showDetails(category._id)">
+                                <span class="fa fa-pencil"></span>
+                            </button>
+                            <button class="btn btn-danger btn-rounded btn-condensed btn-sm"
+                                    ng-click="remove(category._id)">
+                                <span class="fa fa-times"></span>
+                            </button>
+                        </span>
+                    </div>
+                    <div class="grad-handle">
+                        <i class="fa fa-bars"></i>
+                    </div>
                 </li>
             </ul>
 

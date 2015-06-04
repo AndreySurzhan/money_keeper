@@ -1,13 +1,18 @@
 .categories-list {
-    .income-column {
-        overflow-x: auto;
-        width: 40px;
-    }
-    .name-column {
-        max-width: 50px;
-        overflow-x: auto;
-    }
-    .parent-column {
-        max-width: 40px;
+    .categories-list-item {
+        display: flex;
+        padding: 7px 10px;
+
+        .content {
+            float: left;
+        }
+
+        .grad-handle {
+            cursor: move;
+            float: left;
+            padding: 2px;
+            text-align: center;
+            width: 30px;
+        }
     }
 }
