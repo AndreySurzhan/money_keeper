@@ -8,24 +8,32 @@ define(
     function (mkControllers, logger, $) {
         var sortableOptions = {
             animation: 150,
-            handle: '.grad-handle'
+            group: {
+                name: 'income',
+                put: ['income']
+            }
         };
 
         var makeTree = function (currentNode, categories) {
-            console.log(categories);
-
             var i;
-            var lastList;
+            var children;
             var tree;
 
-            lastList = getCategoriesByParentId(categories, 'root');
-            tree = lastList;
+            logger.groupCollapsed('processing ' + (currentNode.name || currentNode._id));
 
-            for (i = 0; i < tree.length; i++) {
+            children = getCategoriesByParentId(categories, currentNode._id);
 
+            logger.log('children', children);
+
+            currentNode.children = children;
+
+            for (i = 0; i < children.length; i++) {
+                makeTree(children[i], categories);
             }
 
-            return tree;
+            logger.groupEnd('processing ' + (currentNode.name || currentNode._id));
+
+            return currentNode;
 
             function getCategoriesByParentId (categories, parentId) {
                 var i;
@@ -38,14 +46,6 @@ define(
                         (!_.isNull(categories[i].parent) && categories[i].parent._id === parentId)
                     ) {
                         result.push(categories[i]);
-                    }
-                }
-
-                for (i = 0; i < result.length; i++) {
-                    index = _.indexOf(categories, result[i]);
-
-                    if (index > -1) {
-                        categories.splice(index, 1);
                     }
                 }
 
@@ -70,7 +70,9 @@ define(
 
                     $scope.isUpdating = false;
 
-                    categoriesTree = makeTree(categories);
+                    categoriesTree = makeTree({
+                        _id: 'root'
+                    }, categories);
 
                     result.resolve(categoriesTree);
                 },
@@ -90,13 +92,15 @@ define(
                 '$scope',
                 'Category',
                 function ($scope, Category) {
-                    $scope.categories = [];
+                    $scope.categoriesTree = {};
                     $scope.orderProp = '_id';
                     $scope.sortableOptions = sortableOptions;
 
+                    console.log('sortable', sortableOptions);
+
                     updateCategoriesList($scope, Category)
-                        .done(function (categories) {
-                            $scope.categories = categories
+                        .done(function (categoriesTree) {
+                            $scope.categoriesTree = categoriesTree;
                         })
                         .fail(function (error) {
                             $scope.categories = [];
@@ -104,8 +108,8 @@ define(
 
                     $scope.refresh = function () {
                         updateCategoriesList($scope, Category)
-                            .done(function (categories) {
-                                $scope.categories = categories
+                            .done(function (categoriesTree) {
+                                $scope.categoriesTree = categoriesTree;
                             })
                             .fail(function (error) {
                                 $scope.categories = [];

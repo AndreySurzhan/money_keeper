@@ -1,0 +1,26 @@
+<div class="content">
+    <div class="grad-handle">
+        <i class="fa fa-bars"></i>
+    </div>
+    <div class="category-info">
+        <div class="income-column"
+              ng-bind-html="categoryTreeItem.income | categoryIncomeMark">
+        </div>
+        <div class="name-column">
+            {{ categoryTreeItem.name }}
+        </div>
+        <div class="parent-column">
+            {{ categoryTreeItem.parent | parentCategoryName }}
+        </div>
+        <div class="actions-column">
+            <button class="btn btn-default btn-rounded btn-condensed btn-sm"
+                    ng-click="showDetails(categoryTreeItem._id)">
+                <span class="fa fa-pencil"></span>
+            </button>
+            <button class="btn btn-danger btn-rounded btn-condensed btn-sm"
+                    ng-click="remove(categoryTreeItem._id)">
+                <span class="fa fa-times"></span>
+            </button>
+        </div>
+    </div>
+</div>

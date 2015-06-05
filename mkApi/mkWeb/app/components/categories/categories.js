@@ -4,6 +4,7 @@ define(
         './categories-translations',
         './categories-routes',
         './categories-filters',
+        './categories-directives',
 
         './category-edit/category-edit'
     ],
