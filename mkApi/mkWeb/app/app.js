@@ -6,7 +6,7 @@ define(
         'angular-moment',
         'angular-bootstrap',
         'animations',
-        'angular-sortable'
+        'angular-ui-tree'
     ],
     function (ng, menu) {
         'use strict';
@@ -17,7 +17,7 @@ define(
                 'ngRoute',
                 'angularMoment',
                 'ui.bootstrap',
-                'ng-sortable',
+                'ui.tree',
                 'moneyKeeperControllers',
                 'moneyKeeperDirectives',
                 'moneyKeeperFilters',

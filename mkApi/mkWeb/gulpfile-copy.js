@@ -36,6 +36,14 @@ module.exports = [
         to: destDir + 'angular/'
     },
     {
+        from: vendorDir + 'angular-ui-tree/dist/angular-ui-tree.js',
+        to: destDir + 'angular/'
+    },
+    {
+        from: vendorDir + 'angular-ui-tree/dist/angular-ui-tree.min.css',
+        to: destDir + '../styles/angular-ui-tree/'
+    },
+    {
         from: vendorDir + 'moment/locale/ru.js',
         to: destDir + 'angular/angular-moment-locales/'
     },
@@ -89,14 +97,6 @@ module.exports = [
     {
         from: vendorDir + 'datedropper/icons/*',
         to: destDir + '../styles/datedropper/icons/'
-    },
-    {
-        from: vendorDir + 'Sortable/Sortable.js',
-        to: destDir + 'sortable/'
-    },
-    {
-        from: vendorDir + 'Sortable/ng-sortable.js',
-        to: destDir + 'sortable/'
     },
     // Styles
     {

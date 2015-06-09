@@ -34,8 +34,36 @@
                 <input id="table-search-field" value="">
             </div>
             -->
-            <div categories-tree="categoriesTree"></div>
+
+            <div ui-tree id="tree-root">
+                <ol ui-tree-nodes="" ng-model="categoriesTree">
+                    <li ng-repeat="node in categoriesTree" ui-tree-node ng-include="'nodes_renderer.html'"></li>
+                </ol>
+            </div>
+        </div>
         </div>
         <div class="panel-footer"></div>
     </div>
 </div>
+
+<script type="text/ng-template" id="nodes_renderer.html">
+    <div ui-tree-handle class="tree-node tree-node-content">
+        <a data-nodrag ng-click="toggle(this)"
+           class="btn btn-success btn-xs" >
+                        <span ng-class="{ 'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed }"
+                              class="glyphicon" ></span>
+        </a>
+        {{ node.name }}
+        <a data-nodrag ng-click="remove(this)"
+           class="pull-right btn btn-danger btn-xs" >
+            <span class="glyphicon glyphicon-remove"></span>
+        </a>
+        <a data-nodrag ng-click="newSubItem(this)"
+           class="pull-right btn btn-primary btn-xs" style="margin-right: 8px;">
+            <span class="glyphicon glyphicon-plus"></span>
+        </a>
+    </div>
+    <ol ui-tree-nodes="" ng-model="node.children" ng-class="{hidden: collapsed}">
+        <li ng-repeat="node in node.children" ui-tree-node ng-include="'nodes_renderer.html'"></li>
+    </ol>
+</script>

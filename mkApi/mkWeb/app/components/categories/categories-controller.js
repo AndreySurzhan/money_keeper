@@ -25,10 +25,13 @@ define(
 
             logger.log('children', children);
 
-            currentNode.children = children;
+            if (children.length > 0) {
+                currentNode.children = children;
 
-            for (i = 0; i < children.length; i++) {
-                makeTree(children[i], categories);
+                for (i = 0; i < children.length; i++) {
+                    children[i].id = children[i]._id;
+                    makeTree(children[i], categories);
+                }
             }
 
             logger.groupEnd('processing ' + (currentNode.name || currentNode._id));
@@ -74,7 +77,7 @@ define(
                         _id: 'root'
                     }, categories);
 
-                    result.resolve(categoriesTree);
+                    result.resolve(categoriesTree.children);
                 },
                 function (error) {
                     logger.error(error);
@@ -93,10 +96,6 @@ define(
                 'Category',
                 function ($scope, Category) {
                     $scope.categoriesTree = {};
-                    $scope.orderProp = '_id';
-                    $scope.sortableOptions = sortableOptions;
-
-                    console.log('sortable', sortableOptions);
 
                     updateCategoriesList($scope, Category)
                         .done(function (categoriesTree) {
