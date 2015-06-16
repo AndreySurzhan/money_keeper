@@ -56,35 +56,41 @@ define(
             }
         };
 
-        var updateCategoriesList = function ($scope, categoriesFactory) {
+        var updateCategoriesList = function ($scope, categoriesFactory, categories) {
             var categoriesTree;
             var result = new $.Deferred();
 
-            logger.time('Updating categories list');
+            if (categories) {
+                categoriesTree = makeTree({
+                    _id: 'root'
+                }, categories);
 
-            $scope.isUpdating = true;
+                result.resolve(categoriesTree.children);
+            } else {
+                logger.time('Updating categories list');
+                $scope.isUpdating = true;
+                categoriesFactory.query(
+                    function (categories) {
+                        logger.timeEnd('Updating categories list');
+                        logger.groupCollapsed('Updating categories list');
+                        logger.logCategories(categories);
+                        logger.groupEnd('Updating categories list');
 
-            categoriesFactory.query(
-                function (categories) {
-                    logger.timeEnd('Updating categories list');
-                    logger.groupCollapsed('Updating categories list');
-                    logger.logCategories(categories);
-                    logger.groupEnd('Updating categories list');
+                        $scope.isUpdating = false;
 
-                    $scope.isUpdating = false;
+                        categoriesTree = makeTree({
+                            _id: 'root'
+                        }, categories);
 
-                    categoriesTree = makeTree({
-                        _id: 'root'
-                    }, categories);
-
-                    result.resolve(categoriesTree.children);
-                },
-                function (error) {
-                    logger.error(error);
-                    $scope.isUpdating = false;
-                    result.reject(error);
-                }
-            );
+                        result.resolve(categoriesTree.children);
+                    },
+                    function (error) {
+                        logger.error(error);
+                        $scope.isUpdating = false;
+                        result.reject(error);
+                    }
+                );
+            }
 
             return result.promise();
         };
@@ -105,6 +111,20 @@ define(
                             $scope.categories = [];
                         });
 
+                    $scope.treeOptions = {
+                        accept: function(sourceNodeScope, destNodesScope, destIndex) {
+                            console.log('accept');
+                            console.log (sourceNodeScope);
+                            console.log (destNodesScope);
+                            console.log (destIndex);
+                            return true;
+                        },
+                        dropped: function(e) {
+                            console.log('dropped');
+                            console.log(e.source.nodeScope.$modelValue);
+                        }
+                    };
+
                     $scope.refresh = function () {
                         updateCategoriesList($scope, Category)
                             .done(function (categoriesTree) {
@@ -115,20 +135,27 @@ define(
                             });
                     };
 
-                    $scope.showDetails = function (categoryId) {
-                        console.log('showDetails');
-                        console.log(categoryId);
+                    $scope.editCategory = function (treeNodeScope) {
+                        console.info(treeNodeScope.$modelValue._id);
 
-                        window.location.hash = '#/categories/' + categoryId;
+                        return;
                     };
 
-                    $scope.remove = function (categoryId) {
+                    $scope.removeCategory = function (treeNodeScope) {
+                        var categoryId = treeNodeScope.$modelValue._id;
+
                         Category.remove(
                             {
                                 id: categoryId
                             },
                             function (categories) {
-                                $scope.categories = categories;
+                                updateCategoriesList($scope, Category, categories)
+                                    .done(function (categoriesTree) {
+                                        $scope.categoriesTree = categoriesTree;
+                                    })
+                                    .fail(function (error) {
+                                        $scope.categories = [];
+                                    });
                             },
                             function () {
                                 console.error('error', arguments);
