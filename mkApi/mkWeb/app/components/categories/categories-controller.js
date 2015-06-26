@@ -14,14 +14,14 @@ define(
             }
         };
 
-        var makeTree = function (currentNode, categories) {
+        var makeTree = function (currentNode, categories, income) {
             var i;
             var children;
             var tree;
 
             logger.groupCollapsed('processing ' + (currentNode.name || currentNode._id));
 
-            children = getCategoriesByParentId(categories, currentNode._id);
+            children = getCategoriesByParentId(categories, currentNode._id, income);
 
             logger.log('children', children);
 
@@ -30,7 +30,7 @@ define(
 
                 for (i = 0; i < children.length; i++) {
                     children[i].id = children[i]._id;
-                    makeTree(children[i], categories);
+                    makeTree(children[i], categories, income);
                 }
             }
 
@@ -38,15 +38,18 @@ define(
 
             return currentNode;
 
-            function getCategoriesByParentId (categories, parentId) {
+            function getCategoriesByParentId (categories, parentId, income) {
                 var i;
                 var index;
                 var result = [];
 
                 for (i = 0; i < categories.length; i++) {
                     if (
-                        (_.isNull(categories[i].parent) && parentId === 'root') ||
-                        (!_.isNull(categories[i].parent) && categories[i].parent._id === parentId)
+                        categories[i].income === income &&
+                        (
+                            (_.isNull(categories[i].parent) && parentId === 'root') ||
+                            (!_.isNull(categories[i].parent) && categories[i].parent._id === parentId)
+                        )
                     ) {
                         result.push(categories[i]);
                     }
@@ -57,42 +60,49 @@ define(
         };
 
         var updateCategoriesList = function ($scope, categoriesFactory, categories) {
-            var categoriesTree;
             var result = new $.Deferred();
 
             if (categories) {
-                categoriesTree = makeTree({
-                    _id: 'root'
-                }, categories);
+                result.resolve(prepareResult(categories));
 
-                result.resolve(categoriesTree.children);
-            } else {
-                logger.time('Updating categories list');
-                $scope.isUpdating = true;
-                categoriesFactory.query(
-                    function (categories) {
-                        logger.timeEnd('Updating categories list');
-                        logger.groupCollapsed('Updating categories list');
-                        logger.logCategories(categories);
-                        logger.groupEnd('Updating categories list');
-
-                        $scope.isUpdating = false;
-
-                        categoriesTree = makeTree({
-                            _id: 'root'
-                        }, categories);
-
-                        result.resolve(categoriesTree.children);
-                    },
-                    function (error) {
-                        logger.error(error);
-                        $scope.isUpdating = false;
-                        result.reject(error);
-                    }
-                );
+                return result.promise();
             }
 
+            logger.time('Updating categories list');
+            $scope.isUpdating = true;
+            categoriesFactory.query(
+                function (categories) {
+                    logger.timeEnd('Updating categories list');
+                    logger.groupCollapsed('Updating categories list');
+                    logger.logCategories(categories);
+                    logger.groupEnd('Updating categories list');
+
+                    $scope.isUpdating = false;
+
+                    result.resolve(prepareResult(categories));
+                },
+                function (error) {
+                    logger.error(error);
+                    $scope.isUpdating = false;
+                    result.reject(error);
+                }
+            );
+
             return result.promise();
+
+            function prepareResult(categories) {
+                var result = {};
+
+                result.income = makeTree({
+                    _id: 'root'
+                }, categories, true).children;
+
+                result.outcome = makeTree({
+                    _id: 'root'
+                }, categories, false).children;
+
+                return result;
+            }
         };
 
         mkControllers.controller(
@@ -113,15 +123,18 @@ define(
 
                     $scope.treeOptions = {
                         accept: function(sourceNodeScope, destNodesScope, destIndex) {
-                            console.log('accept');
-                            console.log (sourceNodeScope);
-                            console.log (destNodesScope);
-                            console.log (destIndex);
                             return true;
+
+                            if (!destNodesScope.$parent.$modelValue) {
+                                return destNodesScope.$modelValue.income === sourceNodeScope.$modelValue.income;
+                            }
+
+                            return sourceNodeScope.$modelValue.income === destNodesScope.$parent.$modelValue.income;
                         },
                         dropped: function(e) {
                             console.log('dropped');
-                            console.log(e.source.nodeScope.$modelValue);
+                            console.log('source', e.source.nodeScope.$modelValue);//);
+                            console.log('dest', e.dest.nodesScope.$parent.$modelValue);//.nodeScope.$modelValue);
                         }
                     };
 

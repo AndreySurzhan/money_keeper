@@ -118,7 +118,7 @@ define(
 
         // Categories
         logger.logCategories = function (categories) {
-            this.table(categories, ['_id', 'income', 'name', '_owner']);
+            this.table(categories, ['_id', 'income', 'name', 'parent', '_owner']);
         };
 
         // Currencies
