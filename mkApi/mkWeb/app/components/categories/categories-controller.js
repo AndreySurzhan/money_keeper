@@ -171,13 +171,14 @@ define(
 
                     $scope.treeOptions = {
                         accept: function(sourceNodeScope, destNodesScope, destIndex) {
-                            return true;
+                            var sourceNodeIncome = sourceNodeScope.$modelValue.income;
 
-                            if (!destNodesScope.$parent.$modelValue) {
-                                return destNodesScope.$modelValue.income === sourceNodeScope.$modelValue.income;
+                            if (!destNodesScope.$modelValue[0]) {
+                                return true;
                             }
 
-                            return sourceNodeScope.$modelValue.income === destNodesScope.$parent.$modelValue.income;
+                            return sourceNodeIncome === destNodesScope.$modelValue[0].income;
+
                         },
                         dropped: function(e) {
                             var currentCategoryId;
@@ -187,6 +188,8 @@ define(
                             parentCategoryId = e.dest.nodesScope.$parent.$modelValue ?
                                 e.dest.nodesScope.$parent.$modelValue._id :
                                 null;
+
+                            return;
 
                             updateCategory(Category, currentCategoryId, parentCategoryId);
                         }

@@ -22,7 +22,6 @@ define(
                 'moneyKeeperDirectives',
                 'moneyKeeperFilters',
                 'moneyKeeperServices',
-                'moneyKeeperAnimations',
                 'moneyKeeperTranslations'
             ]
         );

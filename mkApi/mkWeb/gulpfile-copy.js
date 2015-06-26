@@ -20,10 +20,6 @@ module.exports = [
         to: destDir + 'angular/'
     },
     {
-        from: vendorDir + 'angular-animate/angular-animate.js',
-        to: destDir + 'angular/'
-    },
-    {
         from: vendorDir + 'angular-route/angular-route.js',
         to: destDir + 'angular/'
     },
