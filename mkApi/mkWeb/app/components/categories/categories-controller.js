@@ -1,11 +1,12 @@
 define(
     [
         'mkControllers',
+        './category-edit/category-edit',
         'logger',
         'jquery',
         './categories-services'
     ],
-    function (mkControllers, logger, $) {
+    function (mkControllers, editController, logger, $) {
         var sortableOptions = {
             animation: 150,
             group: {
@@ -105,12 +106,59 @@ define(
             }
         };
 
+        var updateCategory = function (categoriesFactory, categoryId, parentId) {
+            var result = new $.Deferred();
+
+            categoriesFactory.update(
+                {
+                    id: categoryId
+                },
+                {
+                    parent: parentId
+                },
+                function (category) {
+                    result.resolve(category);
+                },
+                function (error) {
+                    result.reject(error);
+                }
+            );
+
+            return result.promise();
+        };
+
+        // Modal window
+
+        var openModalWindow = function ($modal, operation, id) {
+            var result = new $.Deferred();
+            var modalInstance = $modal.open({
+                animation: true,
+                template: editController.template,
+                controller: editController.name,
+                windowClass : ['mkModalWindow categoryEditWindow'],
+                resolve: {
+                    categoryId: function () {
+                        return operation === 'add' ? 'add' : id;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function (category) {
+                result.resolve(category);
+            }, function () {
+                result.reject();
+            });
+
+            return result.promise();
+        };
+
         mkControllers.controller(
             'CategoryListCtrl',
             [
                 '$scope',
+                '$modal',
                 'Category',
-                function ($scope, Category) {
+                function ($scope, $modal, Category) {
                     $scope.categoriesTree = {};
 
                     updateCategoriesList($scope, Category)
@@ -132,9 +180,15 @@ define(
                             return sourceNodeScope.$modelValue.income === destNodesScope.$parent.$modelValue.income;
                         },
                         dropped: function(e) {
-                            console.log('dropped');
-                            console.log('source', e.source.nodeScope.$modelValue);//);
-                            console.log('dest', e.dest.nodesScope.$parent.$modelValue);//.nodeScope.$modelValue);
+                            var currentCategoryId;
+                            var parentCategoryId;
+
+                            currentCategoryId = e.source.nodeScope.$modelValue._id;
+                            parentCategoryId = e.dest.nodesScope.$parent.$modelValue ?
+                                e.dest.nodesScope.$parent.$modelValue._id :
+                                null;
+
+                            updateCategory(Category, currentCategoryId, parentCategoryId);
                         }
                     };
 
@@ -148,8 +202,18 @@ define(
                             });
                     };
 
+                    $scope.addNewCategory = function () {
+                        openModalWindow($modal, 'add').done(function () {
+                            $scope.refresh();
+                        });
+                    };
+
                     $scope.editCategory = function (treeNodeScope) {
-                        console.info(treeNodeScope.$modelValue._id);
+                        var categoryId = treeNodeScope.$modelValue._id;
+
+                        openModalWindow($modal, 'edit', categoryId).done(function () {
+                            $scope.refresh();
+                        });
 
                         return;
                     };

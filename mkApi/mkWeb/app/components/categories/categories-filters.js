@@ -16,18 +16,6 @@ define(
             }
         );
 
-        mkFilters.filter(
-            'categoryIncomeMark',
-            [
-                '$sce',
-                function ($sce) {
-                    return function (income) {
-                        return $sce.trustAsHtml(income ? incomeHtml : outcomeHtml);
-                    }
-                }
-            ]
-        );
-
         return;
     }
 );

@@ -17,30 +17,29 @@
                     </button>
                 </li>
                 <li>
-                    <a href="#/categories/add" class="button header-button-create"
-                       title="{{ 'common.buttons.create' | translate }}">
+                    <button ng-click="addNewCategory()" title="{{ 'common.buttons.create' | translate }}">
                         <span class="fa fa-plus"></span>
-                    </a>
+                    </button>
                 </li>
             </ul>
         </div>
         <div class="panel-body">
-            <!--
-            <div class="table-search">
-                <label for="table-search-field">
-                    {{ 'common.lists.search' | translate }}
-                    :
-                </label>
-                <input id="table-search-field" value="">
+            <div class="row">
+                <div class="col-md-6">
+                    <div ui-tree="treeOptions">
+                        <ol ui-tree-nodes="" ng-model="categoriesTree.outcome">
+                            <li ng-repeat="node in categoriesTree.outcome" ui-tree-node class="tree-node" ng-include="'nodes_renderer.html'"></li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div ui-tree="treeOptions">
+                        <ol ui-tree-nodes="" ng-model="categoriesTree.income">
+                            <li ng-repeat="node in categoriesTree.income" ui-tree-node class="tree-node" ng-include="'nodes_renderer.html'"></li>
+                        </ol>
+                    </div>
+                </div>
             </div>
-            -->
-
-            <div ui-tree="treeOptions">
-                <ol ui-tree-nodes="" ng-model="categoriesTree">
-                    <li ng-repeat="node in categoriesTree" ui-tree-node class="tree-node" ng-include="'nodes_renderer.html'"></li>
-                </ol>
-            </div>
-        </div>
         </div>
         <div class="panel-footer"></div>
     </div>
@@ -51,6 +50,9 @@
         <a data-nodrag ng-click="toggle(this)" class="collapse-handle" >
             <i ng-class="{ 'fa fa-angle-down': collapsed && hasChild(), 'fa fa-angle-up': !collapsed && hasChild(), 'fa empty': !hasChild() }"></i>
         </a>
+        <div class="category-income">
+            <i ng-class="{ 'fa fa-chevron-circle-up text-success': node.income, 'fa fa-chevron-circle-down text-danger': !node.income }"></i>
+        </div>
         <span class="node-name">
             {{ node.name }}
         </span>

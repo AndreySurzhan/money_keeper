@@ -14,6 +14,7 @@ define(
     ],
     function (mkControllers, enums, config, _, $, logger, scopeUtil, entityUtil, formUtil) {
         var controllerName = 'TransactionEditCtrl';
+
         // Accounts
         var storedAccounts;
         var getAccounts = function (accountsFactory) {

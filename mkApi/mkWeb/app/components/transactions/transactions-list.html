@@ -17,19 +17,22 @@
                     </button>
                 </li>
                 <li>
-                    <button ng-click="addNewTransaction()">
+                    <button ng-click="addNewTransaction()" title="{{ 'common.buttons.create' | translate }}">
                         <span class="fa fa-plus"></span>
                     </button>
-                    <!--
-                    <a href="#/transactions/add" class="button header-button-create"
-                       title="{{ 'common.buttons.create' | translate }}">
-                        <span class="fa fa-plus"></span>
-                    </a>
-                    -->
                 </li>
             </ul>
         </div>
         <div class="panel-body">
+            <!--
+            <div class="table-search">
+                <label for="table-search-field">
+                    {{ 'common.lists.search' | translate }}
+                    :
+                </label>
+                <input id="table-search-field" value="">
+            </div>
+            -->
             <table class="accounts-list table table-hover table-striped">
                 <thead>
                 <tr>

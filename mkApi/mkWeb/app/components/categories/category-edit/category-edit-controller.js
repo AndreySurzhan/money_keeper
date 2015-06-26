@@ -8,6 +8,8 @@ define(
         '../categories-services'
     ],
     function (mkControllers, logger, scopeUtil, entityUtil, formUtil) {
+        var controllerName = 'CategoryEditCtrl';
+
         // Categories
         var getIncomeCategories = function (Category) {
             var result = $.Deferred();
@@ -239,20 +241,21 @@ define(
         };
 
         mkControllers.controller(
-            'CategoryEditCtrl',
+            controllerName,
             [
                 '$scope',
-                '$routeParams',
+                '$modalInstance',
                 '$filter',
                 'Category',
-                function ($scope, $routeParams, $filter, Category) {
+                'categoryId',
+                function ($scope, $modalInstance, $filter, Category, categoryId) {
                     logger.info('--- Edit Category controller initialize ---');
                     logger.time('Edit Category controller initialize');
 
                     var categoryOperationType;
                     var categoryPromise;
 
-                    $scope.id = $routeParams.id;
+                    $scope.id = categoryId;
                     setInitialFormState($scope);
 
                     if ($scope.id === 'add') {
@@ -309,9 +312,9 @@ define(
                         }
 
                         operation
-                            .done(function () {
+                            .done(function (category) {
                                 logger.log('Category saved');
-                                window.history.back();
+                                $modalInstance.close(category);
                             })
                             .fail(function (error) {
                                 logger.error(error);
@@ -319,12 +322,12 @@ define(
                     };
 
                     $scope.cancel = function () {
-                        window.history.back();
+                        $modalInstance.dismiss('cancel');
                     };
                 }
             ]
         );
 
-        return;
+        return controllerName;
     }
 );
