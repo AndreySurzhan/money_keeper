@@ -8,13 +8,13 @@ requirejs.config(
 
             'angular': '../libs/angular/angular',
             'angular-bootstrap': '../libs/angular/ui-bootstrap-tpls',
-            'angular-animate': '../libs/angular/angular-animate',
             'angular-resource': '../libs/angular/angular-resource',
             'angular-route': '../libs/angular/angular-route',
             'angular-translate': '../libs/angular/angular-translate',
             'angular-moment': '../libs/angular/angular-moment',
             'angular-moment-ru': '../libs/angular/angular-moment-locales/ru',
             'angular-moment-en': '../libs/angular/angular-moment-locales/en-gb',
+            'angular-ui-tree': '../libs/angular/angular-ui-tree',
 
             'jquery': '../libs/jquery/jquery',
             'moment': '../libs/moment/moment',
@@ -49,6 +49,9 @@ requirejs.config(
             },
             'angular-moment' : {
                 deps: ['angular-moment-ru', 'angular-moment-en']
+            },
+            'angular-ui-tree': {
+                deps: ['angular']
             },
             'datedropper': {
                 exports: '$',

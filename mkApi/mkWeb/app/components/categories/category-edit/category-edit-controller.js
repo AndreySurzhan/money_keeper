@@ -8,16 +8,11 @@ define(
         '../categories-services'
     ],
     function (mkControllers, logger, scopeUtil, entityUtil, formUtil) {
+        var controllerName = 'CategoryEditCtrl';
+
         // Categories
-        var storedIncomeCategories;
         var getIncomeCategories = function (Category) {
             var result = $.Deferred();
-
-            if (storedIncomeCategories) {
-                logger.log('Return stored income categories');
-                result.resolve(storedIncomeCategories);
-                return result.promise();
-            }
 
             logger.groupCollapsed('Getting income categories');
             logger.time('Getting income categories');
@@ -27,8 +22,7 @@ define(
                     logger.logCategories(categories);
                     logger.groupEnd('Getting income categories');
 
-                    storedIncomeCategories = categories;
-                    result.resolve(storedIncomeCategories)
+                    result.resolve(categories)
                 },
                 function (error) {
                     logger.timeEnd('Getting income categories');
@@ -41,15 +35,8 @@ define(
 
             return result.promise();
         };
-        var storedOutcomeCategories;
         var getOutcomeCategories = function (Category) {
             var result = new $.Deferred();
-
-            if (storedOutcomeCategories) {
-                logger.log('Return stored outcome categories');
-                result.resolve(storedOutcomeCategories);
-                return result.promise();
-            }
 
             logger.groupCollapsed('Getting outcome categories');
             logger.time('Getting outcome categories');
@@ -59,8 +46,7 @@ define(
                     logger.logCategories(categories);
                     logger.groupEnd('Getting outcome categories');
 
-                    storedOutcomeCategories = categories;
-                    result.resolve(storedOutcomeCategories);
+                    result.resolve(categories);
                 },
                 function (error) {
                     logger.timeEnd('Getting outcome categories');
@@ -255,20 +241,21 @@ define(
         };
 
         mkControllers.controller(
-            'CategoryEditCtrl',
+            controllerName,
             [
                 '$scope',
-                '$routeParams',
+                '$modalInstance',
                 '$filter',
                 'Category',
-                function ($scope, $routeParams, $filter, Category) {
+                'categoryId',
+                function ($scope, $modalInstance, $filter, Category, categoryId) {
                     logger.info('--- Edit Category controller initialize ---');
                     logger.time('Edit Category controller initialize');
 
                     var categoryOperationType;
                     var categoryPromise;
 
-                    $scope.id = $routeParams.id;
+                    $scope.id = categoryId;
                     setInitialFormState($scope);
 
                     if ($scope.id === 'add') {
@@ -325,9 +312,9 @@ define(
                         }
 
                         operation
-                            .done(function () {
+                            .done(function (category) {
                                 logger.log('Category saved');
-                                window.history.back();
+                                $modalInstance.close(category);
                             })
                             .fail(function (error) {
                                 logger.error(error);
@@ -335,12 +322,12 @@ define(
                     };
 
                     $scope.cancel = function () {
-                        window.history.back();
+                        $modalInstance.dismiss('cancel');
                     };
                 }
             ]
         );
 
-        return;
+        return controllerName;
     }
 );

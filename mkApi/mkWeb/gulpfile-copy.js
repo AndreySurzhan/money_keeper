@@ -20,10 +20,6 @@ module.exports = [
         to: destDir + 'angular/'
     },
     {
-        from: vendorDir + 'angular-animate/angular-animate.js',
-        to: destDir + 'angular/'
-    },
-    {
         from: vendorDir + 'angular-route/angular-route.js',
         to: destDir + 'angular/'
     },
@@ -34,6 +30,14 @@ module.exports = [
     {
         from: vendorDir + 'angular-moment/angular-moment.js',
         to: destDir + 'angular/'
+    },
+    {
+        from: vendorDir + 'angular-ui-tree/dist/angular-ui-tree.js',
+        to: destDir + 'angular/'
+    },
+    {
+        from: vendorDir + 'angular-ui-tree/dist/angular-ui-tree.min.css',
+        to: destDir + '../styles/angular-ui-tree/'
     },
     {
         from: vendorDir + 'moment/locale/ru.js',

@@ -5,9 +5,10 @@ define(
         'logger',
         'jquery',
         'json!config',
+        './transaction-edit/transaction-edit',
         './transactions-services'
     ],
-    function (config, mkControllers, logger, $, config) {
+    function (config, mkControllers, logger, $, config, editController) {
 
         // Transactions
 
@@ -36,6 +37,31 @@ define(
                     result.reject(error);
                 }
             );
+
+            return result.promise();
+        };
+
+        // Modal window
+
+        var openModalWindow = function ($modal, operation, id) {
+            var result = new $.Deferred();
+            var modalInstance = $modal.open({
+                animation: true,
+                template: editController.template,
+                controller: editController.name,
+                windowClass : ['mkModalWindow transactionEditWindow'],
+                resolve: {
+                    transactionId: function () {
+                        return operation === 'add' ? 'add' : id;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function (transaction) {
+                result.resolve(transaction);
+            }, function () {
+                result.reject();
+            });
 
             return result.promise();
         };
@@ -118,9 +144,10 @@ define(
             [
                 '$scope',
                 '$filter',
+                '$modal',
                 'Transaction',
                 'amMoment',
-                function ($scope, $filter, Transaction, amMoment) {
+                function ($scope, $filter, $modal, Transaction, amMoment) {
                     logger.info('--- Transaction List controller initialize ---');
                     logger.time('Transaction List controller initialize');
 
@@ -163,8 +190,15 @@ define(
                     $scope.orderProp = '_id';
 
                     $scope.refresh = refreshTransactionsList($scope, $filter, Transaction);
-                    $scope.showDetails = function (transactiontId) {
-                       window.location.hash = '#/transactions/' + transactiontId;
+                    $scope.addNewTransaction = function () {
+                        openModalWindow($modal, 'add').done(function () {
+                            $scope.refresh();
+                        });
+                    };
+                    $scope.editTransaction = function (transactiontId) {
+                        openModalWindow($modal, 'edit', transactiontId).done(function () {
+                            $scope.refresh();
+                        });
                     };
                     $scope.remove = function (transactiontId) {
                         logger.log('Remove transaction #' + transactiontId);

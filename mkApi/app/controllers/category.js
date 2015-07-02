@@ -44,9 +44,9 @@ var categoryController = {
         category.save(callback);
     },
     update: function (user, id, data, callback) {
-        Category.findById(
-            id,
+        Category.findOne(
             {
+                _id: id,
                 _owner: user._id
             },
             function (err, category) {
@@ -56,7 +56,7 @@ var categoryController = {
                     return;
                 }
 
-                category.name = data.name;
+                category.name = data.name || category.name;
                 category.parent = data.parent;
                 category.save(callback);
             }

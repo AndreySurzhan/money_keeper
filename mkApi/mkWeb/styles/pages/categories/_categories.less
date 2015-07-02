@@ -1,13 +1,53 @@
-.categories-list {
-    .income-column {
-        overflow-x: auto;
-        width: 40px;
+.tree-node {
+    .tree-node-content {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 2px;
+        display: block;
+        margin-bottom: -1px;
+        padding: 10px 15px;
+
+        .collapse-handle {
+            cursor: pointer;
+            color: @grey;
+
+            i.empty {
+                width: 7px;
+            }
+        }
+
+        .category-income {
+            display: inline-block;
+            padding: 0 0 0 10px;
+        }
+
+        .node-name {
+            padding: 0 10px;
+        }
+
+        .remove-button {
+            .tree-node-control(@red);
+            float: right;
+        }
+
+        .edit-button {
+            .tree-node-control(#656d78);
+            float: right;
+        }
     }
-    .name-column {
-        max-width: 50px;
-        overflow-x: auto;
-    }
-    .parent-column {
-        max-width: 40px;
-    }
+}
+
+.tree-node-control (@color) {
+    box-sizing: border-box;
+    color: @color;
+    cursor: pointer;
+    display: block;
+    height: 24px;
+    padding: 0 4px;
+    width: 24px;
+}
+
+.angular-ui-tree-placeholder {
+    background: #fff;
+    border: dashed 1px @grey;
 }

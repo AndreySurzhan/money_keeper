@@ -5,7 +5,8 @@ define(
         'angular-route',
         'angular-moment',
         'angular-bootstrap',
-        'animations'
+        'animations',
+        'angular-ui-tree'
     ],
     function (ng, menu) {
         'use strict';
@@ -16,11 +17,11 @@ define(
                 'ngRoute',
                 'angularMoment',
                 'ui.bootstrap',
+                'ui.tree',
                 'moneyKeeperControllers',
                 'moneyKeeperDirectives',
                 'moneyKeeperFilters',
                 'moneyKeeperServices',
-                'moneyKeeperAnimations',
                 'moneyKeeperTranslations'
             ]
         );

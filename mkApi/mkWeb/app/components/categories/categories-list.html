@@ -17,63 +17,53 @@
                     </button>
                 </li>
                 <li>
-                    <a href="#/categories/add" class="button header-button-create"
-                       title="{{ 'common.buttons.create' | translate }}">
+                    <button ng-click="addNewCategory()" title="{{ 'common.buttons.create' | translate }}">
                         <span class="fa fa-plus"></span>
-                    </a>
+                    </button>
                 </li>
             </ul>
         </div>
         <div class="panel-body">
-            <!--
-            <div class="table-search">
-                <label for="table-search-field">
-                    {{ 'common.lists.search' | translate }}
-                    :
-                </label>
-                <input id="table-search-field" value="">
+            <div class="row">
+                <div class="col-md-6">
+                    <div ui-tree="treeOptions">
+                        <ol ui-tree-nodes="" ng-model="categoriesTree.outcome">
+                            <li ng-repeat="node in categoriesTree.outcome" ui-tree-node class="tree-node" ng-include="'nodes_renderer.html'"></li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div ui-tree="treeOptions">
+                        <ol ui-tree-nodes="" ng-model="categoriesTree.income">
+                            <li ng-repeat="node in categoriesTree.income" ui-tree-node class="tree-node" ng-include="'nodes_renderer.html'"></li>
+                        </ol>
+                    </div>
+                </div>
             </div>
-            -->
-            <table class="categories-list table table-hover table-striped">
-                <thead>
-                <tr>
-                    <th class="income-column">
-                        {{ 'components.categories.fields.income.text' | translate }}
-                    </th>
-                    <th class="name-column">
-                        {{ 'components.categories.fields.name.text' | translate }}
-                    </th>
-                    <th class="parent-column">
-                        {{ 'components.categories.fields.parent.text' | translate }}
-                    </th>
-                    <th class="actions-column"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="category in categories | filter:query | orderBy:orderProp">
-                    <td class="income-column"
-                        ng-bind-html="category.income | categoryIncomeMark">
-                    </td>
-                    <td class="name-column">
-                        {{ category.name }}
-                    </td>
-                    <td class="parent-column">
-                        {{ category.parent | parentCategoryName }}
-                    </td>
-                    <td class="actions-column">
-                        <button class="btn btn-default btn-rounded btn-condensed btn-sm"
-                                ng-click="showDetails(category._id)">
-                            <span class="fa fa-pencil"></span>
-                        </button>
-                        <button class="btn btn-danger btn-rounded btn-condensed btn-sm"
-                                ng-click="remove(category._id)">
-                            <span class="fa fa-times"></span>
-                        </button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
         </div>
         <div class="panel-footer"></div>
     </div>
 </div>
+
+<script type="text/ng-template" id="nodes_renderer.html">
+    <div ui-tree-handle class="tree-node-content">
+        <a data-nodrag ng-click="toggle(this)" class="collapse-handle" >
+            <i ng-class="{ 'fa fa-angle-down': collapsed && hasChild(), 'fa fa-angle-up': !collapsed && hasChild(), 'fa empty': !hasChild() }"></i>
+        </a>
+        <div class="category-income">
+            <i ng-class="{ 'fa fa-chevron-circle-up text-success': node.income, 'fa fa-chevron-circle-down text-danger': !node.income }"></i>
+        </div>
+        <span class="node-name">
+            {{ node.name }}
+        </span>
+        <a data-nodrag ng-click="removeCategory(this)" class="remove-button" >
+            <i class="fa fa-times"></i>
+        </a>
+        <a data-nodrag ng-click="editCategory(this)" class="edit-button">
+            <i class="fa fa-pencil"></i>
+        </a>
+    </div>
+    <ol ui-tree-nodes="" ng-model="node.children" ng-class="{hidden: collapsed}">
+        <li ng-repeat="node in node.children" ui-tree-node class="tree-node" ng-include="'nodes_renderer.html'"></li>
+    </ol>
+</script>
