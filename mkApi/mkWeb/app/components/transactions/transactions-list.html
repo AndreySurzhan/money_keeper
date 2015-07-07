@@ -21,6 +21,11 @@
                         <span class="fa fa-plus"></span>
                     </button>
                 </li>
+                <li>
+                    <button ng-click="toggleImportPanel()" title="{{ 'common.buttons.import' | translate }}">
+                        <span class="fa fa-cloud-download"></span>
+                    </button>
+                </li>
             </ul>
         </div>
         <div class="panel-body">
@@ -33,6 +38,17 @@
                 <input id="table-search-field" value="">
             </div>
             -->
+            <div ng-show="isImportPanelVisibile" class="transactions-import-panel">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="list-group border-bottom">
+                            <button ng-click="importFromEasyfinance()" href="#" class="import-source-button list-group-item">
+                                <img src="images/dist/icons/easyfinance.jpg" width="24"> Easyfinance.ru
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <table class="accounts-list table table-hover table-striped">
                 <thead>
                 <tr>

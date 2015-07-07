@@ -6,9 +6,10 @@ define(
         'jquery',
         'json!config',
         './transaction-edit/transaction-edit',
+        './transaction-import/transaction-import',
         './transactions-services'
     ],
-    function (config, mkControllers, logger, $, config, editController) {
+    function (config, mkControllers, logger, $, config, editController, importController) {
 
         // Transactions
 
@@ -43,7 +44,7 @@ define(
 
         // Modal window
 
-        var openModalWindow = function ($modal, operation, id) {
+        var openTransactionEditModalWindow = function ($modal, operation, id) {
             var result = new $.Deferred();
             var modalInstance = $modal.open({
                 animation: true,
@@ -54,6 +55,27 @@ define(
                     transactionId: function () {
                         return operation === 'add' ? 'add' : id;
                     }
+                }
+            });
+
+            modalInstance.result.then(function (transaction) {
+                result.resolve(transaction);
+            }, function () {
+                result.reject();
+            });
+
+            return result.promise();
+        };
+
+        var openImportModalWindow = function ($modal, source) {
+            var result = new $.Deferred();
+            var modalInstance = $modal.open({
+                animation: true,
+                template: importController.template,
+                controller: importController.name,
+                windowClass : ['mkModalWindow transactionImportWindow'],
+                resolve: {
+                    importSource: source
                 }
             });
 
@@ -154,6 +176,7 @@ define(
                     amMoment.changeLocale(config.lang);
 
                     $scope.isUpdating = false;
+                    $scope.isImportPanelVisibile = false;
                     $scope.pageSizes = config.pagination.pageSizes;
                     $scope.pagination = getInitPagination(
                         {
@@ -191,12 +214,12 @@ define(
 
                     $scope.refresh = refreshTransactionsList($scope, $filter, Transaction);
                     $scope.addNewTransaction = function () {
-                        openModalWindow($modal, 'add').done(function () {
+                        openTransactionEditModalWindow($modal, 'add').done(function () {
                             $scope.refresh();
                         });
                     };
                     $scope.editTransaction = function (transactiontId) {
-                        openModalWindow($modal, 'edit', transactiontId).done(function () {
+                        openTransactionEditModalWindow($modal, 'edit', transactiontId).done(function () {
                             $scope.refresh();
                         });
                     };
@@ -216,6 +239,14 @@ define(
                                 logger.error(error);
                             }
                         );
+                    };
+                    $scope.toggleImportPanel = function () {
+                        $scope.isImportPanelVisibile = !$scope.isImportPanelVisibile;
+                    };
+                    $scope.importFromEasyfinance = function () {
+                        openImportModalWindow($modal, 'easyfinance').done(function () {
+                            $scope.refresh();
+                        });
                     };
 
                     $scope.onPageChanged = refreshTransactionsList($scope, $filter, Transaction);

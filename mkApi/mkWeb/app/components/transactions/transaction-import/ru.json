@@ -1,0 +1,11 @@
+{
+    "components": {
+        "transactions": {
+            "import": {
+                "header": {
+                    "easyfinance": "Импорт транзакций из EasyFinance.ru"
+                }
+            }
+        }
+    }
+}

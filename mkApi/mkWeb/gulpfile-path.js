@@ -18,8 +18,8 @@ module.exports = {
         watch: './styles/**/*.less'
     },
     images: {
-        src: './images/*.*',
-        dist: './images/_dist/',
+        src: './images/source/**/*.*',
+        dist: './images/dist/',
         watch: './image/*.*'
     },
     vendor: {
