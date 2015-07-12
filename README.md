@@ -1,29 +1,45 @@
-# Home bookkeeper
-## Instalation
-Install **NodeJs**
+# Домашняя бухгалтерия
+
+## Установка
+
+Установить **NodeJs**
 ```sh
 sudo apt-get install python-software-properties python g++ make
 sudo add-apt-repository ppa:chris-lea/node.js
 sudo apt-get update
 sudo apt-get install nodejs
 ```
-Install **SailsJs**
-```sh
-sudo npm -g install sails
-```
-Install **Nodemon**
+
+Установить **Nodemon**
 ```sh
 sudo npm -g install nodemon
 ```
-Build **back-end** part
+
+Клонировать проект
 ```sh
-cd mkApi/
-sudo npm install
+$ git clone git@github.com:dimkahare/money_keeper.git
+$ cd money_keeper 
 ```
-Build **front-end** part
+
+Собрать **back-end**
 ```sh
-cd ../mkWeb/
-sudo npm install
-sudo npm install -g gulp
-gulp
+$ cd mkApi/
+$ sudo npm install
 ```
+
+Собрать **front-end**
+```sh
+$ cd mkWeb/
+$ sudo npm install
+$ sudo npm install -g bower
+$ sudo npm install -g gulp
+$ gulp
+```
+
+Перейти в каталог выше и запустить серверную часть
+```sh
+$ cd ../
+$ nodemon
+```
+
+MoneyKeeper должен быть доступен по адресу ```http://localhost:8080/app```
