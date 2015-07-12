@@ -11,7 +11,10 @@ define(
             [
                 '$scope',
                 'Dashboard',
-                function ($scope, dashboardFactory) {
+                'Analytics',
+                function ($scope, dashboardFactory, Analytics) {
+                    Analytics.trackPage('/dashboard');
+
                     dashboardFactory.get(
                         function (dashboardData) {
                             $scope.total = dashboardData.total;

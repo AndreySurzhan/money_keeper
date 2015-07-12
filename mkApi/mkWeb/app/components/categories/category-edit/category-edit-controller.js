@@ -248,7 +248,8 @@ define(
                 '$filter',
                 'Category',
                 'categoryId',
-                function ($scope, $modalInstance, $filter, Category, categoryId) {
+                'Analytics',
+                function ($scope, $modalInstance, $filter, Category, categoryId, Analytics) {
                     logger.info('--- Edit Category controller initialize ---');
                     logger.time('Edit Category controller initialize');
 
@@ -257,6 +258,8 @@ define(
 
                     $scope.id = categoryId;
                     setInitialFormState($scope);
+
+                    Analytics.trackEvent('category', 'edit', $scope.id);
 
                     if ($scope.id === 'add') {
                         categoryOperationType = 'create';

@@ -28,6 +28,10 @@ module.exports = [
         to: destDir + 'angular/'
     },
     {
+        from: vendorDir + 'angular-google-analytics/dist/angular-google-analytics.js',
+        to: destDir + 'angular/'
+    },
+    {
         from: vendorDir + 'angular-moment/angular-moment.js',
         to: destDir + 'angular/'
     },

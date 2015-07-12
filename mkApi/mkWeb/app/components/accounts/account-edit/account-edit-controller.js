@@ -215,7 +215,8 @@ define(
                 '$routeParams',
                 'Account',
                 'Currency',
-                function ($scope, $filter, $routeParams, Account, Currency) {
+                'Analytics',
+                function ($scope, $filter, $routeParams, Account, Currency, Analytics) {
                     logger.info('--- Edit Account controller initialize ---');
                     logger.time('Edit Account controller initialize');
 
@@ -224,6 +225,8 @@ define(
 
                     $scope.id = $routeParams.id;
                     setInitialFormState($scope);
+
+                    Analytics.trackEvent('account', 'edit', $scope.id);
 
                     if ($scope.id === 'add') {
                         accountOperationType = 'create';

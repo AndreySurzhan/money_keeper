@@ -15,6 +15,7 @@ requirejs.config(
             'angular-moment-ru': '../libs/angular/angular-moment-locales/ru',
             'angular-moment-en': '../libs/angular/angular-moment-locales/en-gb',
             'angular-ui-tree': '../libs/angular/angular-ui-tree',
+            'google-analytics': '../libs/angular/angular-google-analytics',
 
             'jquery': '../libs/jquery/jquery',
             'moment': '../libs/moment/moment',
@@ -45,6 +46,9 @@ requirejs.config(
                 exports: 'angular'
             },
             'angular-route': {
+                deps: ['angular']
+            },
+            'google-analytics': {
                 deps: ['angular']
             },
             'angular-moment' : {
