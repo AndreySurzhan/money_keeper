@@ -38,7 +38,10 @@ define(
             [
                 '$scope',
                 'Account',
-                function ($scope, Account) {
+                'Analytics',
+                function ($scope, Account, Analytics) {
+                    Analytics.trackPage('/accounts');
+
                     $scope.accounts = [];
                     $scope.isUpdating = false;
                     $scope.orderProp = '_id';

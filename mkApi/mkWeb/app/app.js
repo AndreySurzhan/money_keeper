@@ -6,7 +6,8 @@ define(
         'angular-moment',
         'angular-bootstrap',
         'animations',
-        'angular-ui-tree'
+        'angular-ui-tree',
+        'google-analytics'
     ],
     function (ng, menu) {
         'use strict';
@@ -22,18 +23,27 @@ define(
                 'moneyKeeperDirectives',
                 'moneyKeeperFilters',
                 'moneyKeeperServices',
-                'moneyKeeperTranslations'
+                'moneyKeeperTranslations',
+                'angular-google-analytics'
             ]
         );
 
         app.config(
             [
                 '$routeProvider',
-                function ($routeProvider) {
+                'AnalyticsProvider',
+                function ($routeProvider, AnalyticsProvider) {
                     $routeProvider
                         .otherwise({
                             redirectTo: '/'
                         });
+
+                    AnalyticsProvider.setAccount('UA-64888105-1');
+                    AnalyticsProvider.trackPages(true);
+                    AnalyticsProvider.trackUrlParams(true);
+                    AnalyticsProvider.useDisplayFeatures(true);
+                    AnalyticsProvider.useAnalytics(true);
+
                 }
             ]
         );

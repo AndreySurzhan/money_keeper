@@ -37,9 +37,12 @@ define(
             [
                 '$scope',
                 'Currency',
-                function ($scope, Currency) {
+                'Analytics',
+                function ($scope, Currency, Analytics) {
                     $scope.currencies = [];
                     $scope.orderProp = '_id';
+
+                    Analytics.trackPage('/currencies');
 
                     updateCurrenciesList($scope, Currency)
                         .done(function (currencies) {

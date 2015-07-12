@@ -147,9 +147,12 @@ define(
                 '$modal',
                 'Transaction',
                 'amMoment',
-                function ($scope, $filter, $modal, Transaction, amMoment) {
+                'Analytics',
+                function ($scope, $filter, $modal, Transaction, amMoment, Analytics) {
                     logger.info('--- Transaction List controller initialize ---');
                     logger.time('Transaction List controller initialize');
+
+                    Analytics.trackPage('/transactions');
 
                     amMoment.changeLocale(config.lang);
 

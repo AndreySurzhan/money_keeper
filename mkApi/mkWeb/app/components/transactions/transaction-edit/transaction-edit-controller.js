@@ -439,13 +439,16 @@ define(
                 '$scope',
                 '$filter',
                 '$modalInstance',
+                'Analytics',
                 'Transaction',
                 'Category',
                 'Account',
                 'transactionId',
-                function ($scope, $filter, $modalInstance, Transaction, Category, Account, transactionId) {
+                function ($scope, $filter, $modalInstance, Analytics, Transaction, Category, Account, transactionId) {
                     logger.info('--- Edit Transaction controller initialize ---');
                     logger.time('Edit Transaction controller initialize');
+
+                    Analytics.trackEvent('transaction', 'edit', transactionId);
 
                     var transactionOperationType;
                     var transactionPromise;

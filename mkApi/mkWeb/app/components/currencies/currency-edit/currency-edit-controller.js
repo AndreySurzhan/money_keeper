@@ -147,7 +147,8 @@ define(
                 '$filter',
                 '$routeParams',
                 'Currency',
-                function ($scope, $filter, $routeParams, Currency) {
+                'Analytics',
+                function ($scope, $filter, $routeParams, Currency, Analytics) {
                     logger.info('--- Edit Currency controller initialize ---');
                     logger.time('Edit Currency controller initialize');
 
@@ -156,6 +157,8 @@ define(
 
                     $scope.id = $routeParams.id;
                     setInitialFormState($scope);
+
+                    Analytics.trackEvent('currency', 'edit', $scope.id);
 
                     if ($scope.id === 'add') {
                         currencyOperationType = 'create';

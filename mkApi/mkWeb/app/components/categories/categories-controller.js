@@ -158,8 +158,11 @@ define(
                 '$scope',
                 '$modal',
                 'Category',
-                function ($scope, $modal, Category) {
+                'Analytics',
+                function ($scope, $modal, Category, Analytics) {
                     $scope.categoriesTree = {};
+
+                    Analytics.trackPage('/categories');
 
                     updateCategoriesList($scope, Category)
                         .done(function (categoriesTree) {

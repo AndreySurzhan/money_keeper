@@ -11,7 +11,6 @@
   "license": "ISC",
   "devDependencies": {
     "bower": "^1.4.1",
-    "gulp": "^3.8.10",
     "gulp-autoprefixer": "^2.3.0",
     "gulp-bower": "0.0.10",
     "gulp-imagemin": "^2.2.1",
