@@ -31,6 +31,7 @@ $ sudo npm install
 ```sh
 $ cd mkWeb/
 $ sudo npm install
+$ sudo npm install -g bower
 $ sudo npm install -g gulp
 $ gulp
 ```
