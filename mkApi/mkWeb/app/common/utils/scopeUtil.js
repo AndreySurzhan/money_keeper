@@ -13,7 +13,7 @@ define(
              * @param {angular.$scope} $scope
              * @param {function} [callback]
              *
-             * returns void
+             * @returns void
              */
             applySafely: function ($scope, callback) {
                 var interval = options.scopeApplyInterval,
@@ -28,6 +28,25 @@ define(
                         that.applySafely($scope, callback);
                     }, interval);
                 }
+            },
+
+            /**
+             * Return scope value
+             * @param {angular.$scope} $scope
+             * @param {string} fieldName - model.smth1.smth2
+             *
+             * @returns {*}
+             */
+            getScopeValueByString: function ($scope, fieldName) {
+                var i;
+                var result = $scope;
+                var steps = fieldName.split('.');
+
+                for (i = 0; i < steps.length; i++) {
+                    result = result[steps[i]];
+                }
+
+                return result;
             }
         }
     }

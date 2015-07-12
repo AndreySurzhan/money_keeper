@@ -73,13 +73,19 @@
                                 ng-model="model.accountSource"
                                 ng-disabled="!formState.accountSource.enable"
                                 ng-options="account.name for account in formState.accountSource.data track by account._id"
-                                mk-required>
+                                mk-required
+                                mk-entities-not-equal="model.accountDestination">
                             <option value="">{{ 'components.transactions.fields.account-source.default-value' | translate }}</option>
                         </select>
                         <label for="accountSource" class="error"
                                ng-show="transactionForm.accountSource.$dirty &&
                                         transactionForm.accountSource.$error.mkRequired">
                             {{ 'components.transactions.validation.accountSource.mkRequired' | translate }}
+                        </label>
+                        <label for="accountSource" class="error"
+                               ng-show="transactionForm.accountSource.$dirty &&
+                                        transactionForm.accountSource.$error.mkEntitiesNotEqual">
+                            {{ 'components.transactions.validation.accountSource.mkEntitiesNotEqual' | translate }}
                         </label>
                     </div>
                 </div>
@@ -94,13 +100,19 @@
                                 ng-model="model.accountDestination"
                                 ng-disabled="!formState.accountDestination.enable"
                                 ng-options="account.name for account in formState.accountDestination.data track by account._id"
-                                mk-required>
+                                mk-required
+                                mk-entities-not-equal="model.accountSource">
                             <option value="">{{ 'components.transactions.fields.account-destination.default-value' | translate }}</option>
                         </select>
                         <label for="accountDestination" class="error"
                                ng-show="transactionForm.accountDestination.$dirty &&
                                         transactionForm.accountDestination.$error.mkRequired">
                             {{ 'components.transactions.validation.accountDestination.mkRequired' | translate }}
+                        </label>
+                        <label for="accountDestination" class="error"
+                               ng-show="transactionForm.accountDestination.$dirty &&
+                                        transactionForm.accountDestination.$error.mkEntitiesNotEqual">
+                            {{ 'components.transactions.validation.accountDestination.mkEntitiesNotEqual' | translate }}
                         </label>
                     </div>
                 </div>

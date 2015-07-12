@@ -13,13 +13,12 @@
                     "mkNumber": "Значение должно быть числом"
                 },
                 "accountSource": {
-                    "mkRequired": "Обязательное поле"
-                },
-                "accountSource": {
-                    "mkRequired": "Обязательное поле"
+                    "mkRequired": "Обязательное поле",
+                    "mkEntitiesNotEqual": "Счета не должны совпадать"
                 },
                 "accountDestination": {
-                    "mkRequired": "Обязательное поле"
+                    "mkRequired": "Обязательное поле",
+                    "mkEntitiesNotEqual": "Счета не должны совпадать"
                 },
                 "category": {
                     "mkRequired": "Обязательное поле"

@@ -12,19 +12,20 @@ define(
         '../transactions-services',
         '../../currencies/currencies-services'
     ],
-    function (mkControllers, enums, config, _, $, logger, scopeUtil, entityUtil, formUtil) {
+    function (mkControllers,
+              enums,
+              config,
+              _,
+              $,
+              logger,
+              scopeUtil,
+              entityUtil,
+              formUtil) {
         var controllerName = 'TransactionEditCtrl';
 
         // Accounts
-        var storedAccounts;
         var getAccounts = function (accountsFactory) {
             var result = new $.Deferred();
-
-            if (storedAccounts) {
-                logger.log('Return stored accounts');
-                result.resolve(storedAccounts);
-                return result.promise();
-            }
 
             logger.groupCollapsed('Getting accounts');
             logger.time('Getting accounts');
@@ -34,8 +35,7 @@ define(
                     logger.logAccounts(accounts);
                     logger.groupEnd('Getting accounts');
 
-                    storedAccounts = accounts;
-                    result.resolve(storedAccounts)
+                    result.resolve(accounts)
                 },
                 function (error) {
                     logger.timeEnd('Getting accounts');
@@ -50,15 +50,8 @@ define(
         };
 
         // Categories
-        var storedIncomeCategories;
         var getIncomeCategories = function (Category) {
             var result = $.Deferred();
-
-            if (storedIncomeCategories) {
-                logger.log('Return stored income categories');
-                result.resolve(storedIncomeCategories);
-                return result.promise();
-            }
 
             logger.groupCollapsed('Getting income categories');
             logger.time('Getting income categories');
@@ -68,8 +61,7 @@ define(
                     logger.logCategories(categories);
                     logger.groupEnd('Getting income categories');
 
-                    storedIncomeCategories = categories;
-                    result.resolve(storedIncomeCategories)
+                    result.resolve(categories)
                 },
                 function (error) {
                     logger.timeEnd('Getting income categories');
@@ -82,15 +74,8 @@ define(
 
             return result.promise();
         };
-        var storedOutcomeCategories;
         var getOutcomeCategories = function (Category) {
             var result = new $.Deferred();
-
-            if (storedOutcomeCategories) {
-                logger.log('Return stored outcome categories');
-                result.resolve(storedOutcomeCategories);
-                return result.promise();
-            }
 
             logger.groupCollapsed('Getting outcome categories');
             logger.time('Getting outcome categories');
@@ -100,8 +85,7 @@ define(
                     logger.logCategories(categories);
                     logger.groupEnd('Getting outcome categories');
 
-                    storedOutcomeCategories = categories;
-                    result.resolve(storedOutcomeCategories);
+                    result.resolve(categories);
                 },
                 function (error) {
                     logger.timeEnd('Getting outcome categories');

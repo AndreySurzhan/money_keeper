@@ -1,6 +1,8 @@
 define(
-    [],
-    function () {
+    [
+        'scopeUtil'
+    ],
+    function (scopeUtil) {
         'use strict';
 
         var regExps = {
@@ -17,6 +19,25 @@ define(
                         link: function (scope, elm, attrs, ctrl) {
                             ctrl.$validators.mkRequired = function (modelValue, viewValue) {
                                 return attrs.disabled || !!viewValue;
+                            };
+                        }
+                    };
+                }
+            },
+            {
+                name: 'mkEntitiesNotEqual',
+                func: function () {
+                    return {
+                        require: 'ngModel',
+                        link: function ($scope, elm, attrs, ctrl) {
+                            ctrl.$validators.mkEntitiesNotEqual = function (currentValue) {
+                                var valueForComparing = scopeUtil.getScopeValueByString($scope, attrs.mkEntitiesNotEqual);
+
+                                if (!currentValue || !valueForComparing) {
+                                    return true;
+                                }
+
+                                return currentValue._id !== valueForComparing._id ;
                             };
                         }
                     };
