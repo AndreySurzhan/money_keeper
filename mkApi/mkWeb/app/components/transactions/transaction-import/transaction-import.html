@@ -8,7 +8,59 @@
             </div>
         </div>
         <div class="panel-body">
+            <!-- Upload file box -->
+            <div id="pick-file-block"
+                 ng-show="formState.uploadFile.visible">
+                <div ng-model="files"
+                     ngf-drop
+                     ngf-select
+                     ngf-allow-dir="formState.uploadFile.allowDirectory"
+                     ngf-drag-over-class="dragover"
+                     ngf-multiple="formState.uploadFile.allowMultipleFiles"
+                     accept="formState.uploadFile.acceptedTypes"
+                     class="drop-box">
+                    <span>
+                        {{ 'components.transactions.import.file-upload.placeholder' | translate }}
+                    </span>
+                </div>
+                <div ngf-no-file-drop>
+                    {{ 'components.transactions.import.file-upload.not-supported' | translate }}
+                </div>
+            </div>
 
+            <!-- Uploading file progress box -->
+            <div id="show-progress-block"
+                 ng-show="formState.uploadingProgress.visible">
+                <progressbar class="progress-striped active"
+                             value="uploadingProgress"
+                             type="success">
+                    <b>{{ uploadingProgress }}%</b>
+                </progressbar>
+            </div>
+
+            <!-- Categories matching box -->
+            <div id="match-categories-block"
+                 ng-show="formState.categoriesMatching.visible">
+                Categories Matching
+            </div>
+
+            <!-- Error message box -->
+            <div id="show-error-block"
+                 ng-show="formState.errorMessage.visible">
+                <div class="alert alert-danger" role="alert">
+                    <strong>
+                        {{ 'common.messages.error' | translate }}.
+                    </strong>
+                    {{ formState.errorMessage.message }}
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="btn-group pull-right">
+                <button class="btn btn-default" type="button" ng-click="cancel()">
+                    {{ 'common.buttons.cancel' | translate }}
+                </button>
+            </div>
         </div>
     </div>
 </div>

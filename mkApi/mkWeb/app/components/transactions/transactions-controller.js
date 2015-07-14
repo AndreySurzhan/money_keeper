@@ -75,7 +75,9 @@ define(
                 controller: importController.name,
                 windowClass : ['mkModalWindow transactionImportWindow'],
                 resolve: {
-                    importSource: source
+                    importSource: function () {
+                        return source;
+                    }
                 }
             });
 

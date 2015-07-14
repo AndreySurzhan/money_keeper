@@ -5,6 +5,7 @@ define(
         'angular-route',
         'angular-moment',
         'angular-bootstrap',
+        'angular-file-upload-shim',
         'animations',
         'angular-ui-tree'
     ],
@@ -18,6 +19,7 @@ define(
                 'angularMoment',
                 'ui.bootstrap',
                 'ui.tree',
+                'ngFileUpload',
                 'moneyKeeperControllers',
                 'moneyKeeperDirectives',
                 'moneyKeeperFilters',

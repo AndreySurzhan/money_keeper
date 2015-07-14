@@ -8,6 +8,8 @@ requirejs.config(
 
             'angular': '../libs/angular/angular',
             'angular-bootstrap': '../libs/angular/ui-bootstrap-tpls',
+            'angular-file-upload': '../libs/angular/ng-file-upload',
+            'angular-file-upload-shim': '../libs/angular/ng-file-upload-shim',
             'angular-resource': '../libs/angular/angular-resource',
             'angular-route': '../libs/angular/angular-route',
             'angular-translate': '../libs/angular/angular-translate',
@@ -43,6 +45,9 @@ requirejs.config(
             'angular-bootstrap': {
                 deps: ['angular'],
                 exports: 'angular'
+            },
+            'angular-file-upload-shim': {
+                deps: ['angular-file-upload']
             },
             'angular-route': {
                 deps: ['angular']

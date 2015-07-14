@@ -4,6 +4,10 @@
             "import": {
                 "header": {
                     "easyfinance": "Импорт транзакций из EasyFinance.ru"
+                },
+                "file-upload": {
+                    "placeholder": "Перетащите файл сюда или кликните для выбора файла",
+                    "not-supported": "Загрузка файлов не поддерживается"
                 }
             }
         }

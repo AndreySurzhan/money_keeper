@@ -47,6 +47,14 @@ module.exports = [
         from: vendorDir + 'moment/locale/en-gb.js',
         to: destDir + 'angular/angular-moment-locales/'
     },
+    {
+        from: vendorDir + 'ng-file-upload/ng-file-upload.js',
+        to: destDir + 'angular/'
+    },
+    {
+        from: vendorDir + 'ng-file-upload/ng-file-upload-shim.js',
+        to: destDir + 'angular/'
+    },
     // jQuery
     {
         from: vendorDir + 'jquery/dist/jquery.js',
