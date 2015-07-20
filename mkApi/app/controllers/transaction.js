@@ -1,7 +1,9 @@
-var Transaction = require('../models/transaction');
 var Account = require('../models/account');
 var Category = require('../models/category');
+var Transaction = require('../models/transaction');
 var transactionRoutes = require('./transaction_routes');
+var TransactionsImporter = require('./transactionsImporter/importer');
+
 var transactionController = {
     getAll: function (user, pagination, callback) {
         pagination = pagination || {};
@@ -341,9 +343,125 @@ var transactionController = {
             }
         );
     },
+
+    uploadFile: function (req, res) {
+        var file;
+        var importer;
+        var source;
+
+        source = req.body.source;
+        file = req.files.file;
+        importer = new TransactionsImporter(source, file.path);
+
+        importer.getMappingData(
+            function (data) {
+                res.json(data);
+            },
+            function (error) {
+                console.log(error);
+            }
+        );
+    },
+
     registerRoutes: function (router, isAuthorized, sendError) {
         transactionRoutes(router, this, isAuthorized, sendError);
     }
 };
 
 module.exports = transactionController;
+
+
+var charsets = [
+    'ASCII',
+    'ISO-8859-1',
+    'ISO-8859-2',
+    'ISO-8859-3',
+    'ISO-8859-4',
+    'ISO-8859-5',
+    'ISO-8859-7',
+    'ISO-8859-9',
+    'ISO-8859-10',
+    'ISO-8859-13',
+    'ISO-8859-14',
+    'ISO-8859-15',
+    'ISO-8859-16',
+    'KOI8-R',
+    'KOI8-U',
+    'KOI8-RU',
+    'CP437',
+    'CPCP737',
+    'CP775',
+    'CP850',
+    'CP852',
+    'CP853',
+    'CP855',
+    'CP857',
+    'CP858',
+    'CP860',
+    'CP861',
+    'CP863',
+    'CP865',
+    'CP866',
+    'CP869',
+    'CP1125',
+    'CP1250',
+    'CP1251',
+    'CP1252',
+    'CP1253',
+    'CP1254',
+    'CP1257',
+    'Mac Roman',
+    'MacCentralEurope',
+    'MacIceland',
+    'MacCroatian',
+    'MacRomania',
+    'Mac',
+    'MacCyrillic',
+    'MacUkraine',
+    'MacGreek',
+    'MacTurkish',
+    'Macintosh',
+    'ISO-8859-6',
+    'ISO-8859-8',
+    'CP1255',
+    'CP1256',
+    'CP862',
+    'CP864',
+    'MacHebrew',
+    'MacArabic',
+    'UTF-8',
+    'UCS-2',
+    'UCS-2BE',
+    'UCS-2LE',
+    'UCS-4',
+    'UCS-4BE',
+    'UCS-4LE',
+    'UTF-16',
+    'UTF-16BE',
+    'UTF-16LE',
+    'UTF-32',
+    'UTF-32BE',
+    'UTF-32LE',
+    'UTF-7',
+    'C99',
+    'JAVA'
+];
+
+/*
+ console.log('firstWord', firstWord);
+
+
+ for (var i = 0; i < charsets.length; i++) {
+ for (var j = 0; j < charsets.length; j++) {
+ if (i !== j) {
+ try {
+ var conv = new Iconv(charsets[i], charsets[j]);
+
+ console.log(conv.convert(firstWord).toString());
+ } catch (e) {
+
+ }
+ }
+ }
+ }
+ */

@@ -9,7 +9,7 @@ define(
     ],
     function (mkControllers, enums, config, _, $, logger) {
         var controllerName = 'TransactionEditCtrl';
-        var uploadFileUrl = 'https://angular-file-upload-cors-srv.appspot.com/upload';
+        var uploadFileUrl = '/api/transactions/import/upload-file';
 
         var getUploadFileSettings = function (source) {
             var fileUploadPresets = {

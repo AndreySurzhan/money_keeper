@@ -1,3 +1,6 @@
+var multiparty = require('connect-multiparty');
+var multipartyMiddleware = multiparty();
+
 module.exports = function (router, TransactionController, isAuthorized, sendError) {
     router.route('/transactions')
         .get(isAuthorized, function (req, res) {
@@ -42,6 +45,8 @@ module.exports = function (router, TransactionController, isAuthorized, sendErro
                 }
             );
         });
+
+    router.post('/transactions/import/upload-file', multipartyMiddleware, TransactionController.uploadFile);
 
     router.route('/transactions/:transaction_id')
         .get(isAuthorized, function (req, res) {
