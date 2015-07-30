@@ -181,7 +181,8 @@ var getImportMap = function (caption, maps) {
  * @returns {Q.Promise}                         - should be resolved with:
  *                                              {
  *                                                  accounts: string[],
- *                                                  categories: string[]
+ *                                                  incomeCategories: string[],
+ *                                                  outcomeCategories: string[]
  *                                              }
  */
 var getMappingData = function (filePath, delimiter, importMap, getTransactionType) {
@@ -189,7 +190,8 @@ var getMappingData = function (filePath, delimiter, importMap, getTransactionTyp
     var deferred = Q.defer();
     var isFirstString = true;
     var resultAccounts = {};
-    var resultCategories = {};
+    var resultIncomeCategories = {};
+    var resultOutcomeCategories = {};
     var stream;
 
     stream = fs.createReadStream(filePath);
@@ -222,15 +224,18 @@ var getMappingData = function (filePath, delimiter, importMap, getTransactionTyp
             if (transactionType === 'transfer') {
                 resultAccounts[accountDestination] = true;
             } else {
-                resultCategories[category] = true;
+                if (transactionType === 'income') {
+                    resultIncomeCategories[category] = true;
+                } else {
+                    resultOutcomeCategories[category] = true;
+                }
             }
         })
         .on('end', function () {
-            console.log('- on end');
-
             var result = {
                 accounts: [],
-                categories: []
+                incomeCategories: [],
+                outcomeCategories: []
             };
 
             for (var account in resultAccounts) {
@@ -239,9 +244,15 @@ var getMappingData = function (filePath, delimiter, importMap, getTransactionTyp
                 }
             }
 
-            for (var category in resultCategories) {
-                if (resultCategories.hasOwnProperty(category)) {
-                    result.categories.push(category);
+            for (var category in resultIncomeCategories) {
+                if (resultIncomeCategories.hasOwnProperty(category)) {
+                    result.incomeCategories.push(category);
+                }
+            }
+
+            for (var category in resultOutcomeCategories) {
+                if (resultOutcomeCategories.hasOwnProperty(category)) {
+                    result.outcomeCategories.push(category);
                 }
             }
 
@@ -281,7 +292,8 @@ var Importer = function (source, fileName) {
  * @param {function} success    - success callback. In case of success should be called with:
  *                              {
  *                                  accounts: string[],
- *                                  categories: string[]
+ *                                  incomeCategories: string[],
+ *                                  outcomeCategories: string[]
  *                              }
  * @param {function} error      - error callback. In case of error should be called with exception object
  *

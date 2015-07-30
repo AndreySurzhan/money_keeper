@@ -39,9 +39,73 @@
             </div>
 
             <!-- Categories matching box -->
-            <div id="match-categories-block"
+            <div id="matching-block"
                  ng-show="formState.categoriesMatching.visible">
-                Categories Matching
+                <tabset>
+                    <tab select="alertMe()">
+                        <tab-heading>
+                            Счета
+                        </tab-heading>
+                        <form name="accountsMatchingForm" class="form-horizontal">
+                            <div ng-repeat="account in accounts"
+                                 class="row">
+                                <div class="col-md-6">
+                                    <span>{{ account.name }}</span>
+                                </div>
+                                <div class="col-md-6">
+                                    <select class="form-control"
+                                            ng-model="account.matchedAccount"
+                                            ng-options="account.name for account in myAccounts track by account._id"
+                                            mk-required>
+                                        <option value="">---</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </tab>
+                    <tab select="alertMe()">
+                        <tab-heading>
+                            Категории доходов
+                        </tab-heading>
+                        <form name="incomeCategoriesMatchingForm" class="form-horizontal">
+                            <div ng-repeat="category in incomeCategories"
+                                 class="row">
+                                <div class="col-md-6">
+                                    <span>{{ category.name }}</span>
+                                </div>
+                                <div class="col-md-6">
+                                    <select class="form-control"
+                                            ng-model="category.matchedCategory"
+                                            ng-options="category.name for category in myIncomeCategories track by category._id"
+                                            mk-required>
+                                        <option value="">---</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </tab>
+                    <tab select="alertMe()">
+                        <tab-heading>
+                            Категории доходов
+                        </tab-heading>
+                        <form name="outcomeCategoriesMatchingForm" class="form-horizontal">
+                            <div ng-repeat="category in outcomeCategories"
+                                 class="row">
+                                <div class="col-md-6">
+                                    <span>{{ category.name }}</span>
+                                </div>
+                                <div class="col-md-6">
+                                    <select class="form-control"
+                                            ng-model="category.matchedCategory"
+                                            ng-options="category.name for category in myOutcomeCategories track by category._id"
+                                            mk-required>
+                                        <option value="">---</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </tab>
+                </tabset>
             </div>
 
             <!-- Error message box -->
@@ -56,11 +120,19 @@
             </div>
         </div>
         <div class="panel-footer">
-            <div class="btn-group pull-right">
-                <button class="btn btn-default" type="button" ng-click="cancel()">
-                    {{ 'common.buttons.cancel' | translate }}
-                </button>
-            </div>
+            <button class="btn btn-default" type="button" ng-click="cancel()">
+                {{ 'common.buttons.cancel' | translate }}
+            </button>
+            <button ng-show="formState.categoriesMatching.nextButtonVisible"
+                    ng-click="goNextTab()"
+                    class="btn btn-primary pull-right" type="button">
+                {{ 'components.transactions.import.matching.next-tab' | translate }}
+            </button>
+            <button ng-show="formState.categoriesMatching.importButtonVisible"
+                    ng-click="import()"
+                    class="btn btn-primary pull-right" type="button">
+                {{ 'common.buttons.import' | translate }}
+            </button>
         </div>
     </div>
 </div>
