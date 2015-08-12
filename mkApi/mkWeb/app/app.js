@@ -5,7 +5,6 @@ define(
         'angular-route',
         'angular-moment',
         'angular-bootstrap',
-        'animations',
         'angular-ui-tree',
         'google-analytics'
     ],

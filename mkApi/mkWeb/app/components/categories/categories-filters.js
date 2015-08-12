@@ -1,10 +1,8 @@
 define(
     [
-        'mkFilters',
-        'text!./income.html',
-        'text!./outcome.html'
+        'mkFilters'
     ],
-    function (mkFilters, incomeHtml, outcomeHtml) {
+    function (mkFilters) {
         'use strict';
 
         mkFilters.filter(
