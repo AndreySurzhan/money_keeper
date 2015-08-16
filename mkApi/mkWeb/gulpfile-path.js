@@ -20,7 +20,7 @@ module.exports = {
     images: {
         src: './images/*.*',
         dist: './images/_dist/',
-        watch: './image/*.*'
+        watch: './images/*.*'
     },
     vendor: {
         src: 'bower-components/',
