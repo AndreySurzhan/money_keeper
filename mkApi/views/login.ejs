@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" ng-strict-di>
 <head>
+    <title>
+        MK | Вход
+    </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <link href="styles/login.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles/_dist/login.css">
+    <link rel="stylesheet" href="styles/framework/font-awesome/css/font-awesome.css">
 </head>
 <body>
-<div class="login-box animated fadeInDown">
-    <div class="login-logo">
-        Money Keeper
-    </div>
+<div class="login-container">
+    <div class="login-logo"></div>
     <div class="login-body">
         <div class="login-title">
-            <strong>Log In</strong> to your account
+            <strong>Войти</strong> в аккаунт
         </div>
         <form action="/login" class="form-horizontal" method="post">
             <div class="form-group">
@@ -22,7 +24,7 @@
             </div>
             <div class="form-group">
                 <div class="col-md-12">
-                    <input name="password" type="password" class="form-control" placeholder="Password">
+                    <input name="password" type="password" class="form-control" placeholder="Пароль">
                 </div>
             </div>
             <div class="form-group">
@@ -30,11 +32,42 @@
                     &nbsp;
                 </div>
                 <div class="col-md-6">
-                    <button type="submit" class="btn btn-info btn-block">Log In</button>
+                    <button type="submit" class="btn btn-info">Войти</button>
                 </div>
+            </div>
+            <div class="login-or">
+                или
+            </div>
+            <div class="form-group">
+                <div class="col-md-4">
+                    <a href="/auth/vk" class="btn btn-vk">
+                        <i class="fa fa-vk"></i> VK
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a href="/auth/google" class="btn btn-google">
+                        <i class="fa fa-google"></i> Google
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a href="/auth/facebook" class="btn btn-facebook">
+                        <i class="fa fa-facebook"></i> Facebook
+                    </a>
+                </div>
+            </div>
+            <div class="login-subtitle">
+                Все еще нет аккаунта? <a href="#">Зарегистрируйтесь</a>
             </div>
         </form>
     </div>
+    <div class="login-footer">
+        © <span id="current-year"></span> Money Keeper
+    </div>
 </div>
+<script>
+    var currentDate = new Date();
+
+    document.getElementById("current-year").innerText = currentDate.getFullYear();
+</script>
 </body>
 </html>

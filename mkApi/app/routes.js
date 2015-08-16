@@ -12,11 +12,7 @@ module.exports = function (app, passport, router) {
     // =================================================================================================================
     // === App page ====================================================================================================
     // =================================================================================================================
-    app.get('/', function (req, res) {
-        res.redirect('/subscribe');
-    });
-
-    app.get('/app', isLoggedIn, function (req, res) {
+    app.get('/', isLoggedIn, function (req, res) {
         res.render('../mkWeb/index.html');
     });
 
@@ -69,54 +65,35 @@ module.exports = function (app, passport, router) {
         );
     });
 
-    // temporary close registration
-    /*
     app.post('/signup', passport.authenticate('local-signup', {
         successRedirect: '/',
         failureRedirect: '/signup',
         failureFlash: true // allow flash messages
     }));
-    */
 
-    // --- Profile ---
+    // GOOGLE ROUTES
+    app.get('/auth/google', passport.authenticate('google', {scope: ['profile', 'email']}));
+    app.get('/auth/google/callback',
+        passport.authenticate('google', {
+            successRedirect: '/',
+            failureRedirect: '/login'
+        }));
 
-    app.get('/profile', isLoggedIn, function (req, res) {
-        res.render(
-            'profile.ejs',
-            {
-                user: req.user
-            }
-        );
-    });
+    // VK ROUTES
+    app.get('/auth/vk', passport.authenticate('vkontakte', {scope: ['profile', 'email']}));
+    app.get('/auth/vk/callback',
+        passport.authenticate('vkontakte', {
+            successRedirect: '/',
+            failureRedirect: '/login'
+        }));
 
-    // --- Subscribe ---
-
-    app.get(
-        '/subscribe',
-        function (req, res) {
-            res.render(
-                'landing-page.ejs'
-            );
-        }
-    );
-
-    app.post(
-        '/subscribe',
-        function (req, res, next) {
-            var email = req.body.email;
-
-            subscriberController.add(
-                email,
-                function (err, result) {
-                    if (err) {
-                        res.send(500);
-                    }
-
-                    res.send(result);
-                }
-            );
-        }
-    );
+    // FACEBOOK ROUTES
+    app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
+    app.get('/auth/facebook/callback',
+        passport.authenticate('facebook', {
+            successRedirect : '/',
+            failureRedirect : '/login'
+        }));
 
     // =================================================================================================================
     // === Register API routes =========================================================================================
