@@ -55,9 +55,7 @@ module.exports = function (app, passport, router) {
     // --- Sign up ---
 
     app.get('/signup', function (req, res) {
-        res.redirect('/'); // temporary close registration
-
-        res.render(
+       res.render(
             'signup.ejs',
             {
                 message: req.flash('signupMessage')
