@@ -2,13 +2,14 @@ define(
     [
         'angular',
         'json!./menu.json',
+        './components/credit_calculator/credit-calculator',
         'angular-route',
         'angular-moment',
         'angular-bootstrap',
         'angular-ui-tree',
         'google-analytics'
     ],
-    function (ng, menu) {
+    function (ng, menu, creditCalculatorModule) {
         'use strict';
 
         var app = ng.module(
@@ -51,8 +52,19 @@ define(
             'mainController',
             [
                 '$scope',
-                function ($scope) {
+                '$modal',
+                function ($scope, $modal) {
                     $scope.menu = menu;
+                    $scope.openCreditCalculator = openCreditCalculatorModal;
+
+                    function openCreditCalculatorModal() {
+                        var modalInstance = $modal.open({
+                            animation: true,
+                            template: creditCalculatorModule.template,
+                            controller: creditCalculatorModule.controllerName,
+                            windowClass: ['mkModalWindow']
+                        });
+                    }
                 }
             ]
         );
