@@ -2,7 +2,7 @@ define(
     [
         'angular',
         'json!./menu.json',
-        './components/credit_calculator/credit-calculator',
+        'components/credit-calculator/credit-calculator',
         'angular-route',
         'angular-moment',
         'angular-bootstrap',

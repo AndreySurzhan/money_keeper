@@ -11,7 +11,7 @@ require(
         'components/transactions/transactions',
         'components/navigation-menu/navigation-menu',
         'components/accounts/accounts',
-        'components/credit_calculator/credit-calculator',
+        'components/credit-calculator/credit-calculator',
 
         'mkDirectives'
     ],

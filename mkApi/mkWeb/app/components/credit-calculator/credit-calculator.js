@@ -1,7 +1,8 @@
 define(
     [
         './credit-calculator-controller',
-        'text!./credit-calculator.html'
+        'text!./credit-calculator.html',
+        './credit-calculator-translations'
     ],
     function (creditCalculator, template) {
         return {

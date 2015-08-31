@@ -1,0 +1,179 @@
+<!-- Modal content-->
+<div class="component-container col-md-12" ng-controller="creditCalculator as calculator">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title-box">
+                <h3>
+                    {{ 'components.credit-calculator.header' | translate}}
+                </h3>
+            </div>
+        </div>
+        <div class="panel-body">
+            <form name="creditCalculatorForm" class="form-horizontal">
+                <div class="form-group row">
+                    <label class="col-md-3 control-label" for="creditMethod">
+                        {{ 'components.credit-calculator.fields.method.label' | translate}}:
+                    </label>
+                    <div class="col-md-9">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="optionsRadios" id="Annuity" value="Annuity" checked>
+                                {{ 'components.credit-calculator.fields.method.option_1' | translate}}
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="optionsRadios" id="Differentiated" value="Differentiated">
+                                {{ 'components.credit-calculator.fields.method.option_2' | translate}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 control-label" for="creditMethod">
+                        {{ 'components.credit-calculator.fields.method.label' | translate}}:
+                    </label>
+                    <div class="col-md-9">
+                        <select class="form-control" id="creditMethod" name="creditMethod">
+                            <option>
+                                {{ 'components.credit-calculator.fields.method.option_1' | translate}}
+                            </option>
+                            <option>
+                                {{ 'components.credit-calculator.fields.method.option_2' | translate}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 control-label" for="creditAmount">
+                        {{ 'components.credit-calculator.fields.amount.label' | translate}}:
+                    </label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="creditAmount" name="creditAmount"
+                               placeholder="{{ 'components.credit-calculator.fields.amount.placeholder' | translate}}"
+                               ng-model="amount">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 control-label" for="creditInterestRate">
+                        {{ 'components.credit-calculator.fields.interestRate.label' | translate}}:
+                    </label>
+                    <div class="col-md-9 ">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="creditInterestRate" name="creditInterestRate"
+                                   placeholder="{{ 'components.credit-calculator.fields.interestRate.placeholder' | translate}}"
+                                   ng-model="interestRate">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 control-label" for="creditNumberOfMonth">
+                        {{ 'components.credit-calculator.fields.numberOfMonth.label' | translate}}:
+                    </label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="creditNumberOfMonth" name="creditNumberOfYears"
+                               placeholder="{{ 'components.credit-calculator.fields.numberOfMonth.placeholder' | translate}}"
+                               ng-model="numberOfMonth">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 control-label " for="creditStartDate">
+                        Начало выплат:
+                    </label>
+                    <div class="col-md-9 ">
+                        <div class="input-group date">
+                            <input type="text" class="form-control" id="creditStartDate" name="creditStartDate"
+                                   placeholder="Выберите дату начала выплат по кредиту">
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 control-label" for="creditMonthlyPayment">
+                        {{ 'components.credit-calculator.fields.monthlyPayment.label' | translate}}:
+                    </label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="creditMonthlyPayment" name="creditMonthlyPayment"
+                               placeholder="{{ 'components.credit-calculator.fields.monthlyPayment.placeholder' | translate}}"
+                               disabled
+                               ng-model="monthlyPayment">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 control-label" for="creditMonthlyInterestAmount">
+                        Ежемесячный выплачиваемый процент:
+                    </label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="creditMonthlyInterestAmount"
+                               name="creditMonthlyInterestAmount"
+                               placeholder="Здесь будет показан ежемесячный выплачиваемый процент" disabled>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 control-label" for="creditMonthlyClearPayment">
+                        Ежемесячный основной долг:
+                    </label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="creditMonthlyClearPayment"
+                               name="creditMonthlyClearPayment"
+                               placeholder="Здесь будет показан ежемесячный основной долг" disabled>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 control-label" for="creditOverPayment">
+                        {{ 'components.credit-calculator.fields.overPayment.label' | translate}}:
+                    </label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="creditOverPayment"
+                               name="creditOverPayment"
+                               placeholder="{{ 'components.credit-calculator.fields.overPayment.default-value' | translate}}"
+                               disabled
+                               ng-model="overPayment">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="btn-group pull-right">
+                            <button type="button" class="btn btn-primary">
+                                {{ 'components.credit-calculator.buttons.calculate' | translate}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div id ="creditTable">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>{{ 'components.credit-calculator.table.id.label' | translate}}</th>
+                        <th>{{ 'components.credit-calculator.table.paymentDate.label' | translate}}</th>
+                        <th>{{ 'components.credit-calculator.table.remainedAmount.label' | translate}}</th>
+                        <th>{{ 'components.credit-calculator.table.interestRateAmount.label' | translate}}</th>
+                        <th>{{ 'components.credit-calculator.table.clearPayment.label' | translate}}</th>
+                        <th>{{ 'components.credit-calculator.table.paymentAmount.label' | translate}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Декабрь 2015</td>
+                        <td>100000</td>
+                        <td>800</td>
+                        <td>5000</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="btn-group pull-right">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    {{ 'common.buttons.cancel' | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
