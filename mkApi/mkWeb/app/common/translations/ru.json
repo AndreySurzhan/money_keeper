@@ -10,6 +10,12 @@
             "create": "Добавить",
             "save": "Сохранить"
         },
+        "currencies": {
+            "rubles": "Рубли",
+            "dollars": "Доллары США",
+            "euro": "Евро",
+            "pound": "Фунты стерлингов"
+        },
         "lists": {
             "search": "Поиск",
             "pager": {

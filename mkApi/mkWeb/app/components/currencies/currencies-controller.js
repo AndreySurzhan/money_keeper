@@ -32,21 +32,67 @@ define(
             return result.promise();
         };
 
+        var getGlobalCurrencies = function ($filter, currenciesFactory) {
+            var result = new $.Deferred();
+
+            logger.time('Getting global currencies list');
+
+            currenciesFactory.getGlobals(
+                function (currencies) {
+                    var i;
+
+                    logger.timeEnd('Getting global currencies list');
+                    logger.groupCollapsed('Getting global currencies list');
+                    logger.logCurrencies(currencies);
+                    logger.groupEnd('Getting global currencies list');
+
+                    for (i = 0; i < currencies.length; i++) {
+                        currencies[i].name = $filter('translate')('common.currencies.' + currencies[i].name);
+                    }
+
+                    result.resolve(currencies);
+                },
+                function (error) {
+                    logger.error(error);
+                    result.reject(error);
+                }
+            );
+
+            return result.promise();
+        };
+
         mkControllers.controller(
             'CurrencyListCtrl',
             [
                 '$scope',
+                '$filter',
                 'Currency',
                 'Analytics',
-                function ($scope, Currency, Analytics) {
+                function ($scope, $filter, Currency, Analytics) {
                     $scope.currencies = [];
                     $scope.orderProp = '_id';
+                    $scope.newCurrency = null;
+                    $scope.formState = {
+                        globalCurrencies: {
+                            data: [],
+                            enable: false
+                        }
+                    };
 
                     Analytics.trackPage('/currencies');
 
                     updateCurrenciesList($scope, Currency)
                         .done(function (currencies) {
                             $scope.currencies = currencies
+                        })
+                        .fail(function (error) {
+                            $scope.currencies = [];
+                        });
+
+                    getGlobalCurrencies($filter, Currency)
+                        .done(function (currencies) {
+                            $scope.formState.globalCurrencies.data = currencies;
+                            $scope.formState.globalCurrencies.enable = true;
                         })
                         .fail(function (error) {
                             $scope.currencies = [];
@@ -62,11 +108,8 @@ define(
                             });
                     };
 
-                    $scope.showDetails = function (currencyId) {
-                        console.log('showDetails');
-                        console.log(currencyId);
-
-                        window.location.hash = '#/currencies/' + currencyId;
+                    $scope.addNewCurrency = function (globalCurrencyId) {
+                        console.log(globalCurrencyId);
                     };
 
                     $scope.remove = function (currencyId) {

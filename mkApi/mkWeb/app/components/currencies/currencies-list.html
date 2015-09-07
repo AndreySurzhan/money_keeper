@@ -40,10 +40,6 @@
                         {{ currency.name }}
                     </td>
                     <td class="actions-column">
-                        <button class="btn btn-default btn-rounded btn-condensed btn-sm"
-                                ng-click="showDetails(currency._id)">
-                            <span class="fa fa-pencil"></span>
-                        </button>
                         <button class="btn btn-danger btn-rounded btn-condensed btn-sm"
                                 ng-click="remove(currency._id)">
                             <span class="fa fa-times"></span>
@@ -51,6 +47,31 @@
                     </td>
                 </tr>
                 </tbody>
+                <tfoot>
+                <tr>
+                    <td>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <select class="form-control"
+                                        ng-model="newCurrency"
+                                        ng-disabled="!formState.globalCurrencies.enable"
+                                        ng-options="currency.name for currency in formState.globalCurrencies.data track by currency._id">
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <span class="new-currency-sign fa {{ newCurrency.icon }}"></span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <button class="add-new-currency btn btn-success btn-rounded btn-condensed btn-sm"
+                                ng-disabled="!newCurrency"
+                                ng-click="addNewCurrency(newCurrency)">
+                            {{ 'common.buttons.create' | translate }}
+                        </button>
+                    </td>
+                </tr>
+                </tfoot>
             </table>
         </div>
         <div class="panel-footer"></div>

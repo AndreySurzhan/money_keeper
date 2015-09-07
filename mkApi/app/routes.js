@@ -1,6 +1,4 @@
-
 var dashboardController = require('./controllers/dashboard');
-var subscriberController = require('./controllers/subscriber');
 var categoryController = require('./controllers/category');
 var currencyController = require('./controllers/currency');
 var accountController = require('./controllers/account');
