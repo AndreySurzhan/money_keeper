@@ -13,14 +13,11 @@ var currencyController = {
             {
                 _owner: user._id
             })
-            .populate('global')
             .exec(function (error, currencies) {
                 if (error) {
                     deferred.reject(error);
                     return;
                 }
-
-                console.log(currencies);
 
                 deferred.resolve(currencies);
             });
@@ -34,25 +31,42 @@ var currencyController = {
         })
             .exec(callback);
     },
-    post: function (user, globalId) {
-        var currency = new Currency();
+    post: function (user, globalCurrencyId) {
+        var currency;
         var deferred = Q.defer();
 
-        _.extend(currency, {
-            _owner: user._id,
-            global: globalId,
-            name: '',
-            icon: ''
-        });
+        this.getGlobalById(globalCurrencyId)
+            .then(function (globalCurrency) {
+                if (!globalCurrency) {
+                    deferred.reject({
+                        message: 'Global currency with id="' + globalCurrencyId + '" does not exist.'
+                    });
+                    return;
+                }
 
-        currency.save(function (error, newCurrency) {
-            if (error) {
+                console.log('globalCurrency', globalCurrency);
+
+                currency = new Currency();
+                _.extend(currency, {
+                    _owner: user._id,
+                    name: globalCurrency.name,
+                    icon: globalCurrency.icon
+                });
+
+                currency.save(function (error, newCurrency) {
+                    if (error) {
+                        deferred.reject(error);
+                        return;
+                    }
+
+                    console.log('currency saved', newCurrency)
+
+                    deferred.resolve(newCurrency);
+                });
+            })
+            .fail(function (error) {
                 deferred.reject(error);
-                return;
-            }
-
-            deferred.resolve(newCurrency);
-        });
+            });
 
         return deferred.promise;
     },
@@ -91,6 +105,26 @@ var currencyController = {
                 }
 
                 deferred.resolve(globalCurrencies);
+            });
+
+        return deferred.promise;
+    },
+    getGlobalById: function (id) {
+        var deferred = Q.defer();
+
+        console.log('getGlobalById', id);
+
+        Currency.findOne({
+            _id: id,
+            _owner: 0
+        })
+            .exec(function (error, currency) {
+                if (error) {
+                    deferred.reject(error);
+                    return;
+                }
+
+                deferred.resolve(currency);
             });
 
         return deferred.promise;

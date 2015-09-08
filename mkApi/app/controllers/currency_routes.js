@@ -10,7 +10,10 @@ module.exports = function (router, CurrencyController, isAuthorized, sendError) 
                 });
         })
         .post(isAuthorized, function (req, res) {
-            CurrencyController.post(req.user, req.body.globalId)
+            CurrencyController.post(
+                req.user,
+                req.body.globalCurrencyId
+            )
                 .then(function (currency) {
                     res.json(currency);
                 })

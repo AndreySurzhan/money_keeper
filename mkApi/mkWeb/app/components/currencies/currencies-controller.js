@@ -5,7 +5,7 @@ define(
         './currencies-services'
     ],
     function (mkControllers, logger) {
-        var updateCurrenciesList = function ($scope, currenciesFactory) {
+        var updateCurrenciesList = function ($scope, $filter, currenciesFactory) {
             var result = new $.Deferred();
 
             logger.time('Updating currencies list');
@@ -18,6 +18,8 @@ define(
                     logger.groupCollapsed('Updating currencies list');
                     logger.logCurrencies(currencies);
                     logger.groupEnd('Updating currencies list');
+
+                    translateCurrenciesList(currencies, $filter);
 
                     $scope.isUpdating = false;
                     result.resolve(currencies);
@@ -39,16 +41,12 @@ define(
 
             currenciesFactory.getGlobals(
                 function (currencies) {
-                    var i;
-
                     logger.timeEnd('Getting global currencies list');
                     logger.groupCollapsed('Getting global currencies list');
                     logger.logCurrencies(currencies);
                     logger.groupEnd('Getting global currencies list');
 
-                    for (i = 0; i < currencies.length; i++) {
-                        currencies[i].name = $filter('translate')('common.currencies.' + currencies[i].name);
-                    }
+                    translateCurrenciesList(currencies, $filter);
 
                     result.resolve(currencies);
                 },
@@ -61,6 +59,22 @@ define(
             return result.promise();
         };
 
+        var translateCurrency = function (currency, $filter) {
+            currency.name = $filter('translate')('common.currencies.' + currency.name);
+
+            return currency;
+        };
+
+        var translateCurrenciesList = function (currencies, $filter) {
+            var i;
+
+            for (i = 0; i < currencies.length; i++) {
+                currencies[i] = translateCurrency(currencies[i], $filter);
+            }
+
+            return currencies;
+        };
+
         mkControllers.controller(
             'CurrencyListCtrl',
             [
@@ -69,6 +83,7 @@ define(
                 'Currency',
                 'Analytics',
                 function ($scope, $filter, Currency, Analytics) {
+                    $scope.currencyTranslatePrefix = '';
                     $scope.currencies = [];
                     $scope.orderProp = '_id';
                     $scope.newCurrency = null;
@@ -81,7 +96,7 @@ define(
 
                     Analytics.trackPage('/currencies');
 
-                    updateCurrenciesList($scope, Currency)
+                    updateCurrenciesList($scope, $filter, Currency)
                         .done(function (currencies) {
                             $scope.currencies = currencies
                         })
@@ -99,29 +114,47 @@ define(
                         });
 
                     $scope.refresh = function () {
-                        updateCurrenciesList($scope, Currency)
+                        updateCurrenciesList($scope, $filter, Currency)
                             .done(function (currencies) {
-                                $scope.currencies = currencies
+                                $scope.currencies = currencies;
                             })
                             .fail(function (error) {
                                 $scope.currencies = [];
                             });
                     };
 
-                    $scope.addNewCurrency = function (globalCurrencyId) {
-                        console.log(globalCurrencyId);
+                    $scope.addNewCurrency = function (globalCurrency) {
+                        $scope.isUpdating = true;
+
+                        Currency.save(
+                            {
+                                globalCurrencyId: globalCurrency._id
+                            },
+                            function (currency) {
+                                $scope.currencies.push(translateCurrency(currency, $filter));
+                                $scope.isUpdating = false;
+                            },
+                            function (error) {
+                                $scope.isUpdating = false;
+                                logger.error(error);
+                            }
+                        );
                     };
 
                     $scope.remove = function (currencyId) {
+                        $scope.isUpdating = true;
+
                         Currency.remove(
                             {
                                 id: currencyId
                             },
                             function (currencies) {
-                                $scope.currencies = currencies;
+                                $scope.currencies = translateCurrenciesList(currencies, $filter);
+                                $scope.isUpdating = false;
                             },
-                            function () {
-                                console.error('error', arguments);
+                            function (error) {
+                                $scope.isUpdating = false;
+                                logger.error(error);
                             }
                         );
                     };
