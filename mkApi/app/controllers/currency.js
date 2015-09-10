@@ -41,25 +41,24 @@ var currencyController = {
                     deferred.reject({
                         message: 'Global currency with id="' + globalCurrencyId + '" does not exist.'
                     });
+
                     return;
                 }
-
-                console.log('globalCurrency', globalCurrency);
 
                 currency = new Currency();
                 _.extend(currency, {
                     _owner: user._id,
                     name: globalCurrency.name,
-                    icon: globalCurrency.icon
+                    icon: globalCurrency.icon,
+                    globalId: globalCurrencyId
                 });
 
+                //ToDo: add already existing validation by globalId
                 currency.save(function (error, newCurrency) {
                     if (error) {
                         deferred.reject(error);
                         return;
                     }
-
-                    console.log('currency saved', newCurrency)
 
                     deferred.resolve(newCurrency);
                 });

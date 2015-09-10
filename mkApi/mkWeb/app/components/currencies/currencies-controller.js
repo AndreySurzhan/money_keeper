@@ -34,8 +34,17 @@ define(
             return result.promise();
         };
 
+        var globalCurrencies = null;
+
         var getGlobalCurrencies = function ($filter, currenciesFactory) {
             var result = new $.Deferred();
+
+            if (!_.isNull(globalCurrencies)) {
+                logger.log('Global currencies are returned from cache.');
+                result.resolve(globalCurrencies);
+
+                return result.promise();
+            }
 
             logger.time('Getting global currencies list');
 
@@ -48,7 +57,8 @@ define(
 
                     translateCurrenciesList(currencies, $filter);
 
-                    result.resolve(currencies);
+                    globalCurrencies = currencies;
+                    result.resolve(globalCurrencies);
                 },
                 function (error) {
                     logger.error(error);
@@ -75,6 +85,14 @@ define(
             return currencies;
         };
 
+        var filterGlobalCurrenciesBySelected = function (globalCurrencies, selectedCurrencies) {
+            var selectedIds = _.pluck(selectedCurrencies, 'globalId');
+
+            return _.filter(globalCurrencies, function (globalCurrency) {
+                return !_.contains(selectedIds, globalCurrency._id);
+            });
+        };
+
         mkControllers.controller(
             'CurrencyListCtrl',
             [
@@ -83,6 +101,9 @@ define(
                 'Currency',
                 'Analytics',
                 function ($scope, $filter, Currency, Analytics) {
+                    var globalCurrencies = [];
+                    var updateCurrenciesPromise;
+
                     $scope.currencyTranslatePrefix = '';
                     $scope.currencies = [];
                     $scope.orderProp = '_id';
@@ -96,7 +117,7 @@ define(
 
                     Analytics.trackPage('/currencies');
 
-                    updateCurrenciesList($scope, $filter, Currency)
+                    updateCurrenciesPromise = updateCurrenciesList($scope, $filter, Currency)
                         .done(function (currencies) {
                             $scope.currencies = currencies
                         })
@@ -104,19 +125,37 @@ define(
                             $scope.currencies = [];
                         });
 
-                    getGlobalCurrencies($filter, Currency)
+                    $.when(
+                        getGlobalCurrencies($filter, Currency),
+                        updateCurrenciesPromise
+                    )
                         .done(function (currencies) {
-                            $scope.formState.globalCurrencies.data = currencies;
+                            globalCurrencies = currencies;
+
+                            $scope.formState.globalCurrencies.data = filterGlobalCurrenciesBySelected(
+                                globalCurrencies,
+                                $scope.currencies
+                            );
+
+                            if ($scope.formState.globalCurrencies.data.length > 0) {
+                                $scope.newCurrency = $scope.formState.globalCurrencies.data[0];
+                            }
+
                             $scope.formState.globalCurrencies.enable = true;
-                        })
-                        .fail(function (error) {
-                            $scope.currencies = [];
                         });
 
                     $scope.refresh = function () {
                         updateCurrenciesList($scope, $filter, Currency)
                             .done(function (currencies) {
                                 $scope.currencies = currencies;
+                                $scope.formState.globalCurrencies.data = filterGlobalCurrenciesBySelected(
+                                    globalCurrencies,
+                                    $scope.currencies
+                                );
+
+                                if ($scope.formState.globalCurrencies.data.length > 0) {
+                                    $scope.newCurrency = $scope.formState.globalCurrencies.data[0];
+                                }
                             })
                             .fail(function (error) {
                                 $scope.currencies = [];
@@ -133,6 +172,16 @@ define(
                             function (currency) {
                                 $scope.currencies.push(translateCurrency(currency, $filter));
                                 $scope.isUpdating = false;
+                                $scope.formState.globalCurrencies.data = filterGlobalCurrenciesBySelected(
+                                    globalCurrencies,
+                                    $scope.currencies
+                                );
+
+                                if ($scope.formState.globalCurrencies.data.length > 0) {
+                                    $scope.newCurrency = $scope.formState.globalCurrencies.data[0];
+                                } else {
+                                    $scope.newCurrency = null;
+                                }
                             },
                             function (error) {
                                 $scope.isUpdating = false;
@@ -151,6 +200,14 @@ define(
                             function (currencies) {
                                 $scope.currencies = translateCurrenciesList(currencies, $filter);
                                 $scope.isUpdating = false;
+                                $scope.formState.globalCurrencies.data = filterGlobalCurrenciesBySelected(
+                                    globalCurrencies,
+                                    $scope.currencies
+                                );
+
+                                if ($scope.formState.globalCurrencies.data.length > 0) {
+                                    $scope.newCurrency = $scope.formState.globalCurrencies.data[0];
+                                }
                             },
                             function (error) {
                                 $scope.isUpdating = false;

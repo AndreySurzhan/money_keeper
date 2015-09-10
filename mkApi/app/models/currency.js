@@ -5,7 +5,7 @@ var CurrencySchema = new Schema({
     _owner: 'String',
     name: 'String',
     icon: 'String',
-    global: 'String'
+    globalId: 'String'
 });
 
 module.exports = mongoose.model('Currency', CurrencySchema);

@@ -51,13 +51,11 @@
                         <span class="new-currency-sign fa {{ newCurrency.icon }}"></span>
                     </td>
                     <td>
-
-                                <select class="form-control"
-                                        ng-model="newCurrency"
-                                        ng-disabled="!formState.globalCurrencies.enable"
-                                        ng-options="currency.name for currency in formState.globalCurrencies.data track by currency._id">
-                                </select>
-
+                        <select class="form-control"
+                                ng-model="newCurrency"
+                                ng-disabled="!formState.globalCurrencies.enable"
+                                ng-options="currency.name for currency in formState.globalCurrencies.data track by currency._id">
+                        </select>
                     </td>
                     <td>
                         <button class="add-new-currency btn btn-success btn-rounded btn-condensed btn-sm"
