@@ -2,9 +2,7 @@ define(
     [
         './currencies-controller',
         './currencies-translations',
-        './currencies-routes',
-
-        './currency-edit/currency-edit'
+        './currencies-routes'
     ],
     function () {
         'use strict';

@@ -19,6 +19,11 @@ define(
                                 method: 'GET',
                                 url: config.api + 'currencies/:id'
                             },
+                            getGlobals: {
+                                method: 'GET',
+                                url: config.api + 'currencies/global',
+                                isArray: true
+                            },
                             update: {
                                 method: 'PUT',
                                 url: config.api + 'currencies/:id'

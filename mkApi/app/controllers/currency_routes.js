@@ -1,35 +1,36 @@
 module.exports = function (router, CurrencyController, isAuthorized, sendError) {
     router.route('/currencies')
         .get(isAuthorized, function (req, res) {
-            CurrencyController.getAll(
-                req.user,
-                function (err, currencies) {
-                    if (err) {
-                        sendError(err, res);
-
-                        return;
-                    }
-
+            CurrencyController.getAll(req.user)
+                .then(function (currencies) {
                     res.json(currencies);
-                }
-            );
+                })
+                .fail(function (error) {
+                    sendError(error, res);
+                });
         })
         .post(isAuthorized, function (req, res) {
             CurrencyController.post(
                 req.user,
-                {
-                    name: req.body.name
-                },
-                function (err, currency) {
-                    if (err) {
-                        sendError(err, res);
-
-                        return;
-                    }
-
+                req.body.globalCurrencyId
+            )
+                .then(function (currency) {
                     res.json(currency);
-                }
-            );
+                })
+                .fail(function (error) {
+                    sendError(error, res);
+                });
+        });
+
+    router.route('/currencies/global')
+        .get(isAuthorized, function (req, res) {
+            CurrencyController.getGlobals()
+                .then(function (globalCurrencies) {
+                    res.json(globalCurrencies);
+                })
+                .fail(function (error) {
+                    sendError(error, res);
+                });
         });
 
     router.route('/currencies/:currency_id')
@@ -37,24 +38,6 @@ module.exports = function (router, CurrencyController, isAuthorized, sendError) 
             CurrencyController.getById(
                 req.user,
                 req.params.currency_id,
-                function (err, currency) {
-                    if (err) {
-                        sendError(err, res);
-
-                        return;
-                    }
-
-                    res.json(currency);
-                }
-            );
-        })
-        .put(isAuthorized, function (req, res) {
-            CurrencyController.update(
-                req.user,
-                req.params.currency_id,
-                {
-                    name: req.body.name
-                },
                 function (err, currency) {
                     if (err) {
                         sendError(err, res);

@@ -113,6 +113,6 @@ module.exports = [
     },
     {
         from: vendorDir + 'font-awesome/fonts/*',
-        to: destDir + '../fonts/'
+        to: destDir + '../styles/framework/font-awesome/fonts/'
     }
 ];

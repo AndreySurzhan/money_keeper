@@ -12,6 +12,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 
 var configDB = require('./config/database.js');
+var migrations = require('./migrations/migrations');
 
 // configuration ===============================================================
 mongoose.connect(configDB.url); // connect to our database
@@ -42,6 +43,10 @@ app.use(function(req, res, next) {
 });
 
 // launch ======================================================================
-app.listen(port);
-console.log('The magic happens on port ' + port);
-
+migrations.run()
+    .then(function () {
+        app.listen(port);
+        console.log('The magic happens on port ' + port);
+    }).fail(function (error) {
+        console.error('Migrations was failed. ', error);
+    });

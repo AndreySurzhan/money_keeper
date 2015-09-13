@@ -25,7 +25,6 @@ var userSchema = mongoose.Schema({
         token: String,
         name: String
     }
-
 });
 
 // methods ======================

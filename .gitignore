@@ -1,17 +1,18 @@
 .idea/
-mkApi/.tmp/
-mkApi/mkWeb/bower-components/
-mkApi/mkWeb/fonts/
-mkApi/mkWeb/libs/
-mkApi/mkWeb/node_modules/
-mkApi/mkWeb/styles/bootstrap.css.map
-mkApi/mkWeb/styles/datedropper/
-mkApi/mkWeb/styles/framework/bootstrap/
-mkApi/mkWeb/styles/framework/font-awesome/
-mkApi/mkWeb/styles/styles.css
-mkApi/mkWeb/styles/lock-screens.css
-mkApi/node_modules/
-mkApi/bower-components/
-mkApi/static/styles/built/
-mkApi/static/vendor/
-**/npm-debug.log
+/mkApi/node_modules/
+/mkApi/mkWeb/node_modules/
+#built files
+/mkApi/static/vendor/
+/mkApi/static/styles/built/
+/mkApi/mkWeb/app/mk.js
+/mkApi/mkWeb/libs/
+/mkApi/mkWeb/images/_dist/
+/mkApi/mkWeb/styles/_dist/
+#vendor styles
+/mkApi/mkWeb/styles/framework/bootstrap/
+/mkApi/mkWeb/styles/framework/font-awesome/
+/mkApi/mkWeb/styles/bootstrap.css.map
+/mkApi/mkWeb/styles/angular-ui-tree/
+/mkApi/mkWeb/styles/datedropper/
+#others
+/mkApi/mkWeb/npm-debug.log
