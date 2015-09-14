@@ -14,34 +14,21 @@
                     <label class="col-md-3 control-label" for="creditMethod">
                         {{ 'components.credit-calculator.fields.method.label' | translate}}:
                     </label>
-                    <div class="col-md-9">
+                    <div class="col-md-9" id="creditMethod">
                         <div class="radio">
                             <label>
-                                <input type="radio" name="optionsRadios" id="Annuity" value="Annuity" checked>
+                                <input type="radio" name="optionsRadios" id="Annuity" value="Annuity"
+                                       ng-model="calculator.credit.initialParameters.method">
                                 {{ 'components.credit-calculator.fields.method.option_1' | translate}}
                             </label>
                         </div>
                         <div class="radio">
                             <label>
-                                <input type="radio" name="optionsRadios" id="Differentiated" value="Differentiated">
+                                <input type="radio" name="optionsRadios" id="Differentiated" value="Differentiated"
+                                       ng-model="calculator.credit.initialParameters.method">
                                 {{ 'components.credit-calculator.fields.method.option_2' | translate}}
                             </label>
                         </div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-3 control-label" for="creditMethod">
-                        {{ 'components.credit-calculator.fields.method.label' | translate}}:
-                    </label>
-                    <div class="col-md-9">
-                        <select class="form-control" id="creditMethod" name="creditMethod">
-                            <option>
-                                {{ 'components.credit-calculator.fields.method.option_1' | translate}}
-                            </option>
-                            <option>
-                                {{ 'components.credit-calculator.fields.method.option_2' | translate}}
-                            </option>
-                        </select>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -51,7 +38,7 @@
                     <div class="col-md-9">
                         <input type="text" class="form-control" id="creditAmount" name="creditAmount"
                                placeholder="{{ 'components.credit-calculator.fields.amount.placeholder' | translate}}"
-                               ng-model="amount">
+                               ng-model="calculator.credit.initialParameters.amount">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -62,7 +49,7 @@
                         <div class="input-group">
                             <input type="text" class="form-control" id="creditInterestRate" name="creditInterestRate"
                                    placeholder="{{ 'components.credit-calculator.fields.interestRate.placeholder' | translate}}"
-                                   ng-model="interestRate">
+                                   ng-model="calculator.credit.initialParameters.interestRate">
                             <span class="input-group-addon">%</span>
                         </div>
                     </div>
@@ -72,9 +59,9 @@
                         {{ 'components.credit-calculator.fields.numberOfMonth.label' | translate}}:
                     </label>
                     <div class="col-md-9">
-                        <input type="text" class="form-control" id="creditNumberOfMonth" name="creditNumberOfYears"
+                        <input type="text" class="form-control" id="creditNumberOfMonth" name="creditNumberOfMonth"
                                placeholder="{{ 'components.credit-calculator.fields.numberOfMonth.placeholder' | translate}}"
-                               ng-model="numberOfMonth">
+                               ng-model="calculator.credit.initialParameters.numberOfMonth">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -99,27 +86,7 @@
                         <input type="text" class="form-control" id="creditMonthlyPayment" name="creditMonthlyPayment"
                                placeholder="{{ 'components.credit-calculator.fields.monthlyPayment.placeholder' | translate}}"
                                disabled
-                               ng-model="monthlyPayment">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-3 control-label" for="creditMonthlyInterestAmount">
-                        Ежемесячный выплачиваемый процент:
-                    </label>
-                    <div class="col-md-9">
-                        <input type="text" class="form-control" id="creditMonthlyInterestAmount"
-                               name="creditMonthlyInterestAmount"
-                               placeholder="Здесь будет показан ежемесячный выплачиваемый процент" disabled>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-3 control-label" for="creditMonthlyClearPayment">
-                        Ежемесячный основной долг:
-                    </label>
-                    <div class="col-md-9">
-                        <input type="text" class="form-control" id="creditMonthlyClearPayment"
-                               name="creditMonthlyClearPayment"
-                               placeholder="Здесь будет показан ежемесячный основной долг" disabled>
+                               ng-model="calculator.credit.calculation.monthly[0].payment">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -131,13 +98,15 @@
                                name="creditOverPayment"
                                placeholder="{{ 'components.credit-calculator.fields.overPayment.default-value' | translate}}"
                                disabled
-                               ng-model="overPayment">
+                               ng-model="calculator.credit.calculation.overPayment">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="btn-group pull-right">
-                            <button type="button" class="btn btn-primary">
+                            <button type="button" class="btn btn-primary"
+                                    ng-click="calculator.calculate()"
+                                    ng-disabled="calculator.calculateButtonState">
                                 {{ 'components.credit-calculator.buttons.calculate' | translate}}
                             </button>
                         </div>
@@ -157,12 +126,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Декабрь 2015</td>
-                        <td>100000</td>
-                        <td>800</td>
-                        <td>5000</td>
+                    <tr ng-repeat="credit in calculator.credit.calculation.monthly">
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ credit.datesOfPayment }}</td>
+                        <td>{{ credit.remainder }}</td>
+                        <td>{{ credit.accruedInterest }}</td>
+                        <td>{{ credit.clearPayment }}</td>
+                        <td>{{ credit.payment }}</td>
                     </tr>
                     </tbody>
                 </table>
