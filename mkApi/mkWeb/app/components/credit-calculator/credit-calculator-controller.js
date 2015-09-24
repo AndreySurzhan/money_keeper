@@ -12,174 +12,150 @@ define(
 
                     //ToDo: add validation for coma in inputs and change it to dot
                     //Gain initial parameters from View
-                    vm.calculateButtonState = false;
+                    vm.calculateButtonEnabled  = false;
                     vm.credit = {
                         initialParameters: {
                             method: "Annuity", //method of credit calculation "Annuity" | "Differentiated"
-                            amount: 10000, //total credit amount
-                            interestRate: 12, //bank interest rate per year
-                            numberOfMonth: 12, //credit duration (months)
+                            amount: 300000, //total credit amount
+                            interestRate: 20, //bank interest rate per year
+                            numberOfMonth: 6, //credit duration (months)
                             startDate: null
                         }
+                    };
+
+                    var creditMethod = {
+                        annuity: 'Annuity',
+                        differentiated: 'Differentiated'
                     };
 
                     var params = vm.credit.initialParameters; //initialize new variable and assign new init params to it
 
                     //ToDo: provide correct validation for inputs
                     if (isNaN(params.amount) && isNaN(params.interestRate) && isNaN(params.numberOfMonth)) {
-                        vm.calculateButtonState = true;
+                        vm.calculateButtonEnabled  = true;
                     }
 
                     vm.calculate = function () {
-                        vm.credit.calculation = creditCalculation(params.amount, params.interestRate, params.numberOfMonth,
-                            params.method, params.startDate);
-
+                        vm.credit.calculation = creditCalculation(
+                            params.amount,
+                            params.interestRate,
+                            params.numberOfMonth,
+                            params.method,
+                            params.startDate
+                        );
+                    };
 
                         console.log("VM after calculation");
                         console.log(vm);
 
-                        function creditCalculation(amount, interestRate, numberOfMonth, creditMethod, startDate) {
-                            var calculation = {};
-                            var monthlyAccruedInterest;
-                            var monthlyClearPayment;
-                            var j;
-                            var monthlyPayment = annuityPaymentCalculation(amount, interestRate, numberOfMonth);
-                            var monthlyRemainder = amount; //initial monthly remainder for the first month equals to amount
+                    function creditCalculation(amount, interestRate, numberOfMonth, method, startDate) {
 
-                            calculation.overPayment = totalOverPayment(numberOfMonth, monthlyPayment, amount);
-                            calculation.monthly = [];
-
-                            //ToDo: add function for calculation of Differentiated credit
-                            if (creditMethod === "Annuity") {
-                                console.log("Calculate credit according to Annuity method")
-                            }
-                            if (creditMethod === "Differentiated") {
-                                console.log("Calculate credit according to Annuity Differentiated")
-                            }
-
-                            //ToDo: Bind calculation to start date of credit
-                            console.log("Start date of credit is " + startDate);
-
-                            for (j = 0; j < numberOfMonth; j++) {
-                                monthlyAccruedInterest = annuityAccruedInterest(interestRate, monthlyRemainder);
-                                monthlyClearPayment = annuityClearPayment(monthlyAccruedInterest, monthlyPayment);
-                                monthlyRemainder = annuityRemainder(monthlyClearPayment, monthlyRemainder);
-
-                                calculation.monthly.push({
-                                    payment: monthlyPayment,
-                                    accruedInterest: monthlyAccruedInterest,
-                                    remainder: monthlyRemainder,
-                                    clearPayment: monthlyClearPayment
-                                });
-                            }
-
-                            console.log("object Calculation\n");
-                            console.log(calculation);
-
-                            /**
-                             * This function allows to calculate total monthly payment
-                             * p = s * (i * (1 + i)^n) / (((1+i)^n) - 1)
-                             *
-                             * Where:
-                             * p - monthly payment
-                             * s - credit amount
-                             * i - bank interest rate per month ((interestRate /100) / 12)
-                             * n - credit duration (months)
-                             */
-                            function annuityPaymentCalculation(s, i, n) {
-                                var denominator;
-                                var numerator;
-                                var p;
-                                var x;
-
-                                i = parseFloat((i / 100) / 12);
-                                x = 1.0 + i;
-
-                                numerator = s * i * Math.pow(x, n);
-                                denominator = Math.pow(x, n) - 1;
-
-                                p = numerator / denominator;
-
-                                console.log("AnnuityMonthlyPaymentCalculation - " + p);
-                                return parseFloat(p.toFixed(2));
-                            }
-
-                            /**
-                             * This function allows to calculate monthly accrued interest on the loan
-                             * a = (r * i) / (100 * 12)
-                             *
-                             * Where:
-                             * a - monthly accrued interest
-                             * i - bank interest rate per year
-                             * r - credit remainder regarding to current month
-                             */
-                            function annuityAccruedInterest(i, r) {
-                                var a;
-
-                                a = (r * i) / (100 * 12);
-
-                                return parseFloat(a.toFixed(2));
-                            }
-
-                            /**
-                             * This function allows to calculate clear payment of current month(without accrued
-                             * interest on the loan)
-                             * c = (p - a)
-                             *
-                             * Where:
-                             * a - accrued interest regarding to current month
-                             * c - clear monthly payment of current month
-                             * p - monthly payment
-                             */
-                            function annuityClearPayment (a, p) {
-                                var c;
-
-                                c = p - a;
-
-                                return parseFloat(c.toFixed(2));
-                            }
-
-                            /**
-                             * This function allows to calculate credit remainder regarding to current month
-                             * nr = (pr - c)
-                             *
-                             * Where:
-                             * c - clear monthly payment of current month
-                             * pr - remainder regarding to the previous month
-                             * r - credit remainder regarding to current month
-                             */
-                            function annuityRemainder (c, pr) {
-                                var r;
-
-                                r = pr - c;
-
-                                return parseFloat(r.toFixed(2));
-                            }
-
-                            /**
-                             * This function allows to calculate credit overpayment
-                             * o = (n * p - a)
-                             *
-                             * Where:
-                             * 0 - total credit overpayment
-                             * p - monthly payment
-                             * s - initial credit amount
-                             */
-                            function totalOverPayment (n, p, s) {
-                                var o;
-                                
-                                o = p * n - s;
-
-                                return parseFloat(o.toFixed(2));
-                            }
-
-                            return calculation;
+                        switch (method) {
+                            case creditMethod.annuity:
+                                console.log("Calculate credit according to Annuity method");
+                                return annuityCalculation(amount, interestRate, numberOfMonth, startDate);
+                            case creditMethod.differentiated:
+                                console.log("Calculate credit according to Differentiated method");
+                                return diffCalculation(amount, interestRate, numberOfMonth, startDate);
                         }
-                    };
+                    }
 
-                    function deffMonthlyPaymentCalculation() {
+                    function annuityCalculation(amount, interestRate, numberOfMonth, startDate) {
+                        var calculation = {};
+                        var j;
+                        var monthlyAccruedInterest;
+                        var monthlyClearPayment;
+                        var monthlyPayment = annuityPayment(amount, interestRate, numberOfMonth);
+                        var monthlyRemainder = amount; //initial remainder for the first month equals to amount
+
+                        calculation.monthly = [];
+
+                        //ToDo: Bind calculation to start date of credit
+                        console.log("Start date of credit is " + startDate);
+
+
+                        for (j = 0; j < numberOfMonth; j++) {
+                            monthlyAccruedInterest = (monthlyRemainder * interestRate) / (12 * 100);
+                            monthlyClearPayment =  monthlyPayment - monthlyAccruedInterest;
+                            monthlyRemainder = monthlyRemainder - monthlyClearPayment;
+
+                            //ToDo remove rounding and make round in the angular filter
+                            calculation.monthly.push({
+                                payment: parseFloat(monthlyPayment.toFixed(2)),
+                                accruedInterest: parseFloat(monthlyAccruedInterest.toFixed(2)),
+                                remainder: parseFloat(monthlyRemainder.toFixed(2)),
+                                clearPayment: parseFloat(monthlyClearPayment.toFixed(2))
+                            });
+                        }
+
+                        calculation.overPayment = parseFloat(((monthlyPayment * numberOfMonth) - amount).toFixed(2));
+
+                        /**
+                         * This function allows to calculate total monthly payment
+                         * p = s * (i * (1 + i)^n) / (((1+i)^n) - 1)
+                         *
+                         * Where:
+                         * p - monthly payment
+                         * s - credit amount
+                         * i - bank interest rate per month ((interestRate /100) / 12)
+                         * n - credit duration (months)
+                         */
+                        function annuityPayment(s, i, n) {
+                            var denominator;
+                            var numerator;
+                            var p;
+                            var x;
+
+                            i = (i / 100) / 12;
+                            x = 1.0 + i;
+
+                            numerator = s * i * Math.pow(x, n);
+                            denominator = Math.pow(x, n) - 1;
+
+                            p = numerator / denominator;
+
+                            console.log("AnnuityMonthlyPaymentCalculation - " + p);
+                            return p;
+                        }
+
+                        return calculation;
+                    }
+
+                    function diffCalculation(amount, interestRate, numberOfMonth, startDate) {
+                        var calculation = {};
+                        var monthlyAccruedInterest;
+                        var monthlyClearPayment = amount / numberOfMonth;
+                        var monthlyPayment;
+                        var monthlyRemainder = amount; //initial remainder for the first month equals to amount
+                        var j;
+                        var totalPaymentSum = 0;
+
+                        calculation.monthly = [];
+
+                        //ToDo: Bind calculation to start date of credit
+                        console.log("Start date of credit is " + startDate);
+
+                        for (j = 0; j < numberOfMonth; j++) {
+                            monthlyAccruedInterest = (monthlyRemainder * interestRate) / (100 * 12);
+                            monthlyPayment = monthlyClearPayment + monthlyAccruedInterest;
+                            monthlyRemainder = monthlyRemainder - monthlyClearPayment;
+                            totalPaymentSum = totalPaymentSum + monthlyPayment;
+
+                            //ToDo remove rounding and make round in the angular filter
+                            calculation.monthly.push({
+                                payment: parseFloat(monthlyPayment.toFixed(2)),
+                                accruedInterest: parseFloat(monthlyAccruedInterest.toFixed(2)),
+                                remainder: parseFloat(monthlyRemainder.toFixed(2)),
+                                clearPayment: parseFloat(monthlyClearPayment.toFixed(2))
+                            });
+                        }
+
+                        calculation.overPayment = parseFloat((totalPaymentSum - amount).toFixed(2));
+
+                        return calculation;
                     }
                 }
         ]);
+
         return 'creditCalculator';
     });
