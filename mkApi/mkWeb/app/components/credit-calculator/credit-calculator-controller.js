@@ -22,8 +22,17 @@ define(
                             startDate: null
                         }
                     };
+                    // initial form state
+                    vm.formState = {
+                        calculateButton: {
+                            enable: false
+                        },
+                        sumTable: {
+                            visible: false
+                        }
+                    };
 
-                    var creditMethod = {
+                    var creditMethods = {
                         annuity: 'Annuity',
                         differentiated: 'Differentiated'
                     };
@@ -32,7 +41,7 @@ define(
 
                     //ToDo: provide correct validation for inputs
                     if (isNaN(params.amount) && isNaN(params.interestRate) && isNaN(params.numberOfMonth)) {
-                        vm.calculateButtonEnabled  = true;
+                        vm.formState.calculateButton.enable = true;
                     }
 
                     vm.calculate = function () {
@@ -43,30 +52,47 @@ define(
                             params.method,
                             params.startDate
                         );
+                        vm.formState.sumTable.visible = true;
                     };
 
                         console.log("VM after calculation");
                         console.log(vm);
 
+                    //find our what calculation type was used
+                    vm.isAnnuity =  function () {
+                        if (!vm.credit.hasOwnProperty("calculation")) {
+                            return false;
+                        }
+                        return vm.credit.calculation.method == creditMethods.annuity;
+                    };
+
+                    vm.isDifferentiated=  function () {
+                        if (!vm.credit.hasOwnProperty("calculation")) {
+                            return false;
+                        }
+                        return vm.credit.calculation.method == creditMethods.differentiated;
+                    };
+
                     function creditCalculation(amount, interestRate, numberOfMonth, method, startDate) {
 
                         switch (method) {
-                            case creditMethod.annuity:
+                            case creditMethods.annuity:
                                 console.log("Calculate credit according to Annuity method");
-                                return annuityCalculation(amount, interestRate, numberOfMonth, startDate);
-                            case creditMethod.differentiated:
+                                return annuityCalculation(amount, interestRate, numberOfMonth, method, startDate);
+                            case creditMethods.differentiated:
                                 console.log("Calculate credit according to Differentiated method");
-                                return diffCalculation(amount, interestRate, numberOfMonth, startDate);
+                                return diffCalculation(amount, interestRate, numberOfMonth, method, startDate);
                         }
                     }
 
-                    function annuityCalculation(amount, interestRate, numberOfMonth, startDate) {
+                    function annuityCalculation(amount, interestRate, numberOfMonth, method, startDate) {
                         var calculation = {};
                         var j;
                         var monthlyAccruedInterest;
                         var monthlyClearPayment;
                         var monthlyPayment = annuityPayment(amount, interestRate, numberOfMonth);
                         var monthlyRemainder = amount; //initial remainder for the first month equals to amount
+                        var totalPaymentSum = monthlyPayment * numberOfMonth;
 
                         calculation.monthly = [];
 
@@ -88,7 +114,11 @@ define(
                             });
                         }
 
+                        calculation.firstPayment = calculation.monthly[0].payment;
+                        calculation.lastPayment = calculation.monthly[calculation.monthly.length - 1].payment;
+                        calculation.method = method;
                         calculation.overPayment = parseFloat(((monthlyPayment * numberOfMonth) - amount).toFixed(2));
+                        calculation.totalPaymentSum = parseFloat((totalPaymentSum).toFixed(2));
 
                         /**
                          * This function allows to calculate total monthly payment
@@ -121,7 +151,7 @@ define(
                         return calculation;
                     }
 
-                    function diffCalculation(amount, interestRate, numberOfMonth, startDate) {
+                    function diffCalculation(amount, interestRate, numberOfMonth, method, startDate) {
                         var calculation = {};
                         var monthlyAccruedInterest;
                         var monthlyClearPayment = amount / numberOfMonth;
@@ -150,7 +180,11 @@ define(
                             });
                         }
 
+                        calculation.firstPayment = calculation.monthly[0].payment;
+                        calculation.lastPayment = calculation.monthly[calculation.monthly.length - 1].payment;
+                        calculation.method = method;
                         calculation.overPayment = parseFloat((totalPaymentSum - amount).toFixed(2));
+                        calculation.totalPaymentSum = parseFloat((totalPaymentSum).toFixed(2));
 
                         return calculation;
                     }

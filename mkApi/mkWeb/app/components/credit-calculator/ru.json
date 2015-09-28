@@ -1,10 +1,10 @@
 {
     "components": {
         "credit-calculator": {
-            "header": "Редактирование транзакции",
+            "header": "Кредитный калькулятор",
             "fields": {
                 "method": {
-                    "label": "Тип кредита",
+                    "label": "Вид платежа",
                     "option_1": "Аннуитетный",
                     "option_2": "Дифференцированный"
                 },
@@ -20,51 +20,26 @@
                     "label": "Срок кредита в месяцах",
                     "placeholder": "Укажите укажите число месяцев"
                 },
-                "starDate": {
-                    "label": "Начало выплат",
-                    "placeholder": "Укажите дату начала выплат по кредиту"
-                },
-                "monthlyPayment": {
-                    "label": "Сумма ежемесячного платежа",
-                    "placeholder": "Здесь будет указана сумма ежемесячного платежа"
-                },
-                "overPayment": {
-                    "label": "Сумма переплаты",
-                    "default-value": "Здесь будет указана сумма переплаты по кредиту"
+                "startDate": {
+                    "label": "Дата выдачи кредита",
+                    "placeholder": "Укажите дату выдачи кредита"
                 }
             },
-            "table": {
-                "id": {
-                    "label": "№"
-                  },
-                "paymentDate": {
-                    "label": "Дата платежа",
-                    "month": {
-                        "january": "январь",
-                        "february": "февраль",
-                        "march": "март",
-                        "april": "апрель",
-                        "may": "май",
-                        "june": "июнь",
-                        "july": "июль",
-                        "august": "август",
-                        "september": "сентябрь",
-                        "october": "октябрь",
-                        "november": "ноябрь",
-                        "december": "декабрь"
-                    }
+            "tables": {
+                "sumTable": {
+                    "title": "Результат расчета",
+                    "monthlyPayment": "Ежемесячный платеж:",
+                    "overPayment": "Переплата по кредиту:",
+                    "totalPaymentSum": "Выплаты за весь срок кредита:",
+                    "endDate": "Окончание выплат:"
                 },
-                "remainedAmount": {
-                    "label": "Остаток долга после выплаты"
-                },
-                "interestRateAmount": {
-                    "label": "Начисленные проценты"
-                },
-                "clearPayment": {
-                    "label": "Погашение основного долга"
-                },
-                "paymentAmount": {
-                    "label": "Сумма платежа"
+                "monthlyTable": {
+                    "id": "№",
+                    "paymentDate": "Дата платежа",
+                    "remainedAmount": "Остаток долга после выплаты",
+                    "interestRateAmount": "Начисленные проценты",
+                    "clearPayment": "Погашение основного долга",
+                    "paymentAmount": "Сумма платежа"
                 }
             },
             "buttons": {
