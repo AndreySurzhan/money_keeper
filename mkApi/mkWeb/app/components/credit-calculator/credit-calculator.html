@@ -71,14 +71,15 @@
                     <div class="col-md-9">
                         <div class="input-group date">
                             <input type="text" class="form-control" id="creditStartDate" name="creditStartDate"
-                                   placeholder="{{ 'components.credit-calculator.fields.startDate.placeholder' | translate }}у">
+                                   placeholder="{{ 'components.credit-calculator.fields.startDate.placeholder' | translate }}"
+                                   ng-model="calculator.credit.initialParameters.startDate">
                             <span class="input-group-addon">
                                 <i class="fa fa-calendar"></i>
                             </span>
                         </div>
                     </div>
                 </div>
-                <div id ="sumTable" class="row" ng-show = "calculator.formState.sumTable.visible">
+                <div id="sumTable" class="row" ng-show = "calculator.formState.sumTable.visible">
                     <h4 class="col-md-3">
                         <strong>{{ 'components.credit-calculator.tables.sumTable.title' | translate }}</strong>
                     </h4>
@@ -89,12 +90,11 @@
                                     {{ 'components.credit-calculator.tables.sumTable.monthlyPayment' | translate }}
                                 </td>
                                 <td class="col-md-9">
-                                    <strong ng-show = "calculator.isAnnuity()">
+                                    <strong>
                                         {{ calculator.credit.calculation.firstPayment | number : 2 }}
                                     </strong>
                                     <strong ng-show = "calculator.isDifferentiated()">
-                                        {{ calculator.credit.calculation.firstPayment | number : 2 }} ...
-                                        {{ calculator.credit.calculation.lastPayment | number : 2 }}
+                                        ... {{ calculator.credit.calculation.lastPayment | number : 2 }}
                                     </strong>
                                 </td>
                             </tr>
@@ -124,7 +124,7 @@
                                 </td>
                                 <td class="col-md-9">
                                     <strong>
-                                        {{ null }}
+                                        {{ calculator.credit.calculation.endingPaymentDate | amDateFormat: 'D MMMM YYYY' }}
                                     </strong>
                                 </td>
                             </tr>
@@ -143,7 +143,7 @@
                     </div>
                 </div>
             </form>
-            <div id ="monthlyTable">
+            <div id="monthlyTable">
                 <table class="table">
                     <thead>
                     <tr>
@@ -170,7 +170,7 @@
                     <tbody>
                     <tr ng-repeat="credit in calculator.credit.calculation.monthly">
                         <td>{{ $index + 1 }}</td>
-                        <td>{{ credit.datesOfPayment }}</td>
+                        <td>{{ credit.dateOfPayment | amDateFormat: 'D MMMM  YYYY'}}</td>
                         <td>{{ credit.remainder | number : 2 }}</td>
                         <td>{{ credit.accruedInterest | number : 2 }}</td>
                         <td>{{ credit.clearPayment | number : 2 }}</td>

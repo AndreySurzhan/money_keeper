@@ -1,14 +1,18 @@
 define(
     [
-        'mkControllers'
+        'mkControllers',
+        'moment',
+        'json!config'
     ],
-    function (mkControllers) {
+    function (mkControllers, moment, config) {
         mkControllers.controller(
             'creditCalculator',
             [
                 '$scope',
                 function ($scope) {
                     var vm = this;
+
+                    moment.locale(config.lang);
 
                     //ToDo: add validation for coma in inputs and change it to dot
                     //Gain initial parameters from View
@@ -18,8 +22,8 @@ define(
                             method: "Annuity", //method of credit calculation "Annuity" | "Differentiated"
                             amount: 300000, //total credit amount
                             interestRate: 20, //bank interest rate per year
-                            numberOfMonth: 6, //credit duration (months)
-                            startDate: null
+                            numberOfMonth: 12, //credit duration (months)
+                            startDate: "2015-10-16" //date when credit has been taken out
                         }
                     };
                     // initial form state
@@ -63,6 +67,7 @@ define(
                         if (!vm.credit.hasOwnProperty("calculation")) {
                             return false;
                         }
+
                         return vm.credit.calculation.method == creditMethods.annuity;
                     };
 
@@ -70,6 +75,7 @@ define(
                         if (!vm.credit.hasOwnProperty("calculation")) {
                             return false;
                         }
+
                         return vm.credit.calculation.method == creditMethods.differentiated;
                     };
 
@@ -87,6 +93,11 @@ define(
 
                     function annuityCalculation(amount, interestRate, numberOfMonth, method, startDate) {
                         var calculation = {};
+                        var currentPaymentDate;
+                        var daysInMonth;
+                        var endingPaymentDate = moment(startDate).add(numberOfMonth + 1, "months");
+                        var firstPaymentDate = moment(startDate).add(1, "months");
+                        var interestRate = interestRate / 100;
                         var j;
                         var monthlyAccruedInterest;
                         var monthlyClearPayment;
@@ -96,29 +107,33 @@ define(
 
                         calculation.monthly = [];
 
-                        //ToDo: Bind calculation to start date of credit
-                        console.log("Start date of credit is " + startDate);
+                        console.log("Start date of credit is " + firstPaymentDate);
+                        console.log("End date of credit is " + endingPaymentDate);
 
-
-                        for (j = 0; j < numberOfMonth; j++) {
-                            monthlyAccruedInterest = (monthlyRemainder * interestRate) / (12 * 100);
+                        for (j = 1; j <= numberOfMonth; j++) {
+                            currentPaymentDate = moment(startDate).add((j), "months");
+                            daysInMonth = currentPaymentDate.daysInMonth();
+                            monthlyAccruedInterest = (monthlyRemainder * interestRate * daysInMonth) / 365;
+                            console.log(currentPaymentDate.daysInMonth());
                             monthlyClearPayment =  monthlyPayment - monthlyAccruedInterest;
                             monthlyRemainder = monthlyRemainder - monthlyClearPayment;
 
-                            //ToDo remove rounding and make round in the angular filter
                             calculation.monthly.push({
-                                payment: parseFloat(monthlyPayment.toFixed(2)),
-                                accruedInterest: parseFloat(monthlyAccruedInterest.toFixed(2)),
-                                remainder: parseFloat(monthlyRemainder.toFixed(2)),
-                                clearPayment: parseFloat(monthlyClearPayment.toFixed(2))
+                                payment: monthlyPayment,
+                                accruedInterest: monthlyAccruedInterest,
+                                remainder: monthlyRemainder,
+                                clearPayment: monthlyClearPayment,
+                                dateOfPayment: currentPaymentDate
                             });
                         }
 
+                        calculation.endingPaymentDate = endingPaymentDate;
+                        calculation.firstPaymentDate = firstPaymentDate;
                         calculation.firstPayment = calculation.monthly[0].payment;
                         calculation.lastPayment = calculation.monthly[calculation.monthly.length - 1].payment;
                         calculation.method = method;
-                        calculation.overPayment = parseFloat(((monthlyPayment * numberOfMonth) - amount).toFixed(2));
-                        calculation.totalPaymentSum = parseFloat((totalPaymentSum).toFixed(2));
+                        calculation.overPayment = (monthlyPayment * numberOfMonth) - amount;
+                        calculation.totalPaymentSum = totalPaymentSum;
 
                         /**
                          * This function allows to calculate total monthly payment
@@ -145,6 +160,7 @@ define(
                             p = numerator / denominator;
 
                             console.log("AnnuityMonthlyPaymentCalculation - " + p);
+
                             return p;
                         }
 
@@ -153,38 +169,47 @@ define(
 
                     function diffCalculation(amount, interestRate, numberOfMonth, method, startDate) {
                         var calculation = {};
+                        var currentPaymentDate;
+                        var daysInMonth;
+                        var endingPaymentDate = moment(startDate).add(numberOfMonth + 1, "months");
+                        var firstPaymentDate = moment(startDate).add(1, "months");
+                        var interestRate = interestRate / 100;
+                        var j;
                         var monthlyAccruedInterest;
                         var monthlyClearPayment = amount / numberOfMonth;
                         var monthlyPayment;
                         var monthlyRemainder = amount; //initial remainder for the first month equals to amount
-                        var j;
                         var totalPaymentSum = 0;
 
                         calculation.monthly = [];
 
-                        //ToDo: Bind calculation to start date of credit
-                        console.log("Start date of credit is " + startDate);
+                        console.log("Start date of credit is " + firstPaymentDate);
+                        console.log("End date of credit is " + endingPaymentDate);
 
-                        for (j = 0; j < numberOfMonth; j++) {
-                            monthlyAccruedInterest = (monthlyRemainder * interestRate) / (100 * 12);
+                        for (j = 1; j <= numberOfMonth; j++) {
+                            currentPaymentDate = moment(startDate).add((j), "months");
+                            daysInMonth = currentPaymentDate.daysInMonth();
+                            monthlyAccruedInterest = (monthlyRemainder * interestRate * daysInMonth) / 365;
                             monthlyPayment = monthlyClearPayment + monthlyAccruedInterest;
                             monthlyRemainder = monthlyRemainder - monthlyClearPayment;
                             totalPaymentSum = totalPaymentSum + monthlyPayment;
 
-                            //ToDo remove rounding and make round in the angular filter
                             calculation.monthly.push({
-                                payment: parseFloat(monthlyPayment.toFixed(2)),
-                                accruedInterest: parseFloat(monthlyAccruedInterest.toFixed(2)),
-                                remainder: parseFloat(monthlyRemainder.toFixed(2)),
-                                clearPayment: parseFloat(monthlyClearPayment.toFixed(2))
+                                payment: monthlyPayment,
+                                accruedInterest: monthlyAccruedInterest,
+                                remainder: monthlyRemainder,
+                                clearPayment: monthlyClearPayment,
+                                dateOfPayment: currentPaymentDate
                             });
                         }
 
+                        calculation.endingPaymentDate = endingPaymentDate;
+                        calculation.firstPaymentDate = firstPaymentDate;
                         calculation.firstPayment = calculation.monthly[0].payment;
                         calculation.lastPayment = calculation.monthly[calculation.monthly.length - 1].payment;
                         calculation.method = method;
-                        calculation.overPayment = parseFloat((totalPaymentSum - amount).toFixed(2));
-                        calculation.totalPaymentSum = parseFloat((totalPaymentSum).toFixed(2));
+                        calculation.overPayment = totalPaymentSum - amount;
+                        calculation.totalPaymentSum = totalPaymentSum;
 
                         return calculation;
                     }
