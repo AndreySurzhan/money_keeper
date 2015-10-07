@@ -5,8 +5,8 @@
             "fields": {
                 "method": {
                     "label": "Вид платежа",
-                    "option_1": "Аннуитетный",
-                    "option_2": "Дифференцированный"
+                    "option-1": "Аннуитетный",
+                    "option-2": "Дифференцированный"
                 },
                 "amount": {
                     "label": "Сумма кредита",
@@ -26,6 +26,25 @@
                 }
             },
             "tables": {
+                "advRepaymentTable": {
+                    "title": "Досрочное погашение",
+                    "advRepaymentDate": {
+                        "label": "Дата платежа",
+                        "placeholder": "Дата"
+                    },
+                    "advRepaymentType": {
+                        "label": "Тип погашения:",
+                        "option-1": "Уменьшение суммы",
+                        "option-2": "Уменьшение срока"
+                    },
+                    "advRepaymentSum": {
+                        "label": "Сумма платежа",
+                        "placeholder": "Сумма платежа"
+                    },
+                    "buttons": {
+                        "create": "Добавить"
+                    }
+                },
                 "sumTable": {
                     "title": "Результат расчета",
                     "monthlyPayment": "Ежемесячный платеж:",

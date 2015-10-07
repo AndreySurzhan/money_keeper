@@ -9,6 +9,7 @@
             </div>
         </div>
         <div class="panel-body">
+            <!-- Inputs with initial data-->
             <form name="creditCalculatorForm" class="form-horizontal">
                 <div class="form-group row">
                     <label class="col-md-3 control-label" for="creditMethod">
@@ -19,14 +20,14 @@
                             <label>
                                 <input type="radio" name="optionsRadios" id="Annuity" value="Annuity"
                                        ng-model="calculator.credit.initialParameters.method">
-                                {{ 'components.credit-calculator.fields.method.option_1' | translate }}
+                                {{ 'components.credit-calculator.fields.method.option-1' | translate }}
                             </label>
                         </div>
                         <div class="radio">
                             <label>
                                 <input type="radio" name="optionsRadios" id="Differentiated" value="Differentiated"
                                        ng-model="calculator.credit.initialParameters.method">
-                                {{ 'components.credit-calculator.fields.method.option_2' | translate }}
+                                {{ 'components.credit-calculator.fields.method.option-2' | translate }}
                             </label>
                         </div>
                     </div>
@@ -65,7 +66,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-md-3 control-label " for="creditStartDate">
+                    <label class="col-md-3 control-label" for="creditStartDate">
                         {{ 'components.credit-calculator.fields.startDate.label' | translate }}:
                     </label>
                     <div class="col-md-9">
@@ -79,7 +80,88 @@
                         </div>
                     </div>
                 </div>
-                <div id="sumTable" class="row" ng-show = "calculator.formState.sumTable.visible">
+                <!-- Advanced Repayment table-->
+                <div class="form-group row">
+                    <div class="row">
+                        <h4 class="col-md-3">
+                            <strong>
+                                {{ 'components.credit-calculator.tables.advRepaymentTable.title' | translate }}
+                            </strong>
+                        </h4>
+                    </div>
+                    <table class="table">
+                        <thead class="row">
+                            <tr>
+                                <th class="col-md-3">
+                                    <label class="control-label text-left" for="advRepaymentDate">
+                                        {{ 'components.credit-calculator.tables.advRepaymentTable' +
+                                        '.advRepaymentDate.label' | translate }}
+                                    </label>
+                                    <div class="input-group date">
+                                        <input type="text" class="form-control" id="advRepaymentDate"
+                                               name="advRepaymentDate"
+                                               placeholder="{{ 'components.credit-calculator.tables.advRepaymentTable' +
+                                               '.advRepaymentDate.placeholder' | translate }}"
+                                               ng-model="">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                    </div>
+                                </th>
+                                <th class="col-md-3">
+                                    <label class="control-label text-left" for="advRepaymentType">
+                                        {{ 'components.credit-calculator.tables.advRepaymentTable' +
+                                        '.advRepaymentType.label' | translate }}
+                                    </label>
+                                    <select id="advRepaymentType" class="form-control"
+                                            ng-model="">
+                                        <option value="option-1">
+                                            {{ 'components.credit-calculator.tables.advRepaymentTable' +
+                                            '.advRepaymentType.option-1' | translate }}
+                                        </option>
+                                        <option value="option-2">
+                                            {{ 'components.credit-calculator.tables.advRepaymentTable' +
+                                            '.advRepaymentType.option-2' | translate }}
+                                        </option>
+                                    </select>
+                                </th>
+                                <th class="col-md-3">
+                                    <label class="control-label text-left" for="advRepaymentSum">
+                                        {{ 'components.credit-calculator.tables.advRepaymentTable' +
+                                        '.advRepaymentSum.label' | translate }}
+                                    </label>
+                                    <input type="text" class="form-control" id="advRepaymentSum" name="advRepaymentSum"
+                                           placeholder="{{ 'components.credit-calculator.tables.advRepaymentTable' +
+                                           '.advRepaymentSum.placeholder' | translate }}"
+                                           ng-model="">
+                                </th>
+                                <th class="col-md-3">
+                                    <button class="add-new-currency btn btn-success btn-rounded btn-condensed btn-sm"
+                                            ng-disabled=""
+                                            ng-click="">
+                                        {{ 'components.credit-calculator.tables.advRepaymentTable' +
+                                        '.buttons.create' | translate }}
+                                    </button>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="col-md-3">21.05.2014</td>
+                                <td class="col-md-3">уменьшение срока</td>
+                                <td class="col-md-3">50000</td>
+                                <td class="col-md-3">
+                                    <button class="btn btn-danger btn-rounded btn-condensed btn-sm"
+                                            ng-click="">
+                                        <span class="fa fa-times"></span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Table with sum information-->
+                <div class="form-group row" ng-show = "calculator.formState.sumTable.visible">
                     <h4 class="col-md-3">
                         <strong>{{ 'components.credit-calculator.tables.sumTable.title' | translate }}</strong>
                     </h4>
@@ -120,7 +202,9 @@
                             </tr>
                             <tr>
                                 <td class="col-md-3">
-                                    {{ 'components.credit-calculator.tables.sumTable.endDate' | translate }}</strong>
+                                    <strong>
+                                        {{ 'components.credit-calculator.tables.sumTable.endDate' | translate }}
+                                    </strong>
                                 </td>
                                 <td class="col-md-9">
                                     <strong>
@@ -131,7 +215,8 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="row">
+                <!-- Calculation button-->
+                <div class="form-group row">
                     <div class="col-md-12">
                         <div class="btn-group pull-right">
                             <button type="button" class="btn btn-primary"
@@ -143,39 +228,40 @@
                     </div>
                 </div>
             </form>
-            <div id="monthlyTable">
+            <!-- Table with monthly calculations-->
+            <div>
                 <table class="table">
                     <thead>
-                    <tr>
-                        <th>
-                            {{ 'components.credit-calculator.tables.monthlyTable.id' | translate }}
-                        </th>
-                        <th>
-                            {{ 'components.credit-calculator.tables.monthlyTable.paymentDate' | translate }}
-                        </th>
-                        <th>
-                            {{ 'components.credit-calculator.tables.monthlyTable.remainedAmount' | translate }}
-                        </th>
-                        <th>
-                            {{ 'components.credit-calculator.tables.monthlyTable.interestRateAmount' | translate }}
-                        </th>
-                        <th>
-                            {{ 'components.credit-calculator.tables.monthlyTable.clearPayment' | translate }}
-                        </th>
-                        <th>
-                            {{ 'components.credit-calculator.tables.monthlyTable.paymentAmount' | translate }}
-                        </th>
-                    </tr>
+                        <tr>
+                            <th>
+                                {{ 'components.credit-calculator.tables.monthlyTable.id' | translate }}
+                            </th>
+                            <th>
+                                {{ 'components.credit-calculator.tables.monthlyTable.paymentDate' | translate }}
+                            </th>
+                            <th>
+                                {{ 'components.credit-calculator.tables.monthlyTable.remainedAmount' | translate }}
+                            </th>
+                            <th>
+                                {{ 'components.credit-calculator.tables.monthlyTable.interestRateAmount' | translate }}
+                            </th>
+                            <th>
+                                {{ 'components.credit-calculator.tables.monthlyTable.clearPayment' | translate }}
+                            </th>
+                            <th>
+                                {{ 'components.credit-calculator.tables.monthlyTable.paymentAmount' | translate }}
+                            </th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="credit in calculator.credit.calculation.monthly">
-                        <td>{{ $index + 1 }}</td>
-                        <td>{{ credit.dateOfPayment | amDateFormat: 'D MMMM  YYYY'}}</td>
-                        <td>{{ credit.remainder | number : 2 }}</td>
-                        <td>{{ credit.accruedInterest | number : 2 }}</td>
-                        <td>{{ credit.clearPayment | number : 2 }}</td>
-                        <td>{{ credit.payment | number : 2 }}</td>
-                    </tr>
+                        <tr ng-repeat="credit in calculator.credit.calculation.monthly">
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ credit.dateOfPayment | amDateFormat: 'D MMMM  YYYY'}}</td>
+                            <td>{{ credit.remainder | number : 2 }}</td>
+                            <td>{{ credit.accruedInterest | number : 2 }}</td>
+                            <td>{{ credit.clearPayment | number : 2 }}</td>
+                            <td>{{ credit.payment | number : 2 }}</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
