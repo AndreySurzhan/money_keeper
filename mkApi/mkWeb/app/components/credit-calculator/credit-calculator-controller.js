@@ -24,6 +24,11 @@ define(
                             interestRate: 20, //bank interest rate per year
                             numberOfMonth: 12, //credit duration (months)
                             startDate: "2015-10-16" //date when credit has been taken out
+                        },
+                        advRepayments: {
+                            date: "2015-10-16",
+                            type: "option-1",
+                            amount: 15000
                         }
                     };
                     // initial form state
@@ -41,26 +46,40 @@ define(
                         differentiated: 'Differentiated'
                     };
 
-                    var params = vm.credit.initialParameters; //initialize new variable and assign new init params to it
+                    var creditParams = vm.credit.initialParameters; //initialize new variable and assign new init params to it
+                    var advPayment = vm.credit.advRepayments;
 
                     //ToDo: provide correct validation for inputs
-                    if (isNaN(params.amount) && isNaN(params.interestRate) && isNaN(params.numberOfMonth)) {
+                    if (isNaN(creditParams.amount) && isNaN(creditParams.interestRate) && isNaN(creditParams.numberOfMonth)) {
                         vm.formState.calculateButton.enable = true;
                     }
 
                     vm.calculate = function () {
                         vm.credit.calculation = creditCalculation(
-                            params.amount,
-                            params.interestRate,
-                            params.numberOfMonth,
-                            params.method,
-                            params.startDate
+                            creditParams.amount,
+                            creditParams.interestRate,
+                            creditParams.numberOfMonth,
+                            creditParams.method,
+                            creditParams.startDate
                         );
                         vm.formState.sumTable.visible = true;
                     };
 
-                        console.log("VM after calculation");
-                        console.log(vm);
+                    vm.addAdvRepayment = function () {
+                        advPayment.list = addAdvRepayment(
+                            advPayment.list,
+                            advPayment.date,
+                            advPayment.type,
+                            advPayment.amount
+                        );
+                        console.log("\nAdvanced Payment after ADD \n");
+                        console.log(advPayment);
+                    };
+
+                    vm.deleteAdvRepayment = function (id) {
+                        advPayment.list = deleteAdvRepayment(id, advPayment.list);
+                    };
+
 
                     //find our what calculation type was used
                     vm.isAnnuity =  function () {
@@ -78,6 +97,31 @@ define(
 
                         return vm.credit.calculation.method == creditMethods.differentiated;
                     };
+
+                    function addAdvRepayment (list, date, type, amount) {
+                        list = Array.isArray(list) ? list : [];
+
+                        list.push({
+                            date: date,
+                            type: type,
+                            amount: amount,
+                            id: guid()
+                        });
+
+                        return list
+                    }
+
+                    function deleteAdvRepayment (id, list) {
+                        var i;
+
+                        for (i = 0; i < list.length; i++) {
+                            if (list[i].id === id) {
+                                list.splice(list.indexOf(list[i]), 1)
+                            }
+                        }
+
+                        return list;
+                    }
 
                     function creditCalculation(amount, interestRate, numberOfMonth, method, startDate) {
 
@@ -97,11 +141,11 @@ define(
                         var daysInMonth;
                         var endingPaymentDate = moment(startDate).add(numberOfMonth + 1, "months");
                         var firstPaymentDate = moment(startDate).add(1, "months");
-                        var interestRate = interestRate / 100;
+                        var iRate = interestRate / 100;
                         var j;
                         var monthlyAccruedInterest;
                         var monthlyClearPayment;
-                        var monthlyPayment = annuityPayment(amount, interestRate, numberOfMonth);
+                        var monthlyPayment = annuityPayment(amount, iRate, numberOfMonth);
                         var monthlyRemainder = amount; //initial remainder for the first month equals to amount
                         var totalPaymentSum = monthlyPayment * numberOfMonth;
 
@@ -113,8 +157,7 @@ define(
                         for (j = 1; j <= numberOfMonth; j++) {
                             currentPaymentDate = moment(startDate).add((j), "months");
                             daysInMonth = currentPaymentDate.daysInMonth();
-                            monthlyAccruedInterest = (monthlyRemainder * interestRate * daysInMonth) / 365;
-                            console.log(currentPaymentDate.daysInMonth());
+                            monthlyAccruedInterest = (monthlyRemainder * iRate * daysInMonth) / 365;
                             monthlyClearPayment =  monthlyPayment - monthlyAccruedInterest;
                             monthlyRemainder = monthlyRemainder - monthlyClearPayment;
 
@@ -142,7 +185,7 @@ define(
                          * Where:
                          * p - monthly payment
                          * s - credit amount
-                         * i - bank interest rate per month ((interestRate /100) / 12)
+                         * i - bank interest rate per month
                          * n - credit duration (months)
                          */
                         function annuityPayment(s, i, n) {
@@ -151,15 +194,13 @@ define(
                             var p;
                             var x;
 
-                            i = (i / 100) / 12;
+                            i = i / 12;
                             x = 1.0 + i;
 
                             numerator = s * i * Math.pow(x, n);
                             denominator = Math.pow(x, n) - 1;
 
                             p = numerator / denominator;
-
-                            console.log("AnnuityMonthlyPaymentCalculation - " + p);
 
                             return p;
                         }
@@ -212,6 +253,18 @@ define(
                         calculation.totalPaymentSum = totalPaymentSum;
 
                         return calculation;
+                    }
+
+                    //Globally Unique Identifier Generator
+                    function guid() {
+                        function s4() {
+                            return Math.floor((1 + Math.random()) * 0x10000)
+                                .toString(16)
+                                .substring(1);
+                        }
+
+                        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                            s4() + '-' + s4() + s4() + s4();
                     }
                 }
         ]);

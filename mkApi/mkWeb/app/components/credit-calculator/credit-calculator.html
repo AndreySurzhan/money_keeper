@@ -102,7 +102,7 @@
                                                name="advRepaymentDate"
                                                placeholder="{{ 'components.credit-calculator.tables.advRepaymentTable' +
                                                '.advRepaymentDate.placeholder' | translate }}"
-                                               ng-model="">
+                                               ng-model="calculator.credit.advRepayments.date">
                                             <span class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </span>
@@ -114,7 +114,7 @@
                                         '.advRepaymentType.label' | translate }}
                                     </label>
                                     <select id="advRepaymentType" class="form-control"
-                                            ng-model="">
+                                            ng-model="calculator.credit.advRepayments.type">
                                         <option value="option-1">
                                             {{ 'components.credit-calculator.tables.advRepaymentTable' +
                                             '.advRepaymentType.option-1' | translate }}
@@ -133,12 +133,11 @@
                                     <input type="text" class="form-control" id="advRepaymentSum" name="advRepaymentSum"
                                            placeholder="{{ 'components.credit-calculator.tables.advRepaymentTable' +
                                            '.advRepaymentSum.placeholder' | translate }}"
-                                           ng-model="">
+                                           ng-model="calculator.credit.advRepayments.amount">
                                 </th>
                                 <th class="col-md-3">
                                     <button class="add-new-currency btn btn-success btn-rounded btn-condensed btn-sm"
-                                            ng-disabled=""
-                                            ng-click="">
+                                            ng-click="calculator.addAdvRepayment()">
                                         {{ 'components.credit-calculator.tables.advRepaymentTable' +
                                         '.buttons.create' | translate }}
                                     </button>
@@ -146,13 +145,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="col-md-3">21.05.2014</td>
-                                <td class="col-md-3">уменьшение срока</td>
-                                <td class="col-md-3">50000</td>
+                            <tr ng-repeat="advRepayment in calculator.credit.advRepayments.list">
+                                <td class="col-md-3">
+                                    {{ advRepayment.date }}
+                                </td>
+                                <td class="col-md-3">
+                                    {{ 'components.credit-calculator.tables.advRepaymentTable' +
+                                    '.advRepaymentType.' + advRepayment.type | translate}}
+                                </td>
+                                <td class="col-md-3">
+                                    {{ advRepayment.amount }}
+                                </td>
                                 <td class="col-md-3">
                                     <button class="btn btn-danger btn-rounded btn-condensed btn-sm"
-                                            ng-click="">
+                                            ng-click="calculator.deleteAdvRepayment(advRepayment.id)">
                                         <span class="fa fa-times"></span>
                                     </button>
                                 </td>
