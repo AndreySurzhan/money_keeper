@@ -34,8 +34,8 @@
                     },
                     "advRepaymentType": {
                         "label": "Тип погашения:",
-                        "option-1": "Уменьшение суммы",
-                        "option-2": "Уменьшение срока"
+                        "decreasePayment": "Уменьшение суммы",
+                        "decreaseDuration": "Уменьшение срока"
                     },
                     "advRepaymentSum": {
                         "label": "Сумма платежа",
@@ -58,7 +58,8 @@
                     "remainedAmount": "Остаток долга после выплаты",
                     "interestRateAmount": "Начисленные проценты",
                     "clearPayment": "Погашение основного долга",
-                    "paymentAmount": "Сумма платежа"
+                    "paymentAmount": "Сумма платежа",
+                    "advRepaymentAmount": "Сумма досрочного платежа"
                 }
             },
             "buttons": {

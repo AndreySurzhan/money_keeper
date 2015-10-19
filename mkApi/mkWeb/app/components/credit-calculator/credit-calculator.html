@@ -37,7 +37,7 @@
                         {{ 'components.credit-calculator.fields.amount.label' | translate }}:
                     </label>
                     <div class="col-md-9">
-                        <input type="text" class="form-control" id="creditAmount" name="creditAmount"
+                        <input type="number" class="form-control" id="creditAmount" name="creditAmount"
                                placeholder="{{ 'components.credit-calculator.fields.amount.placeholder' | translate }}"
                                ng-model="calculator.credit.initialParameters.amount">
                     </div>
@@ -48,7 +48,7 @@
                     </label>
                     <div class="col-md-9 ">
                         <div class="input-group">
-                            <input type="text" class="form-control" id="creditInterestRate" name="creditInterestRate"
+                            <input type="number" class="form-control" id="creditInterestRate" name="creditInterestRate"
                                    placeholder="{{ 'components.credit-calculator.fields.interestRate.placeholder' | translate }}"
                                    ng-model="calculator.credit.initialParameters.interestRate">
                             <span class="input-group-addon">%</span>
@@ -60,7 +60,7 @@
                         {{ 'components.credit-calculator.fields.numberOfMonth.label' | translate }}:
                     </label>
                     <div class="col-md-9">
-                        <input type="text" class="form-control" id="creditNumberOfMonth" name="creditNumberOfMonth"
+                        <input type="number" class="form-control" id="creditNumberOfMonth" name="creditNumberOfMonth"
                                placeholder="{{ 'components.credit-calculator.fields.numberOfMonth.placeholder' | translate }}"
                                ng-model="calculator.credit.initialParameters.numberOfMonth">
                     </div>
@@ -115,13 +115,13 @@
                                     </label>
                                     <select id="advRepaymentType" class="form-control"
                                             ng-model="calculator.credit.advRepayments.type">
-                                        <option value="option-1">
+                                        <option value="decreasePayment">
                                             {{ 'components.credit-calculator.tables.advRepaymentTable' +
-                                            '.advRepaymentType.option-1' | translate }}
+                                            '.advRepaymentType.decreasePayment' | translate }}
                                         </option>
-                                        <option value="option-2">
+                                        <option value="decreaseDuration">
                                             {{ 'components.credit-calculator.tables.advRepaymentTable' +
-                                            '.advRepaymentType.option-2' | translate }}
+                                            '.advRepaymentType.decreaseDuration' | translate }}
                                         </option>
                                     </select>
                                 </th>
@@ -130,7 +130,7 @@
                                         {{ 'components.credit-calculator.tables.advRepaymentTable' +
                                         '.advRepaymentSum.label' | translate }}
                                     </label>
-                                    <input type="text" class="form-control" id="advRepaymentSum" name="advRepaymentSum"
+                                    <input type="number" class="form-control" id="advRepaymentSum" name="advRepaymentSum"
                                            placeholder="{{ 'components.credit-calculator.tables.advRepaymentTable' +
                                            '.advRepaymentSum.placeholder' | translate }}"
                                            ng-model="calculator.credit.advRepayments.amount">
@@ -246,16 +246,19 @@
                                 {{ 'components.credit-calculator.tables.monthlyTable.paymentDate' | translate }}
                             </th>
                             <th>
-                                {{ 'components.credit-calculator.tables.monthlyTable.remainedAmount' | translate }}
-                            </th>
-                            <th>
-                                {{ 'components.credit-calculator.tables.monthlyTable.interestRateAmount' | translate }}
+                                {{ 'components.credit-calculator.tables.monthlyTable.paymentAmount' | translate }}
                             </th>
                             <th>
                                 {{ 'components.credit-calculator.tables.monthlyTable.clearPayment' | translate }}
                             </th>
                             <th>
-                                {{ 'components.credit-calculator.tables.monthlyTable.paymentAmount' | translate }}
+                                {{ 'components.credit-calculator.tables.monthlyTable.interestRateAmount' | translate }}
+                            </th>
+                            <th>
+                                {{ 'components.credit-calculator.tables.monthlyTable.remainedAmount' | translate }}
+                            </th>
+                            <th>
+                                {{ 'components.credit-calculator.tables.monthlyTable.advRepaymentAmount' | translate }}
                             </th>
                         </tr>
                     </thead>
@@ -263,10 +266,11 @@
                         <tr ng-repeat="credit in calculator.credit.calculation.monthly">
                             <td>{{ $index + 1 }}</td>
                             <td>{{ credit.dateOfPayment | amDateFormat: 'D MMMM  YYYY'}}</td>
-                            <td>{{ credit.remainder | number : 2 }}</td>
-                            <td>{{ credit.accruedInterest | number : 2 }}</td>
-                            <td>{{ credit.clearPayment | number : 2 }}</td>
                             <td>{{ credit.payment | number : 2 }}</td>
+                            <td>{{ credit.clearPayment | number : 2 }}</td>
+                            <td>{{ credit.accruedInterest | number : 2 }}</td>
+                            <td>{{ credit.remainder | number : 2 }}</td>
+                            <td>{{ credit.advRepayment | number : 2 }}</td>
                         </tr>
                     </tbody>
                 </table>

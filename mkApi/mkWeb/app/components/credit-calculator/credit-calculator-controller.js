@@ -2,9 +2,10 @@ define(
     [
         'mkControllers',
         'moment',
-        'json!config'
+        'json!config',
+        'underscore'
     ],
-    function (mkControllers, moment, config) {
+    function (mkControllers, moment, config, _) {
         mkControllers.controller(
             'creditCalculator',
             [
@@ -26,9 +27,9 @@ define(
                             startDate: "2015-10-16" //date when credit has been taken out
                         },
                         advRepayments: {
-                            date: "2015-10-16",
-                            type: "option-1",
-                            amount: 15000
+                            date: "2016-05-16",
+                            type: "decreasePayment",
+                            amount: 32000
                         }
                     };
                     // initial form state
@@ -41,13 +42,16 @@ define(
                         }
                     };
 
+                    var advPayment = vm.credit.advRepayments;
                     var creditMethods = {
                         annuity: 'Annuity',
                         differentiated: 'Differentiated'
                     };
-
                     var creditParams = vm.credit.initialParameters; //initialize new variable and assign new init params to it
-                    var advPayment = vm.credit.advRepayments;
+                    var repaymentType = {
+                        decreaseDuration: 'decreaseDuration',
+                        decreasePayment: 'decreasePayment'
+                    };
 
                     //ToDo: provide correct validation for inputs
                     if (isNaN(creditParams.amount) && isNaN(creditParams.interestRate) && isNaN(creditParams.numberOfMonth)) {
@@ -65,6 +69,9 @@ define(
                         vm.formState.sumTable.visible = true;
                     };
 
+                    //TODO: validation: impossible to add repayment to the last date of credit
+                    //TODO: validation: impossible to add repayment decreaseDuration to the date before last
+                    //Add and delete repayment information to credit object
                     vm.addAdvRepayment = function () {
                         advPayment.list = addAdvRepayment(
                             advPayment.list,
@@ -98,6 +105,25 @@ define(
                         return vm.credit.calculation.method == creditMethods.differentiated;
                     };
 
+                    //Credit calculation function
+                    function creditCalculation(amount, interestRate, numberOfMonth, method, startDate) {
+
+                        switch (method) {
+                            case creditMethods.annuity:
+                                console.log("Calculate credit according to Annuity method");
+                                return annuityCalculation(amount, interestRate, numberOfMonth, method, startDate);
+                            case creditMethods.differentiated:
+                                console.log("Calculate credit according to Differentiated method");
+                                return diffCalculation(
+                                    amount,
+                                    interestRate,
+                                    numberOfMonth,
+                                    method,
+                                    startDate, advPayment.list);
+                        }
+                    }
+
+                    //Functions for Adding and deleting repayment information
                     function addAdvRepayment (list, date, type, amount) {
                         list = Array.isArray(list) ? list : [];
 
@@ -123,18 +149,7 @@ define(
                         return list;
                     }
 
-                    function creditCalculation(amount, interestRate, numberOfMonth, method, startDate) {
-
-                        switch (method) {
-                            case creditMethods.annuity:
-                                console.log("Calculate credit according to Annuity method");
-                                return annuityCalculation(amount, interestRate, numberOfMonth, method, startDate);
-                            case creditMethods.differentiated:
-                                console.log("Calculate credit according to Differentiated method");
-                                return diffCalculation(amount, interestRate, numberOfMonth, method, startDate);
-                        }
-                    }
-
+                    //Functions with calculation of different type of credits
                     function annuityCalculation(amount, interestRate, numberOfMonth, method, startDate) {
                         var calculation = {};
                         var currentPaymentDate;
@@ -208,18 +223,23 @@ define(
                         return calculation;
                     }
 
-                    function diffCalculation(amount, interestRate, numberOfMonth, method, startDate) {
-                        var calculation = {};
+                    function diffCalculation(amount, interestRate, numberOfMonth, method, startDate, advRepaymentsList) {
+                        var advRepaymentAmout; // will be added to credit object and used in credit calculation table
+                        var advRepaymentCalc = {};
+                        var calculation = {}; // main object which is returned by this function
                         var currentPaymentDate;
                         var daysInMonth;
                         var endingPaymentDate = moment(startDate).add(numberOfMonth + 1, "months");
                         var firstPaymentDate = moment(startDate).add(1, "months");
-                        var interestRate = interestRate / 100;
+                        var iRate = interestRate / 100;
+                        var i;
                         var j;
                         var monthlyAccruedInterest;
                         var monthlyClearPayment = amount / numberOfMonth;
                         var monthlyPayment;
                         var monthlyRemainder = amount; //initial remainder for the first month equals to amount
+                        var newMonthlyClearPayment = monthlyClearPayment;
+                        var previousPaymentDate;
                         var totalPaymentSum = 0;
 
                         calculation.monthly = [];
@@ -228,11 +248,45 @@ define(
                         console.log("End date of credit is " + endingPaymentDate);
 
                         for (j = 1; j <= numberOfMonth; j++) {
+                            advRepaymentAmout = 0;
                             currentPaymentDate = moment(startDate).add((j), "months");
+                            previousPaymentDate = moment(startDate).add((j - 1 ), "months");
                             daysInMonth = currentPaymentDate.daysInMonth();
-                            monthlyAccruedInterest = (monthlyRemainder * interestRate * daysInMonth) / 365;
+                            monthlyAccruedInterest = (monthlyRemainder * iRate * daysInMonth) / 365;
                             monthlyPayment = monthlyClearPayment + monthlyAccruedInterest;
                             monthlyRemainder = monthlyRemainder - monthlyClearPayment;
+
+                            if (advRepaymentsList){
+                                for (i = 0; i < advRepaymentsList.length; i++) {
+
+                                    if (moment(advRepaymentsList[i].date)
+                                            .isBetween(previousPaymentDate, currentPaymentDate)
+                                        || moment(advRepaymentsList[i].date)
+                                            .isSame(currentPaymentDate)) {
+
+                                        advRepaymentCalc = advPaymentCalc(monthlyRemainder,
+                                            advRepaymentsList[i].amount,
+                                            totalPaymentSum,
+                                            numberOfMonth,
+                                            advRepaymentsList[i].type,
+                                            monthlyClearPayment,
+                                            j);
+
+                                        monthlyRemainder = advRepaymentCalc.remainder;
+                                        totalPaymentSum = advRepaymentCalc.totalSum;
+                                        numberOfMonth = advRepaymentCalc.numberOfMonth;
+                                        newMonthlyClearPayment = advRepaymentCalc.clearPayment;
+                                        advRepaymentAmout = advRepaymentCalc.advAmount;
+                                    }
+                                }
+                            }
+
+                            if (j == numberOfMonth && monthlyRemainder !== 0) {
+                                monthlyClearPayment = monthlyClearPayment + monthlyRemainder;
+                                monthlyRemainder = monthlyRemainder - monthlyRemainder;
+                                monthlyPayment = monthlyClearPayment + monthlyAccruedInterest;
+                            }
+
                             totalPaymentSum = totalPaymentSum + monthlyPayment;
 
                             calculation.monthly.push({
@@ -240,8 +294,11 @@ define(
                                 accruedInterest: monthlyAccruedInterest,
                                 remainder: monthlyRemainder,
                                 clearPayment: monthlyClearPayment,
-                                dateOfPayment: currentPaymentDate
+                                dateOfPayment: currentPaymentDate,
+                                advRepayment: advRepaymentAmout
                             });
+
+                            monthlyClearPayment = newMonthlyClearPayment;
                         }
 
                         calculation.endingPaymentDate = endingPaymentDate;
@@ -251,6 +308,38 @@ define(
                         calculation.method = method;
                         calculation.overPayment = totalPaymentSum - amount;
                         calculation.totalPaymentSum = totalPaymentSum;
+
+                        /**
+                         * This function recalculate clearPayment of numberOfMonth due to advType
+                         */
+                        function advPaymentCalc (
+                            remainder,
+                            advAmount,
+                            totalSum,
+                            numberOfMonth,
+                            advType,
+                            clearPayment,
+                            payedMonths) {
+
+                            var advPaymentCalc = {};
+
+                            advPaymentCalc.advAmount = advAmount;
+                            advPaymentCalc.remainder = remainder - advAmount;
+                            advPaymentCalc.totalSum = totalSum + advAmount;
+                            advPaymentCalc.numberOfMonth = numberOfMonth;
+                            advPaymentCalc.clearPayment = clearPayment;
+
+                            if (advType == repaymentType.decreasePayment) {
+                                advPaymentCalc.clearPayment = advPaymentCalc.remainder / ((numberOfMonth) - payedMonths);
+                            }
+
+                            if (advType == repaymentType.decreaseDuration) {
+                                advPaymentCalc.numberOfMonth = Math.round(((payedMonths)
+                                + (advPaymentCalc.remainder / clearPayment))); //recalc number of month for payment
+                            }
+
+                            return advPaymentCalc;
+                        }
 
                         return calculation;
                     }
