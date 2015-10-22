@@ -181,7 +181,7 @@
                                     <strong>
                                         {{ calculator.credit.calculation.firstPayment | number : 2 }}
                                     </strong>
-                                    <strong ng-show = "calculator.isDifferentiated()">
+                                    <strong ng-show = "calculator.isDifferentiated() || calculator.isAdvRepayment()">
                                         ... {{ calculator.credit.calculation.lastPayment | number : 2 }}
                                     </strong>
                                 </td>
